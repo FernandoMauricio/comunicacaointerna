@@ -26,7 +26,7 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'My Company',
+                'brandLabel' => 'Senac AM',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -36,8 +36,16 @@ AppAsset::register($this);
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'About', 'url' => ['/site/about']],
-                    ['label' => 'Contact', 'url' => ['/site/contact']],
+                    ['label' => 'Portarias', 'url' => ['/site/contact']],
+                    ['label' => 'Comunicação Interna',
+                'items' => [
+                 ['label' => 'Listagem CI', 'url' => ['/comunicacaointerna/index']],
+                 '<li class="divider"></li>',
+                 '<li class="dropdown-header">Área do Gerente</li>',
+                 ['label' => 'Despachos Pendentes', 'url' => '#'],
+                 ['label' => 'Autorizações Pendentes', 'url' => '#'],
+            ],
+        ],
                     Yii::$app->user->isGuest ?
                         ['label' => 'Login', 'url' => ['/site/login']] :
                         ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
@@ -58,8 +66,8 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
-            <p class="pull-right"><?= Yii::powered() ?></p>
+            <p class="pull-left">&copy;Gerência de Informática Corporativa - GIC <?= date('Y') ?></p>
+            <p class="pull-right"></p>
         </div>
     </footer>
 
