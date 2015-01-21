@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'com_codtipo')->textInput(['maxlength' => 10]) ?>
 
-    <?= $form->field($model, 'com_codsituacao')->textInput()  ?> 
+    <?= $form->field($model, 'com_codsituacao')->dropDownList(['label' => 'Escolha a situação:', 'Em Elaboração']);  ?> 
 
     <?= $form->field($model, 'com_dataautorizacao')->textInput() ?>
 

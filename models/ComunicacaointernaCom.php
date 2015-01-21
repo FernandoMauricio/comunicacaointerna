@@ -43,8 +43,9 @@ class ComunicacaointernaCom extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['com_codcolaborador', 'com_codunidade', 'com_titulo', 'com_texto', 'com_codtipo', 'com_codsituacao'], 'required'],
-            [['com_codcolaborador', 'com_codunidade', 'com_codtipo', 'com_codsituacao', 'com_codcolaboradorautorizacao', 'com_codcargoautorizacao'], 'integer'],
+            [['com_codcolaborador', 'com_codunidade', 'com_titulo', 'com_texto', 'com_codtipo'], 'required'],
+            [['com_codcolaborador', 'com_codunidade', 'com_codtipo', 'com_codcolaboradorautorizacao', 'com_codcargoautorizacao'], 'integer'],
+            [['com_codsituacao'], 'integer','message' => 'Defina a Situação.'],
             [['com_dataautorizacao'], 'safe'],
             [['com_datasolicitacao'], 'date'],
             [['com_texto'], 'string'],
