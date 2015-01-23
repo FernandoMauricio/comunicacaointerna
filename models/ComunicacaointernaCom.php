@@ -11,7 +11,6 @@ use Yii;
  * @property integer $com_codcolaborador
  * @property integer $com_codunidade
  * @property string $com_datasolicitacao
- * @property string $com_ip
  * @property string $com_titulo
  * @property string $com_texto
  * @property string $com_codtipo
@@ -21,14 +20,13 @@ use Yii;
  * @property integer $com_codcargoautorizacao
  *
  * @property AnexocomunicacaoAne[] $anexocomunicacaoAnes
- * @property TipodocumentacaoTipdo $comCodtipo
  * @property SituacaocomunicacaoSitco $comCodsituacao
+ * @property TipodocumentacaoTipdo $comCodtipo
  * @property DespachocomunicacaoDeco[] $despachocomunicacaoDecos
  * @property DestinocomunicacaoDest[] $destinocomunicacaoDests
  */
 class ComunicacaointernaCom extends \yii\db\ActiveRecord
 {
-    
     /**
      * @inheritdoc
      */
@@ -43,11 +41,9 @@ class ComunicacaointernaCom extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['com_codcolaborador', 'com_codunidade', 'com_titulo', 'com_texto', 'com_codtipo'], 'required'],
-            [['com_codcolaborador', 'com_codunidade', 'com_codtipo', 'com_codcolaboradorautorizacao', 'com_codcargoautorizacao'], 'integer'],
-            [['com_codsituacao'], 'integer','message' => 'Defina a Situação.'],
-            [['com_dataautorizacao'], 'safe'],
-            [['com_datasolicitacao'], 'date'],
+            [['com_codcolaborador', 'com_codunidade', 'com_titulo', 'com_texto', 'com_codtipo', 'com_codsituacao'], 'required'],
+            [['com_codcolaborador', 'com_codunidade', 'com_codtipo', 'com_codsituacao', 'com_codcolaboradorautorizacao', 'com_codcargoautorizacao'], 'integer'],
+            [['com_datasolicitacao', 'com_dataautorizacao'], 'safe'],
             [['com_texto'], 'string'],
             [['com_titulo'], 'string', 'max' => 100]
         ];
@@ -59,16 +55,17 @@ class ComunicacaointernaCom extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'com_codcomunicacao' => 'Código',
-            'com_codcolaborador' => 'Colaborador',
-            'com_codunidade' => 'Unidade',
-            'com_datasolicitacao' => 'Data Solicitação',
-            'com_titulo' => 'Título',
-            'com_texto' => 'Texto Despacho',
-            'com_codtipo' => 'Tipo de Documento',
-            'com_codsituacao' => 'Situação',
-            'com_dataautorizacao' => 'Data Autorização',
-            'com_codcolaboradorautorizacao' => 'Autorizado Por:',
+            'com_codcomunicacao' => 'Com Codcomunicacao',
+            'com_codcolaborador' => 'Com Codcolaborador',
+            'com_codunidade' => 'Com Codunidade',
+            'com_datasolicitacao' => 'Com Datasolicitacao',
+            'com_titulo' => 'Com Titulo',
+            'com_texto' => 'Com Texto',
+            'com_codtipo' => 'Com Codtipo',
+            'com_codsituacao' => 'Com Codsituacao',
+            'com_dataautorizacao' => 'Com Dataautorizacao',
+            'com_codcolaboradorautorizacao' => 'Com Codcolaboradorautorizacao',
+            'com_codcargoautorizacao' => 'Com Codcargoautorizacao',
         ];
     }
 
@@ -83,17 +80,17 @@ class ComunicacaointernaCom extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getComCodtipo()
+    public function getComCodsituacao()
     {
-        return $this->hasOne(TipodocumentacaoTipdo::className(), ['tipdo_codtipo' => 'com_codtipo']);
+        return $this->hasOne(SituacaocomunicacaoSitco::className(), ['sitco_codsituacao' => 'com_codsituacao']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getComCodsituacao()
+    public function getComCodtipo()
     {
-        return $this->hasOne(SituacaocomunicacaoSitco::className(), ['sitco_codsituacao' => 'com_codsituacao']);
+        return $this->hasOne(TipodocumentacaoTipdo::className(), ['tipdo_codtipo' => 'com_codtipo']);
     }
 
     /**

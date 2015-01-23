@@ -16,15 +16,13 @@ class ComunicacaointernaController extends Controller
 {
     ////////////////////////////TESTANDO A SESSÃO DO USUÁRIO//////////////////////////////////////
 
-    /*public $sessionUsuario;
+    public $sessionUsuario;
     public $sessionNome;
     public $idSuporte;
     public $idUnidade;
     public $nomeUnidade;
 
-        public function __construct(){
-
-            
+        public function __construct(){            
 
         $sess_codusuario   = isset($_SESSION['sess_codusuario']) ? $sess_codusuario   = $_SESSION['sess_codusuario'] : $sess_codusuario = "";
         $sess_nomeusuario  = isset($_SESSION['sess_nomeusuario']) ? $sess_nomeusuario = $_SESSION['sess_nomeusuario'] : $sess_nomeusuario = "";
@@ -32,12 +30,8 @@ class ComunicacaointernaController extends Controller
         $this->idUnidade   = isset($_SESSION['sess_codunidade']) ? $this->idUnidade   = $_SESSION['sess_codunidade'] : $this->idUnidade = "";
         $this->nomeUnidade = isset($_SESSION['sess_unidade'])  ? $this->nomeUnidade   = $_SESSION['sess_unidade']    : $this->nomeUnidade = "";
 
-        $this->session->set_userdata('usuario_id', $sess_codusuario);
-        $this->session->set_userdata('login', $sess_nomeusuario);
-        $this->sessionLogin = $this->session->userdata('login');
-        $this->sessionUsuario =  $this->session->userdata('usuario_id');
 
-    }*/
+    }
 
 
     public function behaviors()

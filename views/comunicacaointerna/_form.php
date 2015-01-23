@@ -12,6 +12,8 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <?= $form->field($model, 'com_codtipo')->radio(['com_codtipo'=>'Confidencial']); ?>
+
     <?= $form->field($model, 'com_codcolaborador')->textInput() ?>
 
     <?= $form->field($model, 'com_codunidade')->textInput() ?>
@@ -21,8 +23,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'com_titulo')->textInput(['maxlength' => 100]) ?>
 
     <?= $form->field($model, 'com_texto')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'com_codtipo')->textInput(['maxlength' => 10]) ?>
 
     <?= $form->field($model, 'com_codsituacao')->dropDownList(['label' => 'Escolha a situação:', 'Em Elaboração']);  ?> 
 
