@@ -2,6 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveField;
+use yii\helpers\ArrayHelper;
+use app\models\SituacaocomunicacaoSitco;
+use app\models\TipodocumentacaoTipdo;
+use app\models\ComunicacaoInternaCom;
+use app\models\DespachocomunicacaoDeco;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ComunicacaoInternaCom */
@@ -10,28 +17,47 @@ use yii\widgets\ActiveForm;
 
 <div class="comunicacao-interna-com-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(); ?>          
 
-    <?= $form->field($model, 'com_codtipo')->radio(['com_codtipo'=>'Confidencial']); ?>
 
-    <?= $form->field($model, 'com_codcolaborador')->textInput() ?>
+    <?= $form->field($model, 'com_codcolaborador')->textInput(['readonly'=>true]) ?>
 
-    <?= $form->field($model, 'com_codunidade')->textInput() ?>
+    <?= $form->field($model, 'com_codunidade')->textInput(['readonly' => true]) ?>
 
-    <?= $form->field($model, 'com_datasolicitacao')->textInput() ?>
+    <?php 
+                
+                $rows = TipodocumentacaoTipdo::find()->all();
+                $data = ArrayHelper::map($rows, 'tipdo_codtipo', 'tipdo_tipo');
+                echo $form->field($model, 'com_codtipo')->radiolist($data);
+
+    ?> 
 
     <?= $form->field($model, 'com_titulo')->textInput(['maxlength' => 100]) ?>
 
     <?= $form->field($model, 'com_texto')->textarea(['rows' => 6]) ?>
+  
 
-    <?= $form->field($model, 'com_codsituacao')->dropDownList(['label' => 'Escolha a situação:', 'Em Elaboração']);  ?> 
+        <?php 
+                // DropdownList
+                $rows = SituacaocomunicacaoSitco::find()->all();
+                $data = ArrayHelper::map($rows, 'sitco_codsituacao', 'sitco_situacao1');
+                echo $form->field($model, 'com_codsituacao')->dropDownList(
+                $data,
+                ['prompt'=>'Selecione a Situação']
+                );
 
-    <?= $form->field($model, 'com_dataautorizacao')->textInput() ?>
+    ?> 
+    
+    <?php //Verificar se terá que criar um campo no banco de dados da comunicaointerna e retirar a tabela de anexos.
+
+    $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+
+    <?= $form->field($model, 'anexocomunicacaoAnes[]')->fileInput(['multiple' => true]) ?>
 
     <?= $form->field($model, 'com_codcolaboradorautorizacao')->textInput() ?>
 
     <?= $form->field($model, 'com_codcargoautorizacao')->textInput() ?>
-
+    
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Criar Comunicação Interna' : 'Atualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\UnidadeUni */
+/* @var $model app\models\Unidade_uni */
 
 $this->title = 'Update Unidade Uni: ' . ' ' . $model->uni_codunidade;
 $this->params['breadcrumbs'][] = ['label' => 'Unidade Unis', 'url' => ['index']];

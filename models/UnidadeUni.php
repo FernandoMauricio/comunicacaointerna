@@ -35,6 +35,14 @@ use Yii;
  */
 class UnidadeUni extends \yii\db\ActiveRecord
 {
+
+    /**
+ * @return CDbConnection
+ */
+public function getDbConnection(){
+    return Yii::app()->db_base;
+}
+
     /**
      * @inheritdoc
      */
@@ -68,18 +76,18 @@ class UnidadeUni extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'uni_codunidade' => 'Uni Codunidade',
-            'uni_nomecompleto' => 'Uni Nomecompleto',
-            'uni_nomeabreviado' => 'Uni Nomeabreviado',
-            'uni_cnpj' => 'Uni Cnpj',
-            'uni_cep' => 'Uni Cep',
-            'uni_logradouro' => 'Uni Logradouro',
-            'uni_bairro' => 'Uni Bairro',
-            'uni_cidade' => 'Uni Cidade',
-            'uni_estado' => 'Uni Estado',
-            'uni_coddisp' => 'Uni Coddisp',
+            'uni_codunidade' => 'Código',
+            'uni_nomecompleto' => 'Nome Completo',
+            'uni_nomeabreviado' => 'Nome Abreviado',
+            'uni_cnpj' => 'CNPJ',
+            'uni_cep' => 'CEP',
+            'uni_logradouro' => 'Endereço',
+            'uni_bairro' => 'Bairro',
+            'uni_cidade' => 'Cidade',
+            'uni_estado' => 'Estado',
+            'uni_coddisp' => 'Coddisp',
             'uni_codtipo' => 'Uni Codtipo',
-            'uni_codsituacao' => 'Uni Codsituacao',
+            'uni_codsituacao' => 'Situação',
             'uni_codtipres' => 'Uni Codtipres',
             'uni_permitirmodeloa' => 'Uni Permitirmodeloa',
         ];

@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\UnidadeUni;
+use app\models\Unidade_uni;
 
 /**
- * UnidadeUniSearch represents the model behind the search form about `app\models\UnidadeUni`.
+ * UnidadeUniSearch represents the model behind the search form about `app\models\Unidade_uni`.
  */
-class UnidadeUniSearch extends UnidadeUni
+class UnidadeUniSearch extends Unidade_uni
 {
     /**
      * @inheritdoc
@@ -41,7 +41,7 @@ class UnidadeUniSearch extends UnidadeUni
      */
     public function search($params)
     {
-        $query = UnidadeUni::find();
+        $query = Unidade_uni::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

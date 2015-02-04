@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\UnidadeUniSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Unidade Unis';
+$this->title = 'Unidades Senac AM';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="unidade-uni-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Unidade Uni', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Criar Unidade', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

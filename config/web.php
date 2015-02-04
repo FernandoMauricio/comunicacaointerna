@@ -8,6 +8,10 @@ $config = [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'components' => [
+        /*'urlManager' =>[
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+        ],*/
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '5VVJQwSeEHABFEuhUqSWI-habT7nPrbY',
@@ -39,6 +43,7 @@ $config = [
             ],
         ],
         'db' => require(__DIR__ . '/db.php'),
+        'db_base' => require(__DIR__ . '/db_base.php'),
     ],
     'params' => $params,
 ];

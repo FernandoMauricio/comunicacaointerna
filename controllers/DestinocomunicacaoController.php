@@ -9,7 +9,6 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-session_start();
 
 /**
  * DestinocomunicacaoController implements the CRUD actions for Destinocomunicacao model.
@@ -63,8 +62,24 @@ class DestinocomunicacaoController extends Controller
     public function actionCreate()
     {
         $model = new Destinocomunicacao();
-        //Coletar Sessão da Comunicação
-         //$model->dest_codcomunicacao = $_SESSION['sess_codcomunicacao'];
+
+        //Resgatando as sessões da CI
+         $session = Yii::$app->session;
+        
+        //conexão com os bancos
+         $connection = Yii::$app->db;
+         $connection = Yii::$app->db_base;
+        
+        //coletar os dados da CI
+        $comunicacao = $session->get('comunicacao');
+
+        //Coletar id, nome e unidade da CI
+        $model->dest_codcomunicacao=$comunicacao->com_codcomunicacao;        
+        $model->dest_codcolaborador=$comunicacao->com_codcolaborador;
+        $model->dest_codunidadeenvio=$comunicacao->com_codunidade;
+
+        //Confirmação de criação da CI
+        Yii::$app->session->setFlash('success', 'Comunicação Interna cadastrada com sucesso! Por favor, <strong>selecione o destino abaixo:</strong>');
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->dest_coddestino]);

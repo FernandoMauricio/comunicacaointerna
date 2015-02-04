@@ -9,30 +9,36 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
+
+
 /**
  * ComunicacaointernaController implements the CRUD actions for ComunicacaoInternaCom model.
  */
 class ComunicacaointernaController extends Controller
 {
     ////////////////////////////TESTANDO A SESSÃO DO USUÁRIO//////////////////////////////////////
-
-    public $sessionUsuario;
+   /* public $sessionUsuario;
     public $sessionNome;
     public $idSuporte;
     public $idUnidade;
     public $nomeUnidade;
 
-        public function __construct(){            
+    public function __construct(){
 
-        $sess_codusuario   = isset($_SESSION['sess_codusuario']) ? $sess_codusuario   = $_SESSION['sess_codusuario'] : $sess_codusuario = "";
-        $sess_nomeusuario  = isset($_SESSION['sess_nomeusuario']) ? $sess_nomeusuario = $_SESSION['sess_nomeusuario'] : $sess_nomeusuario = "";
+        $sess_codusuario = isset($_SESSION['sess_codusuario']) ? $sess_codusuario = $_SESSION['sess_codusuario'] : $sess_codusuario = "";
+        $sess_nomeusuario = isset($_SESSION['sess_nomeusuario']) ? $sess_nomeusuario = $_SESSION['sess_nomeusuario'] : $sess_nomeusuario = "";
 
-        $this->idUnidade   = isset($_SESSION['sess_codunidade']) ? $this->idUnidade   = $_SESSION['sess_codunidade'] : $this->idUnidade = "";
-        $this->nomeUnidade = isset($_SESSION['sess_unidade'])  ? $this->nomeUnidade   = $_SESSION['sess_unidade']    : $this->nomeUnidade = "";
+        $this->idUnidade            = isset($_SESSION['sess_codunidade']) ? $this->idUnidade = $_SESSION['sess_codunidade'] : $this->idUnidade = "";
+        $this->nomeUnidade          = isset($_SESSION['sess_unidade'])  ? $this->nomeUnidade = $_SESSION['sess_unidade']    : $this->nomeUnidade = "";
 
+        $this->session->set_userdata('usuario_id', $sess_codusuario);
+        $this->session->set_userdata('login', $sess_nomeusuario);
+        $this->sessionLogin = $this->session->userdata('login');
+        $this->sessionUsuario =  $this->session->userdata('usuario_id');
 
-    }
+    }*/
 
+    
 
     public function behaviors()
     {
@@ -52,6 +58,7 @@ class ComunicacaointernaController extends Controller
      */
     public function actionIndex()
     {
+
         $searchModel = new ComunicacaointernaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -68,6 +75,7 @@ class ComunicacaointernaController extends Controller
      */
     public function actionView($id)
     {
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -82,8 +90,17 @@ class ComunicacaointernaController extends Controller
     {
         $model = new ComunicacaoInternaCom();
 
+        $session = Yii::$app->session;
+
+        //Coletar a sessão do usuário
+        $model->com_codcolaborador= $session['sess_nomeusuario'];
+        $model->com_codunidade= $session['sess_unidade'];
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+
+            $session->set('comunicacao', $model);
+
+            return $this->redirect(['destinocomunicacao/create']);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -101,7 +118,11 @@ class ComunicacaointernaController extends Controller
     {
         $model = $this->findModel($id);
 
+        $model->com_codcolaborador= $_SESSION['sess_nomeusuario'];
+        $model->com_codunidade= $_SESSION['sess_unidade'];        
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', 'Alterações realizadas com sucesso!');
             return $this->redirect(['view', 'id' => $model->com_codcomunicacao]);
         } else {
             return $this->render('update', [
@@ -119,7 +140,7 @@ class ComunicacaointernaController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        Yii::$app->session->setFlash('danger', 'Exclusão realizada com sucesso!');
         return $this->redirect(['index']);
     }
 

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\UnidadeUni */
+/* @var $model app\models\Unidade_uni */
 
 $this->title = $model->uni_codunidade;
 $this->params['breadcrumbs'][] = ['label' => 'Unidade Unis', 'url' => ['index']];

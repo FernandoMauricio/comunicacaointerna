@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 
-
 /* @var $this yii\web\View */
 /* @var $model app\models\ComunicacaoInternaCom */
 
@@ -16,6 +15,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-    ]) ?>
+    ]); 
+		/*$this->render('create',[
+		'var1'=>$value1,
+		'var2'=>$value2,
+		]);*/
+
+    ?>
 
 </div>

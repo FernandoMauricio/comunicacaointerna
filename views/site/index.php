@@ -1,5 +1,7 @@
 <?php
 /* @var $this yii\web\View */
+namespace yii\bootstrap;
+use yii\helpers\Html;
 
                 session_start();
 
@@ -15,9 +17,10 @@ $this->title = 'Documentação Eletrônica';
     </div>
             <div class="body-content">
                 <div class="container">
-                            <h3>Bem vindo, <?php echo $nome_user = ucwords(strtolower($nome_user))?>!</h3><br />
+                    
+                            <h3>Bem vindo, <?php echo $nome_user = ucwords(strtolower($nome_user))?>!</h3>
                             <div class="alert alert-danger" role="alert"><strong><?php echo $nome_user = ucwords(strtolower($nome_user)) . ",</strong>"?> você tem 3 despachos pendentes. Para visualizar, <a href="#" class="alert-link">clique aqui.</a></div>
-                            <div class="alert alert-success" role="alert">Existem 5 novas portarias cadastradas. Para visualizar, <a href="#" class="alert-link">clique aqui.</a></div><br />
+                            <!--<div class="alert alert-success" role="alert">Existem 5 novas portarias cadastradas. Para visualizar, <a href="#" class="alert-link">clique aqui.</a></div>-->
                             <div class="panel panel-primary">
 
                 <div class="panel-heading">

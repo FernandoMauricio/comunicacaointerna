@@ -3,14 +3,14 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\UnidadeUni;
+use app\models\Unidade_uni;
 use app\models\UnidadeUniSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * UnidadeUniController implements the CRUD actions for UnidadeUni model.
+ * UnidadeUniController implements the CRUD actions for Unidade_uni model.
  */
 class UnidadeUniController extends Controller
 {
@@ -27,7 +27,7 @@ class UnidadeUniController extends Controller
     }
 
     /**
-     * Lists all UnidadeUni models.
+     * Lists all Unidade_uni models.
      * @return mixed
      */
     public function actionIndex()
@@ -42,7 +42,7 @@ class UnidadeUniController extends Controller
     }
 
     /**
-     * Displays a single UnidadeUni model.
+     * Displays a single Unidade_uni model.
      * @param string $id
      * @return mixed
      */
@@ -54,13 +54,13 @@ class UnidadeUniController extends Controller
     }
 
     /**
-     * Creates a new UnidadeUni model.
+     * Creates a new Unidade_uni model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new UnidadeUni();
+        $model = new Unidade_uni();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->uni_codunidade]);
@@ -72,7 +72,7 @@ class UnidadeUniController extends Controller
     }
 
     /**
-     * Updates an existing UnidadeUni model.
+     * Updates an existing Unidade_uni model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -91,7 +91,7 @@ class UnidadeUniController extends Controller
     }
 
     /**
-     * Deletes an existing UnidadeUni model.
+     * Deletes an existing Unidade_uni model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -104,15 +104,15 @@ class UnidadeUniController extends Controller
     }
 
     /**
-     * Finds the UnidadeUni model based on its primary key value.
+     * Finds the Unidade_uni model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return UnidadeUni the loaded model
+     * @return Unidade_uni the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = UnidadeUni::findOne($id)) !== null) {
+        if (($model = Unidade_uni::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

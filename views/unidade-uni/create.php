@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 
 /* @var $this yii\web\View */
-/* @var $model app\models\UnidadeUni */
+/* @var $model app\models\Unidade_uni */
 
 $this->title = 'Create Unidade Uni';
 $this->params['breadcrumbs'][] = ['label' => 'Unidade Unis', 'url' => ['index']];

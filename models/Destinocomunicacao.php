@@ -3,6 +3,8 @@
 namespace app\models;
 
 use Yii;
+use yii\db\Expression;
+
 
 /**
  * This is the model class for table "destinocomunicacao_dest".
@@ -49,7 +51,7 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
         return [
             'dest_coddestino' => 'Código Destino',
             'dest_codcomunicacao' => 'Código Comunicação',
-            'dest_codcolaborador' => 'Destino Colaborador',
+            'dest_codcolaborador' => 'Colaborador',
             'dest_codunidadeenvio' => 'Unidade Remetente',
             'dest_codunidadedest' => 'Unidade Destino',
             //'dest_data' => 'Data/Hora',
@@ -57,6 +59,20 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
             'dest_codsituacao' => 'Situação',
         ];
     }
+
+    public function beforeSave($insert){
+                    if (parent::beforeSave($insert)) {
+                    if($insert){ 
+                        
+                    // Código a ser executado se for um insert
+                    $this->dest_data = new Expression('current_timestamp');
+                    }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
 
     /**
      * @return \yii\db\ActiveQuery
