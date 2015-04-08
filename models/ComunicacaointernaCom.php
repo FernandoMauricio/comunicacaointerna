@@ -31,6 +31,7 @@ class ComunicacaointernaCom extends \yii\db\ActiveRecord
 
 //public $sess_responsavelsetor;
 
+
     /**
      * @inheritdoc
      */
@@ -51,7 +52,10 @@ class ComunicacaointernaCom extends \yii\db\ActiveRecord
             [['com_codtipo'], 'validarTipo'],
             [['com_codsituacao'], 'validarSituacao'],
             [['com_texto'], 'string'],
-            [['com_titulo'], 'string', 'max' => 100]
+            [['com_titulo'], 'string', 'max' => 100],
+
+
+
         ];
     }
         /*Rules Personalizadas para a criação de CI relacionadas ao Tipo
@@ -60,7 +64,7 @@ class ComunicacaointernaCom extends \yii\db\ActiveRecord
     public function validarTipo($com_codtipo, $params){
 
                 if($this->com_codtipo == 2 && $_SESSION['sess_responsavelsetor'] == 0) {
-    
+
                     $this->addError($com_codtipo, 'Somente o Responsável pela Unidade/Setor poderá gerar uma Comunicação Interna Confidencial.');        
                     }
                 }
@@ -70,6 +74,9 @@ class ComunicacaointernaCom extends \yii\db\ActiveRecord
 
 
     public function validarSituacao($com_codsituacao, $params){
+
+
+
 
 
                 if($this->$com_codsituacao != 1) //EM ELABORAÇÃO
@@ -82,7 +89,7 @@ class ComunicacaointernaCom extends \yii\db\ActiveRecord
                     }
                  }
 
-                
+
     /**
      * @inheritdoc
      */
@@ -116,7 +123,7 @@ class ComunicacaointernaCom extends \yii\db\ActiveRecord
                 return false;
                 }
             }
-            
+
 
     /**
      * @return \yii\db\ActiveQuery
@@ -156,6 +163,26 @@ class ComunicacaointernaCom extends \yii\db\ActiveRecord
     public function getDestinocomunicacaoDests()
     {
         return $this->hasMany(DestinocomunicacaoDest::className(), ['dest_codcomunicacao' => 'com_codcomunicacao']);
+    }
+
+    public function getUnidade()
+    {
+        return $this->hasOne(Unidade_uni::className(), ['uni_codunidade' => 'com_codunidade']);
+    }
+
+    public function getCargo()
+    {
+        return $this->hasOne(Cargos::className(), ['car_codcargo' => 'com_codcargoautorizacao']);
+    }
+
+    public function getColaborador()
+    {
+        return $this->hasOne(Colaborador::className(), ['col_codcolaborador' => 'com_codcolaborador']);
+    }
+
+    public function getColaboradorAutorizacao()
+    {
+        return $this->hasOne(Colaborador::className(), ['col_codcolaborador' => 'com_codcolaboradorautorizacao']);
     }
 
 }

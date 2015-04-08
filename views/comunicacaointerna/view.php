@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use app\models\ComunicacaointernaCom;
+use app\models\Cargos_car;
+use app\models\Colaborador;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ComunicacaoInternaCom */
@@ -40,21 +43,22 @@ $this->params['breadcrumbs'][] = $this->title;
             'label' => 'Tipo',
             'value' => $model->comCodtipo->tipdo_tipo
             ],
-                      
+
             //Colaborador
             //'com_codcolaborador',
             [
-            'label' => 'Colaborador',
-            'value' => $model->com_codcolaborador= $_SESSION['sess_nomeusuario']
+            'label' => 'Criado Por',
+            'value' => $model->colaborador->usuario->usu_nomeusuario,
             ],
 
             //Unidade
             //'com_codunidade',
-            [
-            'label' => 'Unidade',
-            'value' => $model->com_codunidade= $_SESSION['sess_unidade']
-            ],
-            
+             [
+                'label' => 'Unidade',
+                'value' => $model->unidade->uni_nomeabreviado,
+
+             ],
+
             [
                 'attribute' => 'com_datasolicitacao',
                 'format' => ['datetime', 'dd/MM/yyyy HH:mm:ss']
@@ -69,12 +73,23 @@ $this->params['breadcrumbs'][] = $this->title;
             'value' => $model->comCodsituacao->sitco_situacao1
             ],
 
+            //'com_codcolaboradorautorizacao',
+            [
+            'label' => 'Autorizado Por',
+            'value' => $model->colaboradorAutorizacao->usuario->usu_nomeusuario,
+            ],
+
+            //'com_codcargoautorizacao',
+            [
+                'label' => 'Cargo',
+                'value' => $model->cargo->car_cargo,
+
+             ],
+             
             [
                 'attribute' => 'com_dataautorizacao',
                 'format' => ['datetime', 'dd/MM/yyyy HH:mm:ss']
             ],
-            'com_codcolaboradorautorizacao',
-            'com_codcargoautorizacao',            
         ],
     ]) ?>
 

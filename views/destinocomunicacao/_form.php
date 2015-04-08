@@ -26,17 +26,19 @@ use yii\bootstrap\Modal;
     <?php $form = ActiveForm::begin(); ?>
 
 
-    <?= $form->field($model, 'dest_codcomunicacao')->textInput(['readonly'=>true]) ?>
+    <?php // $form->field($model, 'dest_codcomunicacao')->textInput(['readonly'=>true]) ?>
 
-    <?= $form->field($model, 'dest_codcolaborador')->textInput(['readonly'=>true]) ?>
+    <?php // $form->field($model, 'dest_codcolaborador')->textInput(['readonly'=>true]) ?>
 
-    <?= $form->field($model, 'dest_codunidadeenvio')->textInput(['readonly'=>true]) ?>
+    <?php // $form->field($model, 'dest_codunidadeenvio')->textInput(['readonly'=>true]) ?>
 
+    <?php // $form->field($model, 'dest_nomeunidadeenvio')->textInput(['readonly'=>true]) ?>
 
+    <?php //$form->field($model, 'dest_nomeunidadedest')->textInput(['readonly'=>true]) ?>
 
     <?php 
                 // DropdownList Tipo de Destino da comunicação para o envio
-                $rows = Tipodestino::find()->all();
+/*                $rows = Tipodestino::find()->all();
                 $data_tipo = ArrayHelper::map($rows, 'tipde_codtipo', 'tipde_descricao');
                 echo $form->field($model, 'dest_codtipo')->widget(Select2::classname(), [
                         'data' => array_merge(["" => ""], $data_tipo),
@@ -44,14 +46,14 @@ use yii\bootstrap\Modal;
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
-                    ]);
+                    ]);*/
 
     ?>    
 
 
     <?php 
                 // DropdownList Situação da comunicação para o envio e despacho
-                $rows = SituacaodestinoSide::find()->all();
+/*                $rows = SituacaodestinoSide::find()->all();
                 $data_situacao = ArrayHelper::map($rows, 'side_codsituacao', 'side_situacao');
                 echo $form->field($model, 'dest_codsituacao')->widget(Select2::classname(), [
                         'data' => array_merge(["" => ""], $data_situacao),
@@ -59,7 +61,7 @@ use yii\bootstrap\Modal;
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
-                    ]);
+                    ]);*/
     ?> 
 
         <?php
@@ -69,6 +71,8 @@ use yii\bootstrap\Modal;
                     echo $form->field($model, 'dest_codunidadedest')->widget(Select2::classname(), [
                         'data' => array_merge(["" => ""], $data_unidades),
                         'options' => ['placeholder' => 'Selecione uma Unidade...'],
+                        //'value'=> ['uni_codunidade'],
+                        //'value'=> ['dest_nomeunidadedest'],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
@@ -86,6 +90,8 @@ use yii\bootstrap\Modal;
                 echo Select2::widget([
                     'name' => 'unidades', 
                     'data' => $data_unidades,
+                    'value'=> ['uni_codunidade'],
+                    //'value'=> ['dest_nomeunidadedest'],                    
                     'options' => [
                         'placeholder' => 'Selecione as Unidades...', 
                         'multiple' => true
@@ -93,26 +99,31 @@ use yii\bootstrap\Modal;
                 ]);
 
     ?> 
-<br />
+    <?= $form->field($model, 'dest_codtipo')->hiddenInput(['value'=>2, 'readonly'=>true]) ?>
+
+    <?= $form->field($model, 'dest_codsituacao')->hiddenInput(['value'=>2, 'readonly'=>true]) ?>
+
+
 <?php
 
-Modal::begin([
+//TESTE MODAL
+/*Modal::begin([
     'header' => '<h2>Hello world</h2>',
     'toggleButton' => [Html::submitButton($model->isNewRecord ? 'Enviar' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary'])],
 ]);
 
 echo 'Say hello...';
 
-Modal::end();
+Modal::end();*/
 
 ?>
 
 
-    <br /><br />
+<!--      <br /><br />  -->
 
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Enviar' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Enviar Comunicação Interna' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

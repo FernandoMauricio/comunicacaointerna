@@ -172,4 +172,10 @@ class Unidade_uni extends \yii\db\ActiveRecord
     {
         return $this->hasOne(TiporesponsavelTire::className(), ['tire_codtipo' => 'uni_codtipres']);
     }
+
+    public function getComunicacoes()
+    {
+        return $this->hasMany(ComunicacaointernaCom::className(), ['com_codunidade' => 'uni_codunidade']);
+    }
+
 }

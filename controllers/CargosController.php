@@ -3,16 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\DestinocomunicacaoDest;
-use app\models\DestinocomunicacaoDestSearch;
+use app\models\Cargos;
+use app\models\CargosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * DestinocomunicacaoDestController implements the CRUD actions for DestinocomunicacaoDest model.
+ * CargosController implements the CRUD actions for Cargos model.
  */
-class DestinocomunicacaoDestController extends Controller
+class CargosController extends Controller
 {
     public function behaviors()
     {
@@ -27,12 +27,12 @@ class DestinocomunicacaoDestController extends Controller
     }
 
     /**
-     * Lists all DestinocomunicacaoDest models.
+     * Lists all Cargos models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DestinocomunicacaoDestSearch();
+        $searchModel = new CargosSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -42,7 +42,7 @@ class DestinocomunicacaoDestController extends Controller
     }
 
     /**
-     * Displays a single DestinocomunicacaoDest model.
+     * Displays a single Cargos model.
      * @param string $id
      * @return mixed
      */
@@ -54,16 +54,16 @@ class DestinocomunicacaoDestController extends Controller
     }
 
     /**
-     * Creates a new DestinocomunicacaoDest model.
+     * Creates a new Cargos model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new DestinocomunicacaoDest();
+        $model = new Cargos();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dest_coddestino]);
+            return $this->redirect(['view', 'id' => $model->car_codcargo]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -72,7 +72,7 @@ class DestinocomunicacaoDestController extends Controller
     }
 
     /**
-     * Updates an existing DestinocomunicacaoDest model.
+     * Updates an existing Cargos model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -82,7 +82,7 @@ class DestinocomunicacaoDestController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dest_coddestino]);
+            return $this->redirect(['view', 'id' => $model->car_codcargo]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -91,7 +91,7 @@ class DestinocomunicacaoDestController extends Controller
     }
 
     /**
-     * Deletes an existing DestinocomunicacaoDest model.
+     * Deletes an existing Cargos model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -104,15 +104,15 @@ class DestinocomunicacaoDestController extends Controller
     }
 
     /**
-     * Finds the DestinocomunicacaoDest model based on its primary key value.
+     * Finds the Cargos model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return DestinocomunicacaoDest the loaded model
+     * @return Cargos the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = DestinocomunicacaoDest::findOne($id)) !== null) {
+        if (($model = Cargos::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -51,19 +51,21 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
         return [
             'dest_coddestino' => 'Código Destino',
             'dest_codcomunicacao' => 'Código Comunicação',
-            'dest_codcolaborador' => 'Colaborador',
-            'dest_codunidadeenvio' => 'Unidade Remetente',
+            'dest_codcolaborador' => 'Código Colaborador',
+            'dest_codunidadeenvio' => 'Código da Unidade',
             'dest_codunidadedest' => 'Unidade Destino',
-            //'dest_data' => 'Data/Hora',
-            'dest_codtipo' => 'Tipo de destino',
-            'dest_codsituacao' => 'Situação',
+            'dest_data' => 'Data/Hora',
+            'dest_codtipo' => '',
+            'dest_codsituacao' => '',
+            'dest_nomeunidadeenvio' => 'Unidade Remetente',
+            'dest_nomeunidadedest' => 'Unidade Destino', 
         ];
     }
 
     public function beforeSave($insert){
                     if (parent::beforeSave($insert)) {
                     if($insert){ 
-                        
+
                     // Código a ser executado se for um insert
                     $this->dest_data = new Expression('current_timestamp');
                     }

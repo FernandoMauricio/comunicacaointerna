@@ -57,15 +57,20 @@ class ComunicacaointernaController extends Controller
      * @return mixed
      */
     public function actionIndex()
+
     {
 
         $searchModel = new ComunicacaointernaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+//Confirmação de envio da CI
+        /*Yii::$app->session->setFlash('success', 'Comunicação Interna <strong>enviada com sucesso!</strong>');*/
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+
     }
 
     /**
@@ -93,8 +98,19 @@ class ComunicacaointernaController extends Controller
         $session = Yii::$app->session;
 
         //Coletar a sessão do usuário
-        $model->com_codcolaborador= $session['sess_nomeusuario'];
-        $model->com_codunidade= $session['sess_unidade'];
+
+        $model->com_codcolaborador= $session['sess_codcolaborador'];
+        $model->com_codunidade= $session['sess_codunidade'];
+
+        //Caso NÃO seja gerente, situação fica PARA AUTORIZAÇÃO, se não, fica EM CIRCULAÇÃO
+        if ($_SESSION['sess_responsavelsetor'] == 0){
+
+        $model->com_codsituacao = 'Para Autorização';
+    }else{
+
+        $model->com_codsituacao = 'Em Circulação';
+    }
+        
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
@@ -118,8 +134,8 @@ class ComunicacaointernaController extends Controller
     {
         $model = $this->findModel($id);
 
-        $model->com_codcolaborador= $_SESSION['sess_nomeusuario'];
-        $model->com_codunidade= $_SESSION['sess_unidade'];        
+        /*$model->com_codcolaborador= $_SESSION['sess_nomeusuario'];
+        $model->com_codunidade= $_SESSION['sess_unidade'];*/
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Alterações realizadas com sucesso!');

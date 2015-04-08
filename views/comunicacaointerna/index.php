@@ -4,6 +4,14 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use app\models\UnidadeUni;
 use app\models\UnidadeUniSearch;
+use app\models\Unidade_uni;
+use app\models\app\models\UsuarioUsu;
+use app\models\ComunicacaointernaCom;
+use app\models\Cargos_car;
+use app\models\Colaborador;
+use yii\db\ActiveQuery;
+use yii\db\Connection;
+
 
 
 /* @var $this yii\web\View */
@@ -13,6 +21,17 @@ use app\models\UnidadeUniSearch;
 $this->title = 'Comunicação Interna - Criadas pelo setor';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+
+<div class="col-lg-12">
+    <?php if(Yii::$app->session->hasFlash('success')): ?>
+        <div class="alert alert-success" role="alert">
+            <?= Yii::$app->session->getFlash('success') ?>
+        </div>
+    <?php endif; ?>
+</div>
+
+
 <div class="comunicacao-interna-com-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
@@ -23,6 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Nova Comunicacao Interna', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
+
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -31,6 +52,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'com_codcomunicacao',
             //'com_codcolaborador',
+            [
+                'header' => 'Criado Por',
+                'value' => function ($data) {
+                return $data->colaborador->usuario->usu_nomeusuario;
+                },
+             ],
              [
                 'header' => 'Tipo',
                 'value' => function ($data) {
@@ -38,13 +65,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
              ],
             //'com_codtipo',
-             /*[
+
+            //'com_codunidade',
+            [
                 'header' => 'Unidade',
                 'value' => function ($data) {
-                return $data->nome;
+                return $data->unidade->uni_nomeabreviado;
                 },
-             ],*/
-            'com_codunidade',
+             ],
 
             [
                 'attribute' => 'com_datasolicitacao',
@@ -55,7 +83,13 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'com_codsituacao',
             // 'com_dataautorizacao',
             // 'com_codcolaboradorautorizacao',
-            // 'com_codcargoautorizacao',
+            [
+                'header' => 'Autorizado Por',
+                'value' => function ($data) {
+                return $data->colaboradorAutorizacao->usuario->usu_nomeusuario;
+                },
+             ],
+            //'com_codcargoautorizacao',
              [
                 'header' => 'Situação',
                 'value' => function ($data) {
