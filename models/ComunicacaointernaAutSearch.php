@@ -8,9 +8,9 @@ use yii\data\ActiveDataProvider;
 use app\models\Comunicacaointerna;
 
 /**
- * ComunicacaointernaSearch represents the model behind the search form about `app\models\Comunicacaointerna`.
+ * ComunicacaointernaAutSearch represents the model behind the search form about `app\models\Comunicacaointerna`.
  */
-class ComunicacaointernaSearch extends ComunicacaoInterna
+class ComunicacaointernaAutSearch extends ComunicacaoInterna
 {
     /**
      * @inheritdoc
@@ -41,6 +41,8 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
      */
     public function search($params)
     {
+
+
 
         $query = ComunicacaoInterna::find();
 
@@ -79,6 +81,7 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
 
         $query->andFilterWhere(['like', 'com_titulo', $this->com_titulo])
             ->andFilterWhere(['com_codunidade' => $session['sess_codunidade']])
+            ->andFilterWhere(['com_codsituacao' => 3])
             //->andFilterWhere(['like', 'colaborador.usuario.usu_nomeusuario', $this->com_codcolaborador])
             ->andFilterWhere(['like', 'com_texto', $this->com_texto]);
 

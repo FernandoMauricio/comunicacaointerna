@@ -18,7 +18,7 @@ use yii\db\Expression;
  * @property string $dest_codtipo
  * @property string $dest_codsituacao
  *
- * @property ComunicacaointernaCom $destCodcomunicacao
+ * @property Comunicacaointerna $destCodcomunicacao
  * @property SituacaodestinoSide $destCodsituacao
  * @property TipodestinoTipde $destCodtipo
  */
@@ -50,13 +50,13 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
     {
         return [
             'dest_coddestino' => 'Código Destino',
-            'dest_codcomunicacao' => 'Código Comunicação',
+            'dest_codcomunicacao' => 'Cód. Comunicação',
             'dest_codcolaborador' => 'Código Colaborador',
             'dest_codunidadeenvio' => 'Código da Unidade',
             'dest_codunidadedest' => 'Unidade Destino',
             'dest_data' => 'Data/Hora',
-            'dest_codtipo' => '',
-            'dest_codsituacao' => '',
+            'dest_codtipo' => 'Tipo',
+            'dest_codsituacao' => 'Situação',
             'dest_nomeunidadeenvio' => 'Unidade Remetente',
             'dest_nomeunidadedest' => 'Unidade Destino', 
         ];
@@ -79,9 +79,9 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDestCodcomunicacao()
+    public function getComunicacaointerna()
     {
-        return $this->hasOne(ComunicacaointernaCom::className(), ['com_codcomunicacao' => 'dest_codcomunicacao']);
+        return $this->hasOne(Comunicacaointerna::className(), ['com_codcomunicacao' => 'dest_codcomunicacao']);
     }
 
     /**
@@ -99,4 +99,5 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
     {
         return $this->hasOne(TipodestinoTipde::className(), ['tipde_codtipo' => 'dest_codtipo']);
     }
+
 }

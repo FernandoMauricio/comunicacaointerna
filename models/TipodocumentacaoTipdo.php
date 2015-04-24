@@ -10,7 +10,7 @@ use Yii;
  * @property string $tipdo_codtipo
  * @property string $tipdo_tipo
  *
- * @property ComunicacaointernaCom[] $comunicacaointernaComs
+ * @property Comunicacaointerna[] $Comunicacaointernas
  * @property ProtocoloPro[] $protocoloPros
  */
 class TipodocumentacaoTipdo extends \yii\db\ActiveRecord
@@ -48,9 +48,9 @@ class TipodocumentacaoTipdo extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getComunicacaointernaComs()
+    public function getComunicacaointernas()
     {
-        return $this->hasMany(ComunicacaointernaCom::className(), ['com_codtipo' => 'tipdo_codtipo']);
+        return $this->hasMany(Comunicacaointerna::className(), ['com_codtipo' => 'tipdo_codtipo']);
     }
 
     /**

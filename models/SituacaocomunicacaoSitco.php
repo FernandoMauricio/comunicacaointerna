@@ -11,7 +11,7 @@ use Yii;
  * @property string $sitco_situacao1
  * @property string $sitco_situacao2
  *
- * @property ComunicacaointernaCom[] $comunicacaointernaComs
+ * @property Comunicacaointerna[] $Comunicacaointernas
  */
 class SituacaocomunicacaoSitco extends \yii\db\ActiveRecord
 {
@@ -49,8 +49,8 @@ class SituacaocomunicacaoSitco extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getComunicacaointernaComs()
+    public function getComunicacaointernas()
     {
-        return $this->hasMany(ComunicacaointernaCom::className(), ['com_codsituacao' => 'sitco_codsituacao']);
+        return $this->hasMany(Comunicacaointerna::className(), ['com_codsituacao' => 'sitco_codsituacao']);
     }
 }

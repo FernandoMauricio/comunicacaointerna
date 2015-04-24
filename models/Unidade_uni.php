@@ -175,7 +175,7 @@ class Unidade_uni extends \yii\db\ActiveRecord
 
     public function getComunicacoes()
     {
-        return $this->hasMany(ComunicacaointernaCom::className(), ['com_codunidade' => 'uni_codunidade']);
+        return $this->hasMany(Comunicacaointerna::className(), ['com_codunidade' => 'uni_codunidade']);
     }
 
 }

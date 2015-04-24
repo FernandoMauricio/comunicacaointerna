@@ -7,11 +7,28 @@ $config = [
     'language'=>'pt-BR',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'components' => [
+
+        'modules' => [
+            'gridview' =>  [
+            'class' => '\kartik\grid\Module'
+                           ],
+                     ],
+                     
+    'components' =>  [
+ 
         /*'urlManager' =>[
             'enablePrettyUrl' => true,
             'showScriptName' => false,
         ],*/
+
+       /* 'view' => [
+         'theme' => [
+             'pathMap' => [
+               '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-basic-app'
+             ],
+         ],*/
+    
+
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '5VVJQwSeEHABFEuhUqSWI-habT7nPrbY',

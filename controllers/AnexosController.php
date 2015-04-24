@@ -3,17 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Destinocomunicacao;
-use app\models\DestinocomunicacaoSearch;
+use app\models\AnexosModel;
+use app\models\AnexosModelSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-
 /**
- * DestinocomunicacaoController implements the CRUD actions for Destinocomunicacao model.
+ * AnexosController implements the CRUD actions for AnexosModel model.
  */
-class DestinocomunicacaoController extends Controller
+class AnexosController extends Controller
 {
     public function behaviors()
     {
@@ -28,12 +27,12 @@ class DestinocomunicacaoController extends Controller
     }
 
     /**
-     * Lists all Destinocomunicacao models.
+     * Lists all AnexosModel models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new DestinocomunicacaoSearch();
+        $searchModel = new AnexosModelSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -43,7 +42,7 @@ class DestinocomunicacaoController extends Controller
     }
 
     /**
-     * Displays a single Destinocomunicacao model.
+     * Displays a single AnexosModel model.
      * @param string $id
      * @return mixed
      */
@@ -55,53 +54,25 @@ class DestinocomunicacaoController extends Controller
     }
 
     /**
-     * Creates a new Destinocomunicacao model.
+     * Creates a new AnexosModel model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Destinocomunicacao();
-
-        //Resgatando as sessões da CI
-         $session = Yii::$app->session;
-
-        //conexão com os bancos
-         $connection = Yii::$app->db;
-         $connection = Yii::$app->db_base;
-
-        //coletar os dados da CI
-        $comunicacao = $session->get('comunicacao');
-
-        //Coletar id, nome e unidade da CI
-        $model->dest_codcomunicacao=$comunicacao->com_codcomunicacao;
-        $model->dest_codcolaborador=$comunicacao->com_codcolaborador;
-        $model->dest_codunidadeenvio=$comunicacao->com_codunidade;
-        $model->dest_nomeunidadeenvio=$session['sess_unidade'];
-
-
-
-        //Confirmação de criação da CI
-        Yii::$app->session->setFlash('info', 'Comunicação Interna cadastrada com sucesso! Por favor, <strong>selecione o destino abaixo:</strong>');
+        $model = new AnexosModel();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            //Confirmação de envio da CI
-        Yii::$app->session->setFlash('success', 'Comunicação Interna <strong>enviada com sucesso!</strong>');
-
-//Redirect para listagem de criadas pelo setor após envio
-            return $this->redirect(['comunicacaointerna/index']);
+            return $this->redirect(['view', 'id' => $model->ane_codanexo]);
         } else {
-            //return $this->renderAjax('create', [
             return $this->render('create', [
                 'model' => $model,
             ]);
-
         }
     }
 
     /**
-     * Updates an existing Destinocomunicacao model.
+     * Updates an existing AnexosModel model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
@@ -111,7 +82,7 @@ class DestinocomunicacaoController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dest_coddestino]);
+            return $this->redirect(['view', 'id' => $model->ane_codanexo]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -120,7 +91,7 @@ class DestinocomunicacaoController extends Controller
     }
 
     /**
-     * Deletes an existing Destinocomunicacao model.
+     * Deletes an existing AnexosModel model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -133,15 +104,15 @@ class DestinocomunicacaoController extends Controller
     }
 
     /**
-     * Finds the Destinocomunicacao model based on its primary key value.
+     * Finds the AnexosModel model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Destinocomunicacao the loaded model
+     * @return AnexosModel the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Destinocomunicacao::findOne($id)) !== null) {
+        if (($model = AnexosModel::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

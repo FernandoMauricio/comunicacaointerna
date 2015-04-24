@@ -22,8 +22,22 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
     ];
+      /*  public $js = [
+        'js/main.js',
+    ];*/
     public $depends = [
         'yii\web\YiiAsset',
         'yii\bootstrap\BootstrapAsset',
     ];
 }
+
+/*{
+    public $sourcePath = '@bower/';
+    public $css = ['admin-lte/css/AdminLTE.css'];
+    public $js = ['admin-lte/js/AdminLTE/app.js'];
+    public $depends = [
+        'yii\web\YiiAsset',
+        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
+    ];
+}*/

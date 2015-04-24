@@ -9,9 +9,9 @@ use app\models\Destinocomunicacao;
 use app\models\Comunicacaointerna;
 
 /**
- * DestinocomunicacaoSearch represents the model behind the search form about `app\models\Destinocomunicacao`.
+ * DestinocomunicacaoCircSearch represents the model behind the search form about `app\models\Destinocomunicacao`.
  */
-class DestinocomunicacaoSearch extends Destinocomunicacao
+class DestinocomunicacaoCircSearch extends Destinocomunicacao
 {
     /**
      * @inheritdoc
@@ -56,7 +56,7 @@ class DestinocomunicacaoSearch extends Destinocomunicacao
             return $dataProvider;
         }
 
-        $query->joinWith('comunicacaointerna');
+       //$query->joinWith('comunicacaointerna');
 
         $query->andFilterWhere([
             'dest_coddestino' => $this->dest_coddestino,
@@ -64,7 +64,6 @@ class DestinocomunicacaoSearch extends Destinocomunicacao
             'dest_codcolaborador' => $this->dest_codcolaborador,
             'dest_codunidadeenvio' => $this->dest_codunidadeenvio,
             'dest_codunidadedest' => $this->dest_codunidadedest,
-            //'comunicacaointerna' => $this->comunicacaointerna['com_titulo'],
             'dest_data' => $this->dest_data,
             'dest_codtipo' => $this->dest_codtipo,
             'dest_codsituacao' => $this->dest_codsituacao,
@@ -76,9 +75,8 @@ class DestinocomunicacaoSearch extends Destinocomunicacao
         $session = Yii::$app->session;
 
         $query->andFilterWhere(['like', 'dest_nomeunidadeenvio', $this->dest_nomeunidadeenvio])
-            ->andFilterWhere(['like', 'comunicacaointerna_com.com_titulo', $this->dest_codcomunicacao])
             ->andFilterWhere(['dest_codunidadedest' => $session['sess_codunidade']])
-            ->andFilterWhere(['dest_codsituacao' => [2,3]])
+            ->andFilterWhere(['dest_codsituacao' => 2])
             ->andFilterWhere(['like', 'dest_nomeunidadedest', $this->dest_nomeunidadedest]);
 
         return $dataProvider;

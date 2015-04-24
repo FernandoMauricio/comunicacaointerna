@@ -4,16 +4,15 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Destinocomunicacao;
-use app\models\DestinocomunicacaoSearch;
+use app\models\DestinocomunicacaoCircSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
-
 /**
- * DestinocomunicacaoController implements the CRUD actions for Destinocomunicacao model.
+ * DestinocomunicacaoCircController implements the CRUD actions for Destinocomunicacao model.
  */
-class DestinocomunicacaoController extends Controller
+class DestinocomunicacaoCircController extends Controller
 {
     public function behaviors()
     {
@@ -33,7 +32,7 @@ class DestinocomunicacaoController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new DestinocomunicacaoSearch();
+        $searchModel = new DestinocomunicacaoCircSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -63,40 +62,12 @@ class DestinocomunicacaoController extends Controller
     {
         $model = new Destinocomunicacao();
 
-        //Resgatando as sessões da CI
-         $session = Yii::$app->session;
-
-        //conexão com os bancos
-         $connection = Yii::$app->db;
-         $connection = Yii::$app->db_base;
-
-        //coletar os dados da CI
-        $comunicacao = $session->get('comunicacao');
-
-        //Coletar id, nome e unidade da CI
-        $model->dest_codcomunicacao=$comunicacao->com_codcomunicacao;
-        $model->dest_codcolaborador=$comunicacao->com_codcolaborador;
-        $model->dest_codunidadeenvio=$comunicacao->com_codunidade;
-        $model->dest_nomeunidadeenvio=$session['sess_unidade'];
-
-
-
-        //Confirmação de criação da CI
-        Yii::$app->session->setFlash('info', 'Comunicação Interna cadastrada com sucesso! Por favor, <strong>selecione o destino abaixo:</strong>');
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            //Confirmação de envio da CI
-        Yii::$app->session->setFlash('success', 'Comunicação Interna <strong>enviada com sucesso!</strong>');
-
-//Redirect para listagem de criadas pelo setor após envio
-            return $this->redirect(['comunicacaointerna/index']);
+            return $this->redirect(['view', 'id' => $model->dest_coddestino]);
         } else {
-            //return $this->renderAjax('create', [
             return $this->render('create', [
                 'model' => $model,
             ]);
-
         }
     }
 

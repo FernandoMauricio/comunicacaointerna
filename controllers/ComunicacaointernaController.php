@@ -3,16 +3,22 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\ComunicacaoInternaCom;
+use app\models\ComunicacaoInterna;
 use app\models\ComunicacaointernaSearch;
+use app\models\Destinocomunicacao;
+use app\models\AnexosModel;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use yii\helpers\Html;
+use kartik\mpdf\Pdf;
 
+use mPDF;
 
 
 /**
- * ComunicacaointernaController implements the CRUD actions for ComunicacaoInternaCom model.
+ * ComunicacaointernaController implements the CRUD actions for Comunicacaointerna model.
  */
 class ComunicacaointernaController extends Controller
 {
@@ -53,7 +59,7 @@ class ComunicacaointernaController extends Controller
     }
 
     /**
-     * Lists all ComunicacaoInternaCom models.
+     * Lists all Comunicacaointerna models.
      * @return mixed
      */
     public function actionIndex()
@@ -74,7 +80,7 @@ class ComunicacaointernaController extends Controller
     }
 
     /**
-     * Displays a single ComunicacaoInternaCom model.
+     * Displays a single Comunicacaointerna model.
      * @param string $id
      * @return mixed
      */
@@ -84,16 +90,18 @@ class ComunicacaointernaController extends Controller
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
+
     }
 
     /**
-     * Creates a new ComunicacaoInternaCom model.
+     * Creates a new Comunicacaointerna model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new ComunicacaoInternaCom();
+        $model = new Comunicacaointerna();
+        $anexo = new AnexosModel();
 
         $session = Yii::$app->session;
 
@@ -105,50 +113,102 @@ class ComunicacaointernaController extends Controller
         //Caso NÃO seja gerente, situação fica PARA AUTORIZAÇÃO, se não, fica EM CIRCULAÇÃO
         if ($_SESSION['sess_responsavelsetor'] == 0){
 
-        $model->com_codsituacao = 'Para Autorização';
+        $model->nomesituacao = 'Para Autorização';
+        $model->com_codsituacao = 3;
+        
     }else{
 
-        $model->com_codsituacao = 'Em Circulação';
-    }
-        
+        $model->nomesituacao = 'Em Circulação';
+        $model->com_codsituacao = 4;
+       
+    }        
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->save())
+        {
 
             $session->set('comunicacao', $model);
 
-            return $this->redirect(['destinocomunicacao/create']);
+        //Confirmação de criação da CI
+         Yii::$app->session->setFlash('info', 'Comunicação Interna cadastrada com sucesso! Por favor, <strong>selecione o destino abaixo:</strong>');
+
+        //get session comunicacao criada
+         $comunicacao = $session->get('comunicacao');
+
+        //Depois de inserido, pega o ID criado 
+        return $this->redirect(['update', 'id' => $comunicacao->com_codcomunicacao]);
+
+                      
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'anexo'=> $anexo,
             ]);
         }
     }
 
     /**
-     * Updates an existing ComunicacaoInternaCom model.
+     * Updates an existing Comunicacaointerna model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param string $id
      * @return mixed
      */
     public function actionUpdate($id)
     {
+        $anexo = new AnexosModel();
         $model = $this->findModel($id);
 
-        /*$model->com_codcolaborador= $_SESSION['sess_nomeusuario'];
-        $model->com_codunidade= $_SESSION['sess_unidade'];*/
+        //Resgatando as sessões da CI
+         $session = Yii::$app->session;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Alterações realizadas com sucesso!');
-            return $this->redirect(['view', 'id' => $model->com_codcomunicacao]);
+        //conexão com os bancos
+         $connection = Yii::$app->db;
+         $connection = Yii::$app->db_base;
+
+        //get session comunicacao criada
+         $comunicacao = $session->get('comunicacao');
+         $anexos = $session->get('anexos');
+
+        //Coletar a sessão do usuário e da tabela anexo
+
+        $model->com_codcolaborador = $session['sess_codcolaborador'];
+        $model->com_codunidade = $session['sess_codunidade'];
+
+
+            //VERIFICAR PARA PUXAR OS ANEXOS
+/*        $anexo->ane_codcomunicacao = $comunicacao->com_codcomunicacao;
+        $anexo->ane_arquivo = $anexos->ane_arquivo;*/
+
+
+
+        //Caso NÃO seja gerente, situação fica PARA AUTORIZAÇÃO, se não, fica EM CIRCULAÇÃO
+        if ($_SESSION['sess_responsavelsetor'] == 0){
+
+        $model->nomesituacao = 'Para Autorização';
+        $model->com_codsituacao = 2;
+        
+    }else{
+
+        $model->nomesituacao = 'Em Circulação';
+        $model->com_codsituacao = 4;
+       
+    } 
+
+        if ($model->load(Yii::$app->request->post()) && $anexo->load(Yii::$app->request->post())) {
+
+            $model->save();
+
+              return $this->redirect('index.php?r=comunicacaointerna%2Findex');
+            //return $this->redirect(['view', 'id' => $model->com_codcomunicacao]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'anexo'=> $anexo,
             ]);
         }
     }
 
     /**
-     * Deletes an existing ComunicacaoInternaCom model.
+     * Deletes an existing Comunicacaointerna model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param string $id
      * @return mixed
@@ -161,18 +221,58 @@ class ComunicacaointernaController extends Controller
     }
 
     /**
-     * Finds the ComunicacaoInternaCom model based on its primary key value.
+     * Finds the Comunicacaointerna model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return ComunicacaoInternaCom the loaded model
+     * @return Comunicacaointerna the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = ComunicacaoInternaCom::findOne($id)) !== null) {
+        if (($model = Comunicacaointerna::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+
+    public function actionAguardandoAut($id)
+    {
+
+        if(['com_codsituacao'] == 3 && ['com_codunidade'] == ['sess_codunidade'])
+        {
+       return $this->render(['view', 'id' => $model->com_codcomunicacao, [
+            'model' => $this->findModel($id),
+        ]]);
+
+        }
+
+ 
+
+
+    }
+
+
+
+
+// Privacy statement output demo
+public function actionPdf() {
+    $pdf = new Pdf([
+        'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+        'content' => $this->renderPartial('pdf'),
+        'options' => [
+            'title' => 'Comunicação Interna - Senac AM',
+            'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
+        ],
+        'methods' => [
+            'SetHeader' => ['DOCUMENTAÇÃO ELETRÔNICA - SENAC AM||Gerado em: ' . date("d/m/Y - H:i:s")],
+            'SetFooter' => ['Gerência de Informática Corporativa - GIC||Página {PAGENO}'],
+        ]
+    ]);
+    return $pdf->render();
+}
+
+
+
 }
