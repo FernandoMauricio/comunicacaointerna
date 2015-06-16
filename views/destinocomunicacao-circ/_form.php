@@ -12,21 +12,20 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'dest_codcomunicacao')->textInput(['maxlength' => 10]) ?>
+    <?php //echo $form->field($model, 'dest_codcomunicacao')->textInput(['maxlength' => 10]) ?>
 
-    <?= $form->field($model, 'dest_codcolaborador')->textInput() ?>
+    <?php //echo $form->field($model, 'dest_codcolaborador')->textInput() ?>
 
-    <?= $form->field($model, 'dest_codunidadeenvio')->textInput() ?>
+    <?php //echo $form->field($model, 'dest_codunidadeenvio')->textInput() ?>
 
-    <?= $form->field($model, 'dest_codunidadedest')->textInput() ?>
+    <?php //echo $form->field($model, 'dest_codtipo')->textInput(['maxlength' => 10]) ?>
 
-    <?= $form->field($model, 'dest_codtipo')->textInput(['maxlength' => 10]) ?>
+    <?php //echo $form->field($model, 'dest_codsituacao')->textInput(['maxlength' => 10]) ?>
 
-    <?= $form->field($model, 'dest_codsituacao')->textInput(['maxlength' => 10]) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>
+<!-- Render create form -->    
+   <?= $this->render('/despachos/_form', [
+        'despachos' => $despachos,
+    ]) ?>
 
     <?php ActiveForm::end(); ?>
 

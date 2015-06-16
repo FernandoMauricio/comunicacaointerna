@@ -4,6 +4,7 @@ namespace app\models;
 
 use Yii;
 use yii\db\Expression;
+use app\models\ArrayHelper;
 
 /**
  * This is the model class for table "comunicacaointerna_com".
@@ -30,7 +31,8 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
 {
 
     public $nomesituacao;
-    
+    public $file;
+ 
     /**
      * @inheritdoc
      */
@@ -45,12 +47,13 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
      public function rules()
     {
         return [
+            [['com_codtipo'], 'validarTipo'],
             [['com_codcolaborador', 'com_codunidade', 'com_titulo', 'com_texto', 'com_codtipo', 'com_codsituacao'], 'required'],
             [['com_codtipo', 'com_codsituacao', 'com_codcolaboradorautorizacao', 'com_codcargoautorizacao'], 'integer'],
-            [['com_datasolicitacao', 'com_dataautorizacao'], 'safe'],
-            [['com_codtipo'], 'validarTipo'],
+            [['com_datasolicitacao', 'com_dataautorizacao', 'nomesituacao'], 'safe'],
+            [['file'], 'file', 'maxFiles' => 10],
             [['com_texto'], 'string'],
-            [['com_titulo'], 'string', 'max' => 100],
+            [['com_titulo', 'com_anexo'], 'string', 'max' => 100],
 
         ];
     }
@@ -60,8 +63,8 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
 
     public function validarTipo($com_codtipo, $params){
 
-                //Coletar a sessão do usuário
-  /*      $session = Yii::$app->session;*/
+        //Coletar a sessão do usuário
+        $session = Yii::$app->session;
 
                 if($this->com_codtipo == 2 && $_SESSION['sess_responsavelsetor'] == 0) {
 
@@ -70,14 +73,13 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
                 }
 
 
-
     /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
-            'com_codcomunicacao' => 'Cód. Comunicação',
+            'com_codcomunicacao' => 'Comunicação',
             'com_codcolaborador' => 'Colaborador',
             'com_codunidade' => 'Unidade',
             'com_datasolicitacao' => 'Data/Hora Solicitação',
@@ -89,14 +91,42 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
             'com_dataautorizacao' => 'Data/Hora Autorização',
             'com_codcolaboradorautorizacao' => 'Autorizado por:',
             'com_codcargoautorizacao' => 'Cargo',
+            'file' => 'Anexo',
         ];
     }
+
+
+// public function afterSave($insert)
+//  {
+//    $destinocomunicacao = [];
+//    $checar_destino = 0; //for updates
+ 
+// if($this->com_codcomunicacao > 0){
+
+//     if($checar_destino = 0){
+//     $model = Destinocomunicacao::find()
+//     ->Where(["dest_codcomunicacao = $this->com_codcomunicacao"])
+//     ->all();
+
+   
+
+//     Yii::$app->session->setFlash('danger', 'É preciso primeiramente especificar o(s) destino(s) desta CI na aba Destino.');
+
+//    }
+ 
+ 
+//    parent::afterSave($insert); //don't forget this
+// }
+
+// }
+
 
     public function beforeSave($insert){
                 if (parent::beforeSave($insert)) {
                 if($insert){ 
                 // Código a ser executado se for um insert
-                $this->com_datasolicitacao = new Expression('current_timestamp');
+                //$this->com_datasolicitacao = new Expression('current_timestamp');
+                //Comunicaação criada automaticamente passará a ser para autorização
                 }
                 // Código irá ser executado se for um insert ou update
                 /*$this->com_dataautorizacao = new Expression('current_timestamp');*/
@@ -111,15 +141,15 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
      * @return \yii\db\ActiveQuery
      */
     
-    public function getAnexocomunicacaoAne()
+    public function getAnexos()
     {
-        return $this->hasMany(AnexocomunicacaoAne::className(), ['ane_codcomunicacao' => 'com_codcomunicacao']);
+        return $this->hasMany(Anexos::className(), ['ane_codcomunicacao' => 'com_codcomunicacao']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getComCodsituacao()
+    public function getSituacao()
     {
         return $this->hasOne(SituacaocomunicacaoSitco::className(), ['sitco_codsituacao' => 'com_codsituacao']);
     }
@@ -143,14 +173,14 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDestinocomunicacaoDests()
+    public function getDestinocomunicacao()
     {
-        return $this->hasMany(DestinocomunicacaoDest::className(), ['dest_codcomunicacao' => 'com_codcomunicacao']);
+        return $this->hasMany(Destinocomunicacao::className(), ['dest_codcomunicacao' => 'com_codcomunicacao']);
     }
 
-    public function getUnidade()
+    public function getUnidades()
     {
-        return $this->hasOne(Unidade_uni::className(), ['uni_codunidade' => 'com_codunidade']);
+        return $this->hasOne(Unidades::className(), ['uni_codunidade' => 'com_codunidade']);
     }
 
     public function getCargo()
@@ -166,5 +196,5 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
   public function getColaboradorAutorizacao()
     {
         return $this->hasOne(Colaborador::className(), ['col_codcolaborador' => 'com_codcolaboradorautorizacao']);
-    }  
+    }
 }

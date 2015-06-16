@@ -3,11 +3,9 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8"/>
-        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
         <link href="../vendor/kartik-v/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="../vendor/kartik-v/bootstrap-fileinput/js/1.11.0/jquery.min.js"></script>
         <script src="../vendor/kartik-v/bootstrap-fileinput/js/fileinput.js" type="text/javascript"></script>
-        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js" type="text/javascript"></script>
     </head>
 
 <?php
@@ -16,91 +14,77 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\bootstrap\ActiveField;
 use yii\helpers\ArrayHelper;
+use app\models\AnexosModel;
 use app\models\SituacaocomunicacaoSitco;
 use app\models\TipodocumentacaoTipdo;
-use app\models\ComunicacaoInternaCom;
-use app\models\DespachocomunicacaoDeco;
-
+use app\models\Comunicacaointerna;
+use app\models\SituacaodestinoSide;
+use app\models\Destinocomunicacao;
+use app\models\Tipodestino;
+use app\models\Unidades;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
+use kartik\widgets\FileInput;
+use kartik\select2\Select2;
+use dosamigos\ckeditor\CKEditor;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ComunicacaoInternaCom */
+/* @var $model app\models\Comunicacaointerna */
 /* @var $form yii\widgets\ActiveForm */
+
+$dest_codunidadeenvio =  $_SESSION['sess_codunidade'];
+$dest_codcolaborador = $_SESSION['sess_codcolaborador'];
+
+
 ?>
 
-<div class="comunicacao-interna-com-form">
+<div class="comunicacao-interna-form">
 <br>
-    <?php $form = ActiveForm::begin(); ?>          
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>          
 
 
     <?php // $form->field($model, 'com_codcolaborador')->textInput(['readonly'=>true]) ?>
 
     <?php // $form->field($model, 'com_codunidade')->textInput(['readonly' => true]) ?>
 
-    <?php 
-                
+    <?php
+                 
                 $rows = TipodocumentacaoTipdo::find()->all();
                 $data = ArrayHelper::map($rows, 'tipdo_codtipo', 'tipdo_tipo');
                 echo $form->field($model, 'com_codtipo')->radiolist($data);
 
     ?> 
 
-    <?= $form->field($model, 'com_titulo')->textInput(['maxlength' => 100]) ?>
+    <?= $form->field($model, 'com_titulo')->textInput(['maxlength' => 100, 'placeholder' => 'Insira o Título...'])?>
 
-    <?= $form->field($model, 'com_texto')->textarea(['rows' => 6]) ?>
-  
-    <?= $form->field($model, 'com_codsituacao')->textInput(['readonly'=>true]) ?>
+    <?= $form->field($model, 'com_texto')->widget(CKEditor::className(), [
+        'options' => ['rows' => 6, 'placeholder' => 'Insira seu Despacho...'],
+        'preset' => 'basic'
+    ]) ?>
+    
+    <?= $form->field($model, 'nomesituacao')->textInput(['readonly'=>true]) ?>
 
-    <?= $form->field($model, 'com_codsituacao')->textInput(['value'=>4,'readonly'=>true]) ?>
-
-
-        <?php 
-                // DropdownList SITUAÇÃO
-   /*             $rows = SituacaocomunicacaoSitco::find()->all();
-                $data = ArrayHelper::map($rows, 'sitco_codsituacao', 'sitco_situacao1');
-                echo $form->field($model, 'com_codsituacao')->dropDownList(
-                $data,
-                ['prompt'=>'Selecione a Situação']
-                );
-*/
-    ?>
-
-
-                <div class="form-group">
-                    <input id="file-1" type="file" multiple class="file" data-overwrite-initial="false" data-min-file-count="2">
-                </div>
+    <?= $form->field($model, 'com_codsituacao')->hiddenInput()->label(false); ?>
 
     <?php 
 
- //Verificar se terá que criar um campo no banco de dados da comunicaointerna e retirar a tabela de anexos.
- 
-    //AUTORIZAÇÃO GERENTE - VERIFICAR COMO INSERIR OS DADOS SE A CI FICAR PARA AUTORIZAÇÃO
+/*                // Usage with ActiveForm and model
+            echo $form->field($model, 'file')->widget(FileInput::classname(), [
+                //'options' => ['accept' => 'image/*'],
+            ]);
+*/
 
-    //$form->field($model, 'com_codcolaboradorautorizacao')->textInput() ?>
+           // echo $form->field($model, 'file')->fileInput() 
 
-    <?php //$form->field($model, 'com_codcargoautorizacao')->textInput() ?>
+            ?>
+
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Criar Comunicação Interna' : 'Atualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        
+        <?php //Html::button('Criar Comunicação Interna', ['value'=>Url::to('index.php?r=destinocomunicacao%2Fcreate'), 'class' => 'btn btn-success', 'id'=>'modalButton']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Criar Comunicação Interna' : 'Enviar Comunicação Interna', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
 
 </div>
-
-    <script>
-    $("#file-0").fileinput({
-        'allowedFileExtensions' : ['jpg', 'png','gif','zip'],
-    });
-    $("#file-1").fileinput({
-        uploadUrl: '#', // you must set a valid URL here else you will get an error
-        allowedFileExtensions : ['jpg', 'png','gif','zip'],
-        overwriteInitial: false,
-        maxFileSize: 1000,
-        maxFilesNum: 10,
-        //allowedFileTypes: ['image', 'video', 'flash'],
-        slugCallback: function(filename) {
-            return filename.replace('(', '_').replace(']', '_');
-        }
-    });
-    </script>
- 

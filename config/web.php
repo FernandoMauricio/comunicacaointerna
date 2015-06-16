@@ -9,9 +9,12 @@ $config = [
     'bootstrap' => ['log'],
 
         'modules' => [
-            'gridview' =>  [
-            'class' => '\kartik\grid\Module'
-                           ],
+                'gridview' =>  [
+                'class' => '\kartik\grid\Module'
+                               ],
+                'markdown' => [
+                'class' => 'kartik\markdown\Module',
+                            ],
                      ],
                      
     'components' =>  [

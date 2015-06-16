@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Destinocomunicacao;
-use app\models\DestinocomunicacaoSearch;
+use app\models\DestinocomunicacaoRecebSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,7 +32,7 @@ class DestinocomunicacaoRecebController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new DestinocomunicacaoSearch();
+        $searchModel = new DestinocomunicacaoRecebSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

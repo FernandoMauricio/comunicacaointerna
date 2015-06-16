@@ -27,6 +27,7 @@ AppAsset::register($this);
         <?php
             NavBar::begin([
                 'brandLabel' => 'Senac AM',
+                //'brandLabel' => '<img src="css/img/logo_senac_topo.png"/>',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -41,11 +42,11 @@ AppAsset::register($this);
                 'items' => [
                 '<li class="dropdown-header">Listagem de CI</li>',
                  ['label' => 'Criadas pelo Setor', 'url' => ['/comunicacaointerna/index']],
-                 ['label' => 'Recebidas pelo Setor', 'url' => ['#']],
+                 ['label' => 'Recebidas pelo Setor', 'url' => ['/destinocomunicacao-receb/index']],
                  '<li class="divider"></li>',
                  '<li class="dropdown-header">Área Gerencial</li>',
-                 ['label' => 'Despachos Pendentes', 'url' => ['/despachocomunicacao-deco/index']],
-                 ['label' => 'Autorizações Pendentes', 'url' => '#'],
+                 ['label' => 'Despachos Pendentes', 'url' => ['/destinocomunicacao-circ/index']],
+                 ['label' => 'Autorizações Pendentes', 'url' => ['/comunicacaointerna-aut/index']],
             ],
         ],
                     Yii::$app->user->isGuest ?

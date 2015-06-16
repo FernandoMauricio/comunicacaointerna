@@ -15,15 +15,15 @@ use yii\widgets\ActiveForm;
         'method' => 'get',
     ]); ?>
 
-    <?= $form->field($model, 'dest_coddestino') ?>
+    <?= $form->field($destinocomunicacao, 'dest_coddestino') ?>
 
-    <?= $form->field($model, 'dest_codcomunicacao') ?>
+    <?= $form->field($destinocomunicacao, 'dest_codcomunicacao') ?>
 
-    <?= $form->field($model, 'dest_codcolaborador') ?>
+    <?= $form->field($destinocomunicacao, 'dest_codcolaborador') ?>
 
-    <?= $form->field($model, 'dest_codunidadeenvio') ?>
+    <?= $form->field($destinocomunicacao, 'dest_codunidadeenvio') ?>
 
-    <?= $form->field($model, 'dest_codunidadedest') ?>
+    <?= $form->field($destinocomunicacao, 'dest_codunidadedest') ?>
 
     <?php // echo $form->field($model, 'dest_data') ?>
 

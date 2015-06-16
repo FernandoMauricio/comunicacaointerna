@@ -2,40 +2,51 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\bootstrap\Modal;
+use yii\helpers\Url;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DestinocomunicacaoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Destino Comunicação';
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Destino Comunicação' ;
 ?>
 <div class="destinocomunicacao-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <p>
-        <?= Html::a('Criar Destino', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
+<?php Pjax::begin(['id' => 'destinocomunicacaoGrid']); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'showOnEmpty'=>false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'dest_coddestino',
-            'dest_codcomunicacao',
-            'dest_codcolaborador',
-            'dest_codunidadeenvio',
-            'dest_codunidadedest',
+            [
+                'attribute' => 'dest_codcomunicacao',
+                'value' => 'comunicacaointerna.com_codcomunicacao',
+
+            ],
+
+            [
+                'attribute' => 'dest_nomeunidadedest',
+                'value' => 'unidades.uni_nomeabreviado',
+
+            ],
+
+            //'dest_coddestino',
+            //'dest_codcolaborador',
+            //'dest_codunidadeenvio',
             // 'dest_data',
             // 'dest_codtipo',
             // 'dest_codsituacao',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn','template' => '{delete}'],
         ],
     ]); ?>
+<?php Pjax::end(); ?>
+
+
 
 </div>

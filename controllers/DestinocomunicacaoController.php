@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Unidades;
 use app\models\Destinocomunicacao;
 use app\models\DestinocomunicacaoSearch;
 use yii\web\Controller;
@@ -33,12 +34,22 @@ class DestinocomunicacaoController extends Controller
      */
     public function actionIndex()
     {
+
+            $destinocomunicacao = new Destinocomunicacao();
+
+             if ($destinocomunicacao->load(Yii::$app->request->post()) && $destinocomunicacao->save())
+             {
+                  $destinocomunicacao = new Destinocomunicacao(); //reset model
+             }
+
         $searchModel = new DestinocomunicacaoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'destinocomunicacao' => $destinocomunicacao,
+
         ]);
     }
 
@@ -50,7 +61,7 @@ class DestinocomunicacaoController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'destinocomunicacao' => $this->findModel($id),
         ]);
     }
 
@@ -61,8 +72,6 @@ class DestinocomunicacaoController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Destinocomunicacao();
-
         //Resgatando as sessões da CI
          $session = Yii::$app->session;
 
@@ -70,31 +79,19 @@ class DestinocomunicacaoController extends Controller
          $connection = Yii::$app->db;
          $connection = Yii::$app->db_base;
 
-        //coletar os dados da CI
-        $comunicacao = $session->get('comunicacao');
+        $destinocomunicacao = new Destinocomunicacao();
 
-        //Coletar id, nome e unidade da CI
-        $model->dest_codcomunicacao=$comunicacao->com_codcomunicacao;
-        $model->dest_codcolaborador=$comunicacao->com_codcolaborador;
-        $model->dest_codunidadeenvio=$comunicacao->com_codunidade;
-        $model->dest_nomeunidadeenvio=$session['sess_unidade'];
+                $searchModel = new DestinocomunicacaoSearch();
+                 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-
-
-        //Confirmação de criação da CI
-        Yii::$app->session->setFlash('info', 'Comunicação Interna cadastrada com sucesso! Por favor, <strong>selecione o destino abaixo:</strong>');
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            //Confirmação de envio da CI
-        Yii::$app->session->setFlash('success', 'Comunicação Interna <strong>enviada com sucesso!</strong>');
-
-//Redirect para listagem de criadas pelo setor após envio
-            return $this->redirect(['comunicacaointerna/index']);
+        if ($destinocomunicacao->load(Yii::$app->request->post()) && $destinocomunicacao->save()) {
+            return $this->redirect(['view', 'id' => $destinocomunicacao->dest_coddestino]);
         } else {
-            //return $this->renderAjax('create', [
             return $this->render('create', [
-                'model' => $model,
+                'destinocomunicacao' => $destinocomunicacao,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'destinocomunicacao' => $destinocomunicacao,
             ]);
 
         }
@@ -108,13 +105,13 @@ class DestinocomunicacaoController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $destinocomunicacao = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dest_coddestino]);
+        if ($destinocomunicacao->load(Yii::$app->request->post()) && $destinocomunicacao->save()) {
+            return $this->redirect(['view', 'id' => $destinocomunicacao->dest_coddestino]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                'destinocomunicacao' => $destinocomunicacao,
             ]);
         }
     }
@@ -141,8 +138,8 @@ class DestinocomunicacaoController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Destinocomunicacao::findOne($id)) !== null) {
-            return $model;
+        if (($destinocomunicacao = Destinocomunicacao::findOne($id)) !== null) {
+            return $destinocomunicacao;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

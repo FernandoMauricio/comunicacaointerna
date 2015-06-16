@@ -65,7 +65,6 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
         $query->andFilterWhere([
             'com_codcomunicacao' => $this->com_codcomunicacao,
             'com_codunidade' => $this->com_codunidade,
-            //'com_codcolaborador' => $this->com_codcolaborador,
             'com_datasolicitacao' => $this->com_datasolicitacao,
             'com_codtipo' => $this->com_codtipo,
             'com_codsituacao' => $this->com_codsituacao,
@@ -79,7 +78,6 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
 
         $query->andFilterWhere(['like', 'com_titulo', $this->com_titulo])
             ->andFilterWhere(['com_codunidade' => $session['sess_codunidade']])
-            //->andFilterWhere(['like', 'colaborador.usuario.usu_nomeusuario', $this->com_codcolaborador])
             ->andFilterWhere(['like', 'com_texto', $this->com_texto]);
 
         return $dataProvider;

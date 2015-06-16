@@ -3,10 +3,10 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\ComunicacaoInternaCom */
+/* @var $model app\models\Comunicacaointerna */
 
 $this->title = 'Criar Comunicação Interna';
-$this->params['breadcrumbs'][] = ['label' => 'Comunicação Interna', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Comunicações Internas', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comunicacao-interna-com-create">
@@ -16,10 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $this->render('_form', [
         'model' => $model,
     ]); 
-		/*$this->render('create',[
-		'var1'=>$value1,
-		'var2'=>$value2,
-		]);*/
 
     ?>
 

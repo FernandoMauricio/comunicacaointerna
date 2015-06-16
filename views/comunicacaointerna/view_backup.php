@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //'com_codsituacao',
             [
             'label' => 'Situação',
-            'value' => $model->comCodsituacao->sitco_situacao1
+            'value' => $model->situacao->sitco_situacao1
             ],
 
             //'com_codcolaboradorautorizacao',

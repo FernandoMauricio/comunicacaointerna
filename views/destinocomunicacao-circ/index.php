@@ -1,28 +1,38 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+use kartik\grid\GridView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DestinocomunicacaoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'Despachos Pendentes';
+$unidade = $_SESSION['sess_unidade'];
+$this->title = 'Despachos Pendentes ';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="destinocomunicacao-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-    <?php  //echo $this->render('_search', ['model' => $searchModel]); ?>
+    <h1><?= Html::encode($this->title) . '<small>Área Gerencial</small>'?></h1>
 
+    <?php Pjax::begin(); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'hover' => true,
+        'panel' => [
+        'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem - '.$unidade.'</h3>',
+        'type'=>'primary',
+    ],
         'columns' => [
 
             'dest_codcomunicacao',
             'dest_nomeunidadeenvio',
-            'dest_data',
+            //'dest_data',
+            [
+            'attribute' => 'comunicacaointerna.com_datasolicitacao',
+            'format' =>  ['date', 'php:d/m/Y H:i:s'],
+            ],
             //'dest_codsituacao',
             [
             'attribute' => 'comunicacaointerna.com_titulo',
@@ -40,5 +50,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
+    <?php Pjax::end(); ?>
 
 </div>

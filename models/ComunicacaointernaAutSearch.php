@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Comunicacaointerna;
+use app\models\ComunicacaointernaAut;
 
 /**
  * ComunicacaointernaAutSearch represents the model behind the search form about `app\models\Comunicacaointerna`.
  */
-class ComunicacaointernaAutSearch extends ComunicacaoInterna
+class ComunicacaointernaAutSearch extends ComunicacaoInternaAut
 {
     /**
      * @inheritdoc
@@ -44,7 +44,7 @@ class ComunicacaointernaAutSearch extends ComunicacaoInterna
 
 
 
-        $query = ComunicacaoInterna::find();
+        $query = ComunicacaoInternaAut::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -88,3 +88,4 @@ class ComunicacaointernaAutSearch extends ComunicacaoInterna
         return $dataProvider;
     }
 }
+

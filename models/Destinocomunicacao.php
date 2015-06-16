@@ -24,6 +24,7 @@ use yii\db\Expression;
  */
 class Destinocomunicacao extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -38,10 +39,13 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codunidadedest', 'dest_codtipo', 'dest_codsituacao'], 'required'],
-            [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codunidadedest', 'dest_codtipo', 'dest_codsituacao'], 'integer']
+            [['dest_codcomunicacao', 'dest_nomeunidadedest'], 'unique', 'targetAttribute' => ['dest_codcomunicacao', 'dest_nomeunidadedest']],
+            [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio','dest_codtipo', 'dest_codsituacao', 'dest_nomeunidadedest'], 'required'],
+            [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codtipo', 'dest_codsituacao'], 'integer'],
+            [['dest_nomeunidadeenvio','dest_nomeunidadedest'],  'string', 'max' => 100 ],
         ];
     }
+
 
     /**
      * @inheritdoc
@@ -53,27 +57,13 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
             'dest_codcomunicacao' => 'Cód. Comunicação',
             'dest_codcolaborador' => 'Código Colaborador',
             'dest_codunidadeenvio' => 'Código da Unidade',
-            'dest_codunidadedest' => 'Unidade Destino',
             'dest_data' => 'Data/Hora',
             'dest_codtipo' => 'Tipo',
             'dest_codsituacao' => 'Situação',
             'dest_nomeunidadeenvio' => 'Unidade Remetente',
-            'dest_nomeunidadedest' => 'Unidade Destino', 
+            'dest_nomeunidadedest' => 'Destino', 
         ];
     }
-
-    public function beforeSave($insert){
-                    if (parent::beforeSave($insert)) {
-                    if($insert){ 
-
-                    // Código a ser executado se for um insert
-                    $this->dest_data = new Expression('current_timestamp');
-                    }
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
 
 
     /**
@@ -100,4 +90,14 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
         return $this->hasOne(TipodestinoTipde::className(), ['tipde_codtipo' => 'dest_codtipo']);
     }
 
+    public function getUnidades()
+    {
+        return $this->hasOne(Unidades::className(),['uni_nomeabreviado' => 'dest_nomeunidadedest']);
+    }
+
+    // public function getDespacho()
+    // {
+    //     return $this->hasOne(Despachos::className(), ['deco_coddespacho' => 'dest_coddespacho']);
+    // }
 }
+

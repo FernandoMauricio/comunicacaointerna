@@ -19,7 +19,7 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
     public function rules()
     {
         return [
-            [['dest_coddestino', 'dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codunidadedest', 'dest_codtipo', 'dest_codsituacao', 'dest_coddespacho'], 'integer'],
+            [['dest_coddestino', 'dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codtipo', 'dest_codsituacao', 'dest_coddespacho'], 'integer'],
             [['dest_data', 'dest_nomeunidadeenvio', 'dest_nomeunidadedest'], 'safe'],
         ];
     }
@@ -63,7 +63,7 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
             'dest_codcomunicacao' => $this->dest_codcomunicacao,
             'dest_codcolaborador' => $this->dest_codcolaborador,
             'dest_codunidadeenvio' => $this->dest_codunidadeenvio,
-            'dest_codunidadedest' => $this->dest_codunidadedest,
+            //'dest_codunidadedest' => $this->dest_codunidadedest,
             'dest_data' => $this->dest_data,
             'dest_codtipo' => $this->dest_codtipo,
             'dest_codsituacao' => $this->dest_codsituacao,
@@ -75,7 +75,8 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
         $session = Yii::$app->session;
 
         $query->andFilterWhere(['like', 'dest_nomeunidadeenvio', $this->dest_nomeunidadeenvio])
-            ->andFilterWhere(['dest_codunidadedest' => $session['sess_codunidade']])
+            ->andFilterWhere(['dest_coddespacho' => 0])
+            ->andFilterWhere(['dest_nomeunidadedest' => $session['sess_unidade']])
             ->andFilterWhere(['dest_codsituacao' => 2])
             ->andFilterWhere(['like', 'dest_nomeunidadedest', $this->dest_nomeunidadedest]);
 

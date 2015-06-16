@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'dest_codcomunicacao',
             'dest_codcolaborador',
             'dest_codunidadeenvio',
-            'dest_codunidadedest',
             'dest_data',
             'dest_codtipo',
             'dest_codsituacao',

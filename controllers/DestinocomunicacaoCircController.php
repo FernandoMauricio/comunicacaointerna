@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Destinocomunicacao;
 use app\models\DestinocomunicacaoCircSearch;
+use app\models\Despachos;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,6 +33,7 @@ class DestinocomunicacaoCircController extends Controller
      */
     public function actionIndex()
     {
+
         $searchModel = new DestinocomunicacaoCircSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -79,13 +81,36 @@ class DestinocomunicacaoCircController extends Controller
      */
     public function actionUpdate($id)
     {
+        //Resgatando as sessões da CI
+        $session = Yii::$app->session;
+
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->dest_coddestino]);
+            //instacia um novo despacho
+            $despachos = new Despachos();
+            $despachos->deco_codcomunicacao = $model->dest_codcomunicacao;
+            $despachos->deco_codcolaborador = $session['sess_codcolaborador'];
+            $despachos->deco_codunidade = $session['sess_codunidade'];
+            $despachos->deco_codcargo = $session['sess_codcargo'];
+            $despachos->deco_data = date('Y-m-d h:m:s');
+            $despachos->deco_codsituacao = $model->dest_codsituacao;
+            $despachos->deco_nomeunidade = $session['sess_unidade'];
+            $despachos->deco_nomeusuario = $session['sess_nomeusuario'];
+
+
+         if ($despachos->load(Yii::$app->request->post()) && $despachos->save()) 
+        {
+            
+            if($despachos->save())
+            {
+            $model->dest_coddespacho = $despachos->deco_coddespacho;
+            $model->save();
+            }
+             return $this->redirect(['view', 'id' => $model->dest_coddestino]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'despachos' => $despachos,
             ]);
         }
     }
