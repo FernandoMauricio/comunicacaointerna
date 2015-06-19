@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\Destinocomunicacao;
 use app\models\DestinocomunicacaoCircSearch;
+use app\models\DestinocomunicacaoPendenteCircSearch;
 use app\models\Despachos;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -36,7 +37,6 @@ class DestinocomunicacaoCircController extends Controller
 
         $searchModel = new DestinocomunicacaoCircSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -81,10 +81,17 @@ class DestinocomunicacaoCircController extends Controller
      */
     public function actionUpdate($id)
     {
-        //Resgatando as sessões da CI
-        $session = Yii::$app->session;
-
         $model = $this->findModel($id);
+
+        //Resgatando o código da CI para sql no banco
+        $session = Yii::$app->session;
+        $session->set('sess_comunicacao', $model->dest_codcomunicacao);
+        $session->close();
+
+        $searchModel = new DestinocomunicacaoPendenteCircSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+
 
             //instacia um novo despacho
             $despachos = new Despachos();
@@ -101,18 +108,22 @@ class DestinocomunicacaoCircController extends Controller
          if ($despachos->load(Yii::$app->request->post()) && $despachos->save()) 
         {
             
+
             if($despachos->save())
             {
             $model->dest_coddespacho = $despachos->deco_coddespacho;
             $model->save();
             }
-             return $this->redirect(['view', 'id' => $model->dest_coddestino]);
+             return $this->redirect(['view', 'id' => $model->dest_codcomunicacao]);
         } else {
             return $this->render('update', [
                 'model' => $model,
                 'despachos' => $despachos,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
             ]);
         }
+        
     }
 
     /**
@@ -138,6 +149,7 @@ class DestinocomunicacaoCircController extends Controller
     protected function findModel($id)
     {
         if (($model = Destinocomunicacao::findOne($id)) !== null) {
+
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
