@@ -11,7 +11,7 @@ use app\models\Comunicacaointerna;
 /**
  * DestinocomunicacaoCircSearch represents the model behind the search form about `app\models\Destinocomunicacao`.
  */
-class DestinocomunicacaoPendenteCircSearch extends Destinocomunicacao
+class DestinocomunicacaoEncSearch extends Destinocomunicacao
 {
     /**
      * @inheritdoc
@@ -43,9 +43,8 @@ class DestinocomunicacaoPendenteCircSearch extends Destinocomunicacao
     public function search($params)
     {
         $query = Destinocomunicacao::find();
-        //->where(['dest_codcomunicacao' => 1131]);
 
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider2 = new ActiveDataProvider([
             'query' => $query,
         ]);
 
@@ -53,15 +52,15 @@ class DestinocomunicacaoPendenteCircSearch extends Destinocomunicacao
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to any records when validation fails
-             //$query->where('0=1');
-            return $dataProvider;
+            // $query->where('0=1');
+            return $dataProvider2;
         }
 
        //$query->joinWith('comunicacaointerna');
 
         $query->andFilterWhere([
             'dest_coddestino' => $this->dest_coddestino,
-            //'dest_codcomunicacao' => $this->dest_codcomunicacao,
+            'dest_codcomunicacao' => $this->dest_codcomunicacao,
             'dest_codcolaborador' => $this->dest_codcolaborador,
             'dest_codunidadeenvio' => $this->dest_codunidadeenvio,
             //'dest_codunidadedest' => $this->dest_codunidadedest,
@@ -76,12 +75,10 @@ class DestinocomunicacaoPendenteCircSearch extends Destinocomunicacao
         $session = Yii::$app->session;
 
         $query->andFilterWhere(['dest_codcomunicacao' => $session['sess_comunicacao']])
-            //->andFilterWhere(['dest_codcomunicacao' => $this->dest_codcomunicacao])
-            //->andFilterWhere(['dest_codcomunicacao' => $session['sess_codcomunicacao']['dest_codcomunicacao']])
             ->andFilterWhere(['dest_coddespacho' => 0])
-            ->andFilterWhere(['dest_codsituacao' => 2])
-            ->andFilterWhere(['dest_codtipo' => [2,3]]);
+            ->andFilterWhere(['dest_codsituacao' => 1])
+            ->andFilterWhere(['dest_codtipo' => 3]);
 
-        return $dataProvider;
+        return $dataProvider2;
     }
 }

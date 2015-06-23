@@ -59,7 +59,7 @@ class ComunicacaointernaAutController extends Controller
             // similarly you can check if the name attribute was posted as well
              if($posted['com_codsituacao'] == 4)
               {
-                //Atualiza a situação do destino para "ABERTO"(cód 2) para poder realizar a fitlragem e enviar o e-mail"
+                //Atualiza a situação do destino para "ABERTO"(cód 2) para poder realizar a filtragem e enviar o e-mail"
                 $connection = Yii::$app->db;
                 $command = $connection->createCommand(
                  "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = '2' WHERE `destinocomunicacao_dest`.`dest_codcomunicacao` =" . $_POST['editableKey']);

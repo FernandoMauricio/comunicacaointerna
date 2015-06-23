@@ -77,7 +77,8 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
         $query->andFilterWhere(['like', 'dest_nomeunidadeenvio', $this->dest_nomeunidadeenvio])
             ->andFilterWhere(['dest_coddespacho' => 0])
             ->andFilterWhere(['dest_nomeunidadedest' => $session['sess_unidade']])
-            ->andFilterWhere(['dest_codsituacao' => 2])
+            ->andFilterWhere(['dest_codtipo' => [2,3]])
+            ->andFilterWhere(['dest_codsituacao' => [1,2]])
             ->andFilterWhere(['like', 'dest_nomeunidadedest', $this->dest_nomeunidadedest]);
 
         return $dataProvider;

@@ -47,7 +47,19 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'dest_coddespacho',
             // 'dest_nomeunidadedest',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn',
+            'template' => '{update}',
+            'buttons' => [
+
+            //view button
+            'update' => function ($url, $model) {
+                return Html::a('<span class="glyphicon glyphicon-ok-circle"></span> Despachar', $url, [
+                            'title' => Yii::t('app', 'update'),
+                            'class'=>'btn btn-primary btn-xs',                                  
+                ]);
+            },
+        ],
+        ],
         ],
     ]); ?>
     <?php Pjax::end(); ?>

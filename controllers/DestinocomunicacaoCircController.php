@@ -4,6 +4,9 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Destinocomunicacao;
+use app\models\DestinocomunicacaoEnc;
+use app\models\DestinocomunicacaoEncSearch;
+use app\models\DestinocomunicacaoSearch;
 use app\models\DestinocomunicacaoCircSearch;
 use app\models\DestinocomunicacaoPendenteCircSearch;
 use app\models\Despachos;
@@ -86,12 +89,40 @@ class DestinocomunicacaoCircController extends Controller
         //Resgatando o código da CI para sql no banco
         $session = Yii::$app->session;
         $session->set('sess_comunicacao', $model->dest_codcomunicacao);
+        $session->set('sess_destino', $model->dest_coddestino);
         $session->close();
 
-        $searchModel = new DestinocomunicacaoPendenteCircSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            //BUSCA NO BANCO OS NOVOS DESTINOS (ENCAMINHAMENTOS)
+            $searchEncModel = new DestinocomunicacaoEncSearch();
+            $dataProvider2 = $searchEncModel->search(Yii::$app->request->queryParams); 
 
+            //BUSCA NO BANCO OS DESTINOS QUE ESTÃO PENDENTES PARA DESPACHO
+            $searchModel = new DestinocomunicacaoPendenteCircSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+            //instancia novos encaminhamentos para o desapacho
+            $encaminhamentos = new DestinocomunicacaoEnc();
+            $encaminhamentos->dest_codcomunicacao = $model->comunicacaointerna->com_codcomunicacao;
+            $encaminhamentos->dest_codcolaborador = $model->comunicacaointerna->com_codcolaborador;
+            $encaminhamentos->dest_codunidadeenvio = $model->comunicacaointerna->com_codunidade;
+            $encaminhamentos->dest_nomeunidadeenvio = $session['sess_unidade'];
+            $encaminhamentos->dest_codtipo = 3; //TIPO = ENCAMINHADO PARA
+            $encaminhamentos->dest_codsituacao = 1; // AGUARDANDO ABERTURA
+            $encaminhamentos->dest_coddespacho = 0; // AGUARDANDO DESPACHO
+            $encaminhamentos->dest_data = date('Y-m-d h:m:s');
+
+         if ($encaminhamentos->load(Yii::$app->request->post()) && $encaminhamentos->save())
+         {
+            //REALIZA O LOOP DE 1 OU MAIS INSERÇÕES
+            $encaminhamentos = new DestinocomunicacaoEnc();
+            $encaminhamentos->dest_codcomunicacao = $model->com_codcomunicacao;
+            $encaminhamentos->dest_codcolaborador = $model->com_codcolaborador;
+            $encaminhamentos->dest_codunidadeenvio = $model->com_codunidade;
+            $encaminhamentos->dest_nomeunidadeenvio = $session['sess_unidade'];
+            $encaminhamentos->dest_data = date('Y-m-d h:m:s');
+           
+
+         }
 
             //instacia um novo despacho
             $despachos = new Despachos();
@@ -103,24 +134,32 @@ class DestinocomunicacaoCircController extends Controller
             $despachos->deco_codsituacao = $model->dest_codsituacao;
             $despachos->deco_nomeunidade = $session['sess_unidade'];
             $despachos->deco_nomeusuario = $session['sess_nomeusuario'];
-
+            $despachos->deco_cargo = $session['sess_cargo'];
 
          if ($despachos->load(Yii::$app->request->post()) && $despachos->save()) 
         {
-            
-
             if($despachos->save())
-            {
+            {    
             $model->dest_coddespacho = $despachos->deco_coddespacho;
             $model->save();
             }
-             return $this->redirect(['view', 'id' => $model->dest_codcomunicacao]);
+            if($model->save()){
+                //Atualiza a situação do destino para "ABERTO"(cód 2) para poder realizar a filtragem e enviar o e-mail"
+                $connection = Yii::$app->db;
+                $command = $connection->createCommand(
+                 "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = '2' WHERE `destinocomunicacao_dest`.`dest_codcomunicacao` =" . $session['sess_comunicacao']);
+                $command->execute();
+            }
+             return $this->redirect(['view', 'id' => $model->dest_coddestino]);
         } else {
             return $this->render('update', [
                 'model' => $model,
                 'despachos' => $despachos,
+                'encaminhamentos' => $encaminhamentos,
                 'searchModel' => $searchModel,
+                'searchEncModel' => $searchEncModel,
                 'dataProvider' => $dataProvider,
+                'dataProvider2' => $dataProvider2,
             ]);
         }
         
@@ -134,9 +173,32 @@ class DestinocomunicacaoCircController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+                //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
+             $checar_destino = Destinocomunicacao::find()
+                ->where(['dest_codcomunicacao' => $_GET])
+                ->count();
+
+                        if($model = DestinocomunicacaoEnc::findOne($id)){
+                     
+                      if($model->delete()) {
+
+                          Yii::$app->getSession()->setFlash('danger', [
+                               'type' => 'danger',
+                               'duration' => 5000,
+                               'icon' => 'glyphicon glyphicon-info-sign',
+                               'message' => 'Encaminhamento excluido com sucesso!',
+                               'title' => 'Exclusão',
+                               'positonY' => 'top',
+                               'positonX' => 'right'
+                           ]);
+                            $session = Yii::$app->session;
+                             return $this->redirect(['update', 'id' => $session['sess_destino']]);       
+                        }                          
+                }
+
+        //return $this->redirect(['index']);
     }
 
     /**
