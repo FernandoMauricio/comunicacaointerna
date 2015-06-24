@@ -148,7 +148,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
      //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
      $nome_unidade_encaminhar = "";
      $checa_espaco = 0;
-     $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$codigo_comunicacao."' AND dest_codsituacao = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
+     $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$codigo_comunicacao."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
 
       $model = Destinocomunicacao::findBySql($sql)->all(); 
 

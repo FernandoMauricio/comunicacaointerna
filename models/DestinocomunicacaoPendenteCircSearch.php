@@ -78,7 +78,7 @@ class DestinocomunicacaoPendenteCircSearch extends Destinocomunicacao
         $query->andFilterWhere(['dest_codcomunicacao' => $session['sess_comunicacao']])
             //->andFilterWhere(['dest_codcomunicacao' => $this->dest_codcomunicacao])
             //->andFilterWhere(['dest_codcomunicacao' => $session['sess_codcomunicacao']['dest_codcomunicacao']])
-            ->andFilterWhere(['dest_coddespacho' => 0])
+           // ->andFilterWhere(['dest_coddespacho' => 0])
             ->andFilterWhere(['dest_codsituacao' => 2])
             ->andFilterWhere(['dest_codtipo' => [2,3]]);
 
