@@ -38,7 +38,7 @@ class DestinocomunicacaoEnc extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dest_codcomunicacao', 'dest_nomeunidadedest', 'dest_coddespacho'], 'unique', 'targetAttribute' => ['dest_codcomunicacao', 'dest_nomeunidadedest', 'dest_coddespacho']],
+            [['dest_codcomunicacao', 'dest_nomeunidadedest','dest_codsituacao','dest_coddespacho'], 'unique', 'targetAttribute' => ['dest_codcomunicacao', 'dest_nomeunidadedest', 'dest_codsituacao', 'dest_coddespacho']],
             [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio','dest_codtipo', 'dest_codsituacao'], 'required'],
             [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codtipo', 'dest_codsituacao'], 'integer'],
             [['dest_nomeunidadeenvio','dest_nomeunidadedest'],  'string', 'max' => 100 ],
@@ -68,9 +68,9 @@ class DestinocomunicacaoEnc extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDestCodcomunicacao()
+    public function getComunicacaointerna()
     {
-        return $this->hasOne(ComunicacaointernaCom::className(), ['com_codcomunicacao' => 'dest_codcomunicacao']);
+        return $this->hasOne(Comunicacaointerna::className(), ['com_codcomunicacao' => 'dest_codcomunicacao']);
     }
 
     /**

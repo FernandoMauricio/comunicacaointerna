@@ -33,9 +33,11 @@ class ComunicacaointernaAutController extends Controller
      */
     public function actionIndex()
     {
+
         $destinocomunicacao = new Destinocomunicacao();
         $searchModel = new ComunicacaointernaAutSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
 
         if (Yii::$app->request->post('hasEditable')) {
 
@@ -100,6 +102,7 @@ class ComunicacaointernaAutController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            //'destinocomunicacao'=> $destinocomunicacao,
         ]);
     }
 

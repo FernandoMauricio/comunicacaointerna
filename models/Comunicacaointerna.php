@@ -96,31 +96,6 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
     }
 
 
-// public function afterSave($insert)
-//  {
-//    $destinocomunicacao = [];
-//    $checar_destino = 0; //for updates
- 
-// if($this->com_codcomunicacao > 0){
-
-//     if($checar_destino = 0){
-//     $model = Destinocomunicacao::find()
-//     ->Where(["dest_codcomunicacao = $this->com_codcomunicacao"])
-//     ->all();
-
-   
-
-//     Yii::$app->session->setFlash('danger', 'É preciso primeiramente especificar o(s) destino(s) desta CI na aba Destino.');
-
-//    }
- 
- 
-//    parent::afterSave($insert); //don't forget this
-// }
-
-// }
-
-
     public function beforeSave($insert){
                 if (parent::beforeSave($insert)) {
                 if($insert){ 

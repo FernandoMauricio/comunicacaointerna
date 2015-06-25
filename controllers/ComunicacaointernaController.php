@@ -62,9 +62,14 @@ class ComunicacaointernaController extends Controller
      */
     public function actionView($id)
     {
+            //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
+             $destinocomunicacao = Destinocomunicacao::find()
+                ->where(['dest_codcomunicacao' => $_GET])
+                ->all();
 
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'destinocomunicacao' => $destinocomunicacao,
         ]);
 
     }
@@ -82,6 +87,7 @@ class ComunicacaointernaController extends Controller
                 $session = Yii::$app->session;
                 $model->com_codcolaborador= $session['sess_codcolaborador'];
                 $model->com_codunidade= $session['sess_codunidade'];
+                $session->close();
 
                 if ($_SESSION['sess_responsavelsetor'] == 0){
 
@@ -235,8 +241,18 @@ class ComunicacaointernaController extends Controller
                             $model->save();           
                         }else{
 
-                            $model->com_codsituacao = 4; 
-                            $model->save();              
+                            $model->com_codsituacao = 4;
+                            $model->com_dataautorizacao = date('Y-m-d h:m:s');
+                            $model->com_codcolaboradorautorizacao = $session['sess_codcolaborador'];
+                            $model->com_codcargoautorizacao = $session['sess_codcargo'];
+                            $model->save();
+
+                //Atualiza a situação do destino para "ABERTO"(cód 2) para poder realizar a filtragem e enviar o e-mail"
+                $connection = Yii::$app->db;
+                $command = $connection->createCommand(
+                 "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = '2' WHERE `dest_codcomunicacao` =".$model->com_codcomunicacao);
+                $command->execute();  
+
                         }
                              return $this->redirect(['index']);
 

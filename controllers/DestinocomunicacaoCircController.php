@@ -65,7 +65,7 @@ class DestinocomunicacaoCircController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Destinocomunicacao();
+        $model = new DestinocomunicacaoEnc();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->dest_coddestino]);
@@ -138,16 +138,17 @@ class DestinocomunicacaoCircController extends Controller
          if ($despachos->load(Yii::$app->request->post()) && $despachos->save()) 
         {
             $model->dest_coddespacho = $despachos->deco_coddespacho;
+            $encaminhamentos->dest_coddespacho = $model->dest_coddespacho;
 
-                    //Atualiza a situação do DESTINO para "ABERTO"(cód 2) e insere o código de despacho para poder realizar a filtragem e enviar o e-mail"
+                    //Atualiza a situação do DESTINO para "ABERTO"(cód 3) e insere o código de despacho para poder realizar a filtragem e enviar o e-mail"
                     $connection = Yii::$app->db;
                     $command = $connection->createCommand(
-                    "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = '3', `dest_coddespacho` = '".$model->dest_coddespacho."'  WHERE `dest_coddestino` = '".$model->dest_coddestino."' AND `dest_codcomunicacao` =" . $session['sess_comunicacao']);
+                    "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = '3' WHERE `dest_coddestino` = '".$model->dest_coddestino."' AND `dest_codcomunicacao` =" . $session['sess_comunicacao']);
                     $command->execute();
 
                     //Atualiza a situação do ENCAMINHAMENTO para "ABERTO"(cód 2), CASO HAJA ALGUM ENCAMINHAMENTO"
                     $command = $connection->createCommand(
-                    "UPDATE destinocomunicacao_dest SET dest_codsituacao = '2' WHERE dest_codcomunicacao = '".$session['sess_comunicacao']."' AND dest_nomeunidadeenvio = '".$session['sess_unidade']."' AND dest_codsituacao = 1");  
+                    "UPDATE destinocomunicacao_dest SET dest_codsituacao = '2', `dest_coddespacho` = '".$model->dest_coddespacho."' WHERE dest_codcomunicacao = '".$session['sess_comunicacao']."' AND dest_nomeunidadeenvio = '".$session['sess_unidade']."' AND dest_codsituacao = 1");  
                     $command->execute();
 
              return $this->redirect(['view', 'id' => $model->dest_coddestino]);

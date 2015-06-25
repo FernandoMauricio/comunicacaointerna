@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Comunicacaointerna;
 
 class SiteController extends Controller
 {
@@ -49,6 +50,13 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+
+             //BUSCA NO BANCO SE EXISTE CI PENDENTE
+             $checar_ci = Comunicacaointerna::find()
+                ->where(['com_codcomunicacao' => 4])
+                ->count(); 
+
+
         return $this->render('index');
     }
 

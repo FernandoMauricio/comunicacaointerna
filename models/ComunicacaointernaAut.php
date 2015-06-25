@@ -131,9 +131,9 @@ class ComunicacaointernaAut extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDestinocomunicacaoDests()
+    public function getDestinocomunicacao()
     {
-        return $this->hasMany(DestinocomunicacaoDest::className(), ['dest_codcomunicacao' => 'com_codcomunicacao']);
+        return $this->hasMany(Destinocomunicacao::className(), ['dest_codcomunicacao' => 'com_codcomunicacao']);
     }
     
     public function getColaborador()

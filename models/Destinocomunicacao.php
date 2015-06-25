@@ -95,9 +95,5 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
         return $this->hasOne(Unidades::className(),['uni_nomeabreviado' => 'dest_nomeunidadedest']);
     }
 
-    // public function getDespacho()
-    // {
-    //     return $this->hasOne(Despachos::className(), ['deco_coddespacho' => 'dest_coddespacho']);
-    // }
 }
 
