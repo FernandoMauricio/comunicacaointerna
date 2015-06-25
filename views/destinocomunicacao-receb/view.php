@@ -6,40 +6,29 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Destinocomunicacao */
 
-$this->title = $model->dest_coddestino;
-$this->params['breadcrumbs'][] = ['label' => 'Destinocomunicacaos', 'url' => ['index']];
+$this->title = $model->dest_codcomunicacao;
+$this->params['breadcrumbs'][] = ['label' => 'Comunicações Internas - Recebidas pelo Setor', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="destinocomunicacao-view">
-
+	
     <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
-        <?= Html::a('Update', ['update', 'id' => $model->dest_coddestino], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->dest_coddestino], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
 
-    <?= DetailView::widget([
+    <?php
+/**
+ * THE VIEW BUTTON
+ */
+echo Html::a('<i class="fa glyphicon glyphicon-print"></i> Imprimir', ['/comunicacaointerna/pdf'], [
+    'class'=>'btn btn-info', 
+    'target'=>'_blank', 
+    'data-toggle'=>'tooltip', 
+    'title'=>' Clique aqui para gerar um arquivo PDF'
+]);
+
+    ?>
+        <?= $this->render('/comunicacaointerna/pdf2', [
         'model' => $model,
-        'attributes' => [
-            'dest_coddestino',
-            'dest_codcomunicacao',
-            'dest_codcolaborador',
-            'dest_codunidadeenvio',
-            //'dest_codunidadedest',
-            'dest_data',
-            'dest_codtipo',
-            'dest_codsituacao',
-            'dest_coddespacho',
-            'dest_nomeunidadeenvio',
-            'dest_nomeunidadedest',
-        ],
-    ]) ?>
+ 	   ]) ?>
 
 </div>

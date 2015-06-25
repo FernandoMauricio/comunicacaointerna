@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use app\models\Comunicacaointerna;
+use app\models\Destinocomunicacao;
 use app\models\Cargos_car;
 use app\models\Colaborador;
 use yii\helpers\BaseFileHelper;
@@ -34,68 +35,11 @@ echo Html::a('<i class="fa glyphicon glyphicon-print"></i> Imprimir', ['/comunic
     ?>
 
 <br><br>
-    <?= DetailView::widget([
+
+        <?= $this->render('/comunicacaointerna/pdf', [
         'model' => $model,
-        'attributes' => [
-            'com_codcomunicacao',
-
-            //Tipo
-            //'com_codtipo',
-            [
-            'label' => 'Tipo',
-            'value' => $model->comCodtipo->tipdo_tipo
-            ],
-
-            //Colaborador
-            //'com_codcolaborador',
-            [
-            'label' => 'Criado Por',
-            'value' => $model->colaborador->usuario->usu_nomeusuario,
-            ],
-
-            //Unidade
-            //'com_codunidade',
-             [
-                'label' => 'Unidade',
-                'value' => $model->unidades->uni_nomeabreviado,
-
-             ],
-
-            [
-                'attribute' => 'com_datasolicitacao',
-                'format' => ['datetime', 'dd/MM/yyyy HH:mm:ss']
-            ],
-            'com_titulo',
-            'com_texto:ntext',
-
-            //Situação da CI
-            //'com_codsituacao',
-            [
-            'label' => 'Situação',
-            'value' => $model->situacao->sitco_situacao1
-            ],
-
-            //'com_codcolaboradorautorizacao',
-            [
-            'label' => 'Autorizado Por',
-            'value' => $model->colaborador->usuario->usu_nomeusuario,
-            ],
-
-            //'com_codcargoautorizacao',
-/*            [
-                'label' => 'Cargo',
-                'value' => $model->cargo->car_cargo,
-
-             ],*/
-             
-
-            // [
-            //     'attribute' => 'com_dataautorizacao',
-            //     'format' => ['datetime', 'dd/MM/yyyy HH:mm:ss']
-            // ],
-        ],
-        
-    ]) ?>
+        //'destinocomunicacao' => $destinocomunicacao,
+        ]) ?>
 
 <?php
 //GET ANEXOS

@@ -2,6 +2,8 @@
 /* @var $this yii\web\View */
 namespace yii\bootstrap;
 use yii\helpers\Html;
+use app\models\Comunicacaointerna;
+use app\models\Destinocomunicacao;
 
                 session_start();
 
@@ -9,6 +11,17 @@ use yii\helpers\Html;
                    $unidade_user = $_SESSION['sess_unidade'];    
 
 $this->title = 'Documentação Eletrônica';
+
+            //BUSCA NO BANCO SE EXISTE CI PENDENTE DE AUTORIZAÇÃO
+             $checar_ci = Destinocomunicacao::find()
+                ->where(['dest_codsituacao' => 2, 'dest_nomeunidadedest' => $_SESSION['sess_unidade']])
+                ->count(); 
+
+            //BUSCA NO BANCO SE EXISTE CI PENDENTE DE AUTORIZAÇÃO
+             $checar_autorizacao = Comunicacaointerna::find()
+                ->where(['com_codsituacao' => 3])
+                ->count(); 
+
 ?>
 
 <div class="site-index">
@@ -19,20 +32,29 @@ $this->title = 'Documentação Eletrônica';
                 <div class="container">
                     
                             <h3>Bem vindo, <?php echo $nome_user = ucwords(strtolower($nome_user))?>!</h3>
-                            <div class="alert alert-danger" role="alert"><strong><?php echo $nome_user = ucwords(strtolower($nome_user)) . ",</strong>"?> você tem 3 despachos pendentes. Para visualizar, <a href="/teste/web/index.php?r=despachocomunicacao%2Findex" class="alert-link">clique aqui.</a></div>
-                            <!--<div class="alert alert-success" role="alert">Existem 5 novas portarias cadastradas. Para visualizar, <a href="#" class="alert-link">clique aqui.</a></div>-->
-                            <div class="panel panel-primary">
 
+                            <?php
+
+                            if($_SESSION['sess_responsavelsetor'] == 1){
+
+                            ?>
+                            <div class="alert alert-danger" role="alert"><strong><?php echo $nome_user = ucwords(strtolower($nome_user)) . ",</strong>"?> você tem <?php echo $checar_ci ?> despacho(os) pendente(es). Para visualizar, <a href="http://localhost/comunicacaointerna/web/index.php?r=destinocomunicacao-circ%2Findex" class="alert-link">clique aqui.</a></div>
+                            <div class="alert alert-success" role="alert">Existem <?php echo $checar_autorizacao ?> Comunicação(ões) Interna(as) pendente(es) de autorização. Para visualizar, <a href="http://localhost/comunicacaointerna/web/index.php?r=comunicacaointerna-aut%2Findex" class="alert-link">clique aqui.</a></div>
+                            
+                            <?php
+                                 }       
+                            ?>
+                <div class="panel panel-primary">
                 <div class="panel-heading">
                             <i class="glyphicon glyphicon-book"></i>  Informações:
                 </div>
                   <div class="panel-body">
-                            <h4>CI - Comunicação Interna</h4>
-                                <h5>Formalização de solicitações internas da empresa através de comunicações internas.</h5><br />
-                            <h4>Portarias</h4>
-                                <h5>Catálogo e cadastro das portarias que regem e regulamentam.</h5><br />
-                            <h4>Sair (Logout)</h4>
-                                <h5>Para sair do sistema.</h5> 
+                            <h4>Criadas pelo Setor</h4>
+                                <h5>Comunicações Internas criadas pelo setor.</h5><br />
+                            <h4>Recebidas pelo Setor</h4>
+                                <h5>Comunicacções Internas recebidas pelo setor.</h5><br />
+                            <h4>Despachos/Autorizações</h4>
+                                <h5>Área Gerencial para despachos e autorizações de CI.</h5> 
                      </div>
                 </div>
             </div>

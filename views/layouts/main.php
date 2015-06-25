@@ -26,8 +26,8 @@ AppAsset::register($this);
     <div class="wrap">
         <?php
             NavBar::begin([
-                'brandLabel' => 'Senac AM',
-                //'brandLabel' => '<img src="css/img/logo_senac_topo.png"/>',
+                //'brandLabel' => 'Senac AM',
+                'brandLabel' => '<img src="css/img/logo_senac_topo.png"/>',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
@@ -36,24 +36,22 @@ AppAsset::register($this);
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
-                    ['label' => 'Home', 'url' => ['/site/index']],
-                    ['label' => 'Portarias', 'url' => ['/site/contact']],
-                    ['label' => 'Comunicação Interna',
+                    ['label' => 'Home', 'url' => 'index.php'],
+                    ['label' => 'Criadas pelo Setor', 'url' => ['/comunicacaointerna/index']],
+                    ['label' => 'Recebidas pelo Setor', 'url' => ['/destinocomunicacao-receb/index']],
+                    ['label' => 'Despachos/Autorizações',
                 'items' => [
-                '<li class="dropdown-header">Listagem de CI</li>',
-                 ['label' => 'Criadas pelo Setor', 'url' => ['/comunicacaointerna/index']],
-                 ['label' => 'Recebidas pelo Setor', 'url' => ['/destinocomunicacao-receb/index']],
-                 '<li class="divider"></li>',
                  '<li class="dropdown-header">Área Gerencial</li>',
                  ['label' => 'Despachos Pendentes', 'url' => ['/destinocomunicacao-circ/index']],
                  ['label' => 'Autorizações Pendentes', 'url' => ['/comunicacaointerna-aut/index']],
-            ],
+                           ],
         ],
-                    Yii::$app->user->isGuest ?
-                        ['label' => 'Login', 'url' => ['/site/login']] :
-                        ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                            'url' => ['/site/logout'],
-                            'linkOptions' => ['data-method' => 'post']],
+            ['label' => 'Sair', 'url' => 'http://localhost/senac/portal_senac_old/control_base_vermodulos/control_base_vermodulos.php'],
+                    // Yii::$app->user->isGuest ?
+                    //     ['label' => 'Login', 'url' => ['/site/login']] :
+                    //     ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                    //         'url' => ['/site/logout'],
+                    //         'linkOptions' => ['data-method' => 'post']],
                 ],
             ]);
             NavBar::end();

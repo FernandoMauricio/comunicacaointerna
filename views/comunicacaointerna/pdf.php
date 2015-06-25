@@ -1,182 +1,145 @@
-<!DOCTYPE html>
+<?php
 
-<table width="100%" border="1" cellspacing="0" bordercolor="#000000">
-  <tr> 
-    <td width="16%" rowspan="2" valign="middle"> <div align="center"><img src="../views/comunicacaointerna/pdf/logo.jpg" width="100" height="65"></div></td>
-    <td width="54%" height="37" valign="middle">
-<div align="center"><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> FORMULÁRIO DE DESPACHO</font></strong></div></td>
-    <td width="30%"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong> CÓDIGO: 5365/2015</strong></font></div></td>
+use yii\helpers\Html;
+use yii\widgets\DetailView;
+use app\models\Comunicacaointerna;
+use app\models\ComunicacaointernaAut;
+use app\models\Destinocomunicacao;
+use app\models\DestinocomunicacaoEnc;
+use app\models\Despachos;
+use app\models\Cargos_car;
+use app\models\Colaborador;
+use yii\helpers\BaseFileHelper;
+use yii\helpers\Url;
+
+$session = Yii::$app->session;
+
+//RESGATANDO AS INFORMAÇÕES DA CI
+$com_codcomunicacao = $model->com_codcomunicacao;
+$com_codsituacao = $model->situacao->sitco_situacao1;
+$datasolicitacao = $model->com_datasolicitacao;
+$com_titulo = $model->com_titulo;
+$com_texto = $model->com_texto;
+$com_codcolaboradorautorizacao = $model->colaborador->usuario->usu_nomeusuario;
+$com_dataautorizacao = $model->com_dataautorizacao;
+
+//PEGANDO OS DESTINATÁIOS NESSE DESPACHO
+     $destinatarios = "";
+     $contador = 0;
+     $sql2 = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 2 OR dest_codsituacao = 3";
+
+      $model = Destinocomunicacao::findBySql($sql2)->all(); 
+
+      foreach ($model as $models) {
+         if($contador == 0){
+              $destinatarios = $models['dest_nomeunidadedest']; 
+       }else
+            $destinatarios = $destinatarios."<br>".$models['dest_nomeunidadedest'];
+          
+       $contador ++; 
+     }  
+
+?>
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;}
+</style>
+</head>
+
+<body>
+<table width="100%" border="1">
+  <tr>
+    <td width="18%" rowspan="2"><img src="../views/comunicacaointerna/pdf/logo.jpg" width="115" height="70" /></td>
+    <td width="58%" height="43"><div align="center"><strong> FORMULÁRIO DE DESPACHO</strong></div></td>
+    <td width="24%"><div align="center"><strong>CÓDIGO: <?php echo $com_codcomunicacao ?></strong></div></td>
   </tr>
-  <tr> 
-    <td width="54%" height="37" valign="middle"><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong> ASSUNTO:</strong> SOLICITAÇÃO VIAGEM TÉCNICA DA GIC – ITACOATIARA</font></td>
-    <td width="30%"><div align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong> SITUAÇÃO:</strong> Em Circulação</font></div></td>
+  <tr>
+    <td height="39">[<em><strong>ASSUNTO</strong></em>] <?php echo $com_titulo ?></td>
+    <td><div align="center">SITUAÇÃO: <?php echo $com_codsituacao ?></div></td>
   </tr>
 </table>
-<br>
-<table width="100%" border="1" cellspacing="0" bordercolor="#000000">
-  <tr valign="middle"> 
-    <td width="10%"><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> DATA</font></strong></td>
-    <td width="25%"><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> DE</font></strong></td>
-    <td width="25%"><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> PARA</font></strong></td>
-    <td align="center"> <div><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">DESPACHOS</font></strong></div>
-      <div align="center"><strong></strong></div></td>
+<br />
+<table width="100%" border="1">
+  <tr>
+    <th height="28" scope="col">DATA</th>
+    <th width="41%" scope="col">SOLICITANTE</th>
+    <th scope="col">DESTINATÁRIO</th>
   </tr>
-  <tr valign="middle"> 
-    <td valign="top"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">03/03/2015</font></td>
-    <td valign="top"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">SEDE ADMINISTRATIVA - GIC</font></td>
-    <td valign="top"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">SEDE ADMINISTRATIVA - GCO</font> <br> <br> 
-<font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em>Cópia Para:<br>
-      SEDE ADMINISTRATIVA - DIF</em><br>
-      SEDE ADMINISTRATIVA - GRH</em><br>
-      SEDE ADMINISTRATIVA - GCO</em><br>
-
-      </font></td>
-    <td width="50%"> Senhor Gerente,
-
-Venho por meio desta solicitar um adiantamento de 2 diárias para o Tecnico Endrio Medeiros de Oliveira, para custear despesas no municipio de Itacoatiara, para executar o serviço de instalação do novo servidor HP, onde sera montado 3 servidores virtuais na unidade como um firewalle proxy, um dominio e antivirus, o tecnico executará os seguintes serviços:configura as rotinas de backup, migração dos arquivos e das contas dos colaboradores, instalação do agente do macafee nas máquinas da unidades, configurar o scanner da impressora para a servidor, testar os sistema e site no novo servidor.
-
-E solicito também uma ajuda de custo no valor de 30,00 reais, para motorista Admilson Pinto Gabino, para fazer o transporte do tecnido e do novo servidor, até o municipio de Itacoartiara.
-
-<br><br>
-      
-          <font size="2" face="Arial, Helvetica, sans-serif"><em><strong>Anexos- - - - - - - - - - - - - </strong></em></font><br>
-            <a href="../_lib/file/doc-Com">anexos 1</a><br>
-            <a href="../_lib/file/doc-Com">anexos 2</a><br>
-            <a href="../_lib/file/doc-Com">anexos 3</a><br>
-            <a href="../_lib/file/doc-Com">anexos 4</a><br>
-            <a href="../_lib/file/doc-Com">anexos 5</a><br>
-            <a href="../_lib/file/doc-Com">anexos 6</a><br>
-
-
- <br>
-
-  
-            <div  text-align="right"><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Assinado Eletronicamente por:<br>
-              RUI ALENCAR<br>
-              16/04/2015 15:30:55</font></div>
-              <br>
-
-
-</td>
-
-
-
- <br><br><br>
-
-
-
-<!--
-
-       </p><br> 
-       <table width="100%" border="0">
-        <tr> 
-          <td><font size="2" face="Arial, Helvetica, sans-serif"><em><strong>Anexos 
-            - - - - - - - - - - - - - </strong></em></font></td>
-        </tr>
-      </table>
- 
-      <table width="100%" border="0">
-        <tr> 
-          <td><a href="../_lib/file/doc-Com">anexs 1</a></td>
-          <td><a href="../_lib/file/doc-Com">anexo 2</a></td>
-          <td><a href="../_lib/file/doc-Com">anexo 3</a></td>
-          <td><a href="../_lib/file/doc-Com">anexo 4</a></td>
-          <td><a href="../_lib/file/doc-Com">anexo 5</a></td>
-          <td><a href="../_lib/file/doc-Com">anexo 6</a></td>
-        </tr>
-      </table>          
-         
- 
-      <table width="100%" border="0">
-        <tr> 
-          <td><font size="2" face="Arial, Helvetica, sans-serif"><em><strong>Anexos 
-            - - - - - - - - - - - - - </strong></em></font></td>
-        </tr>
-      </table>
-
-      <table width="100%" border="0">
-        <tr> 
-          <td><a href="../_lib/file/doc-Com">anexo 1</a></td>
-        </tr>
-      </table>
-
-
-
-      <table width="100%" border="0">
-        <tr> 
-          <td align="right"><div><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Assinado Eletronicamente por:<br>
-              RUI ALENCAR<br>
-              16/04/2015 15:30:55</font></div></td>
-        </tr>
-      </table></td>
-  </tr> -->
-
-   <tr valign="middle"> 
-    <td colspan="4"><hr align="left" width="80%"></td>
-  </tr> 
-
-    <tr valign="middle"> 
-    <td width="10%" valign="top"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">16/04/2015</font></td>
-    <td width="25%" valign="top"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">SEDE ADMINISTRATIVA - DAD</font></td>
-    <td width="25%" valign="top"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">SEDE ADMINISTRATIVA - GIC<br>CFP - MOYSÉS BENARRÓS ISRRAEL</font></td>
-    <td width="50%" valign="top"><font size="2" face="Verdana, Arial, Helvetica, sans-serif">GIC
-
-Sr. Gerente
-
- 
-
-Peço que antes de encaminhar o técnico para instalação do novo servidor, seja tomada todas as providências necessárias para instalação do mesmo, cito: espaço físico, rede elétrica e principalmente o rack onde será guardado, pois estive recentemente na undiade e pelo que vi do espaço, não tem as condições adequadas.
-
-Em contato com a gerente solicitei que a mesma retirasse do local, objetos, mobiliário e materiais pois necessita de espaço dedicado.
-
-O local não possui rack para guardar o equipamento, julgo interessante a ida somente quando todas estas necessidades estiverem encaminhadas.
-
-
-
-CFP-MBI
-
-Para conhecimento e acompanhamento.
-       <br>
-
+  <tr>
+    <td width="19%" height="44" scope="col"><div align="center"><?php echo $datasolicitacao ?></div></td>
+    <td width="41%" scope="col"><div align="center"><?php echo $session['sess_unidade'] ?></div></td>
+    <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?></div></td>
+  </tr>
+    <tr>
+    <th height="122" scope="row">DISCRIMINAÇÃO</th>
+    <td colspan="2"><?php echo $com_texto ?></td>
+</table>
+<hr />
+<table width="100%" border="1">
+  <tr>
+    <th height="51" colspan="3" scope="col">DESPACHOS E ENCAMINHAMENTOS</th>
+  </tr>
+  <?php
+  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$com_codcomunicacao."' AND deco_codsituacao = 2 order by deco_coddespacho";
+  $model = Despachos::findBySql($sql6)->all(); 
+  foreach ($model as $models) {
      
-  </p>
-      <table width="100%" border="0">
-        <tr> 
-          <td><font size="2" face="Arial, Helvetica, sans-serif"><em><strong>Anexos 
-            - - - - - - - - - - - - - </strong></em></font></td>
-        </tr>
-      </table>
 
-      <table width="100%" border="0">
-        <tr> 
-          <td><a href="../_lib/file/doc-Despacho">anexo 1</a></td>
-        </tr>
-      </table>
- 
-
-      <table width="100%" border="0">
-        <tr> 
-          <td><font size="2" face="Arial, Helvetica, sans-serif"><em><strong>Anexos 
-            - - - - - - - - - - - - - </strong></em></font></td>
-        </tr>
-      </table>
+     $unidade_despachante = "";
+     $nome_despachante = "";
+     $deco_coddespacho = $models["deco_coddespacho"];
+     $deco_codcolaborador = $models["deco_codcolaborador"];
+     $deco_codunidade = $models["deco_codunidade"];
+     $deco_codcargo = $models["deco_codcargo"];
+     $deco_data = $models["deco_data"];
+     $deco_despacho = $models["deco_despacho"];
+     $unidade_despachante = $models["deco_nomeunidade"];
+     $nome_despachante = $models["deco_nomeusuario"];
+     $deco_cargo = $models["deco_cargo"];
 
 
-      <table width="100%" border="0">
-        <tr> 
-          <td><a href="../_lib/file/doc-Despacho">anexo 1</a></td>
-        </tr>
-      </table>
+     //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
+     $nome_unidade_encaminhar = "";
+     $checa_espaco = 0;
+     $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
 
+      $unidade = Destinocomunicacao::findBySql($sql)->all(); 
 
-      </font> <table width="100%" border="0">
-        <tr> 
-          <td align="right"><div><font size="1" face="Verdana, Arial, Helvetica, sans-serif">Assinado Eletronicamente por:<br>
-              NEILON MARCIO BATISTA DA SILVA<br>
-              16/04/2015 15:30:55</font></div>
-          </td>
-        </tr>
+      foreach ($unidade as $unidades) {
+         if($checa_espaco == 0)
+              $nome_unidade_encaminhar = $unidades['dest_nomeunidadedest']; 
+       else
+            $nome_unidade_encaminhar = $nome_unidade_encaminhar."<br>".$unidades['dest_nomeunidadedest'];
+          
+       $checa_espaco ++; 
+     }  
+     ?>
+  <tr>
+    <th width="19%" scope="row">DATA</th>
+    <th width="41%">REMETENTE</th>
+    <th width="40%">DESTINATÁRIO</th>
   </tr>
-              </table>
-
+  <tr>
+    <td scope="row"><div align="center"><?php echo $deco_data ?></div></td>
+    <td><div align="center"><?php echo $unidade_despachante ?></div></td>
+    <td><p align="center"><?php echo $nome_unidade_encaminhar ?></p>
+  </tr>
+  <tr>
+    <th height="305" scope="row">DESPACHO</th>
+    <td colspan="2"><?php echo $deco_despacho ?>
+        <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
+      <?php echo $nome_despachante ?>&nbsp;&nbsp;&nbsp;<br />
+      <?php echo $deco_cargo ?>&nbsp;&nbsp;&nbsp;<br />
+      <?php echo $deco_data ?>&nbsp;&nbsp;&nbsp;<br />
+  </div></td>
+  </tr>
+  <?php } ?>
 </table>
+<p>&nbsp;</p>
+</body>
+</html>

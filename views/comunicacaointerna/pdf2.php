@@ -25,29 +25,6 @@ $com_codcargoautorizacao = $model->comunicacaointerna->cargo->car_cargo;
 $com_dataautorizacao = $model->comunicacaointerna->com_dataautorizacao;
 
 $session = Yii::$app->session;
-$codigo_comunicacao = $session['sess_comunicacao'];
-
-//RESGATANDO AS INFORMAÇÕES DO DESPACHO
-// $deco_coddespacho = $despachos->deco_coddespacho;
-// $deco_data = $despachos->deco_data;
-// $deco_despacho = $despachos->deco_despacho;
-// $unidade_despachante = $despachos->deco_nomeunidade;
-// $deco_nomeusuario = $despachos->deco_nomeusuario;
-
-// //encaminhando as unidades
-// $nome_unidade_encaminhar = "";
-// $checa_espaco = 0;
-
-// foreach ($deco_nomeunidade as $key=>$nome_unidade_encaminhar) {
-//    if($checa_espaco == 0)
-//     $nome_unidade_encaminhar = $dest_nomeunidadedest;
-//        $checa_espaco ++;
-// }
-
-// $despachos->deco_codcolaborador
-// $despachos->deco_codunidade 
-// $despachos->deco_codcargo
-// $despachos->deco_codsituacao
 
 //PEGANDO OS DESTINATÁIOS NESSE DESPACHO
      $destinatarios = "";
@@ -64,16 +41,6 @@ $codigo_comunicacao = $session['sess_comunicacao'];
           
        $contador ++; 
      }  
-
-
-
-
-  //      if($com_codsituacao != 4 && $com_codsituacao != 5) 
-  //   {
-  //    $com_codcolaboradorautorizacao = "______________________________";
-  //    $com_codcargoautorizacao = "";
-  //    $com_dataautorizacao = "_____/_____/_____ às _____:_____:_____";
-  // }
 
 ?>
 
@@ -127,7 +94,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <th height="51" colspan="3" scope="col">DESPACHOS E ENCAMINHAMENTOS</th>
   </tr>
   <?php
-  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$codigo_comunicacao."' AND deco_codsituacao = 2 order by deco_coddespacho";
+  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$dest_codcomunicacao."' AND deco_codsituacao = 2 order by deco_coddespacho";
   $model = Despachos::findBySql($sql6)->all(); 
   foreach ($model as $models) {
      
@@ -148,15 +115,15 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
      //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
      $nome_unidade_encaminhar = "";
      $checa_espaco = 0;
-     $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$codigo_comunicacao."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
+     $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$dest_codcomunicacao."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
 
-      $model = Destinocomunicacao::findBySql($sql)->all(); 
+      $unidade = Destinocomunicacao::findBySql($sql)->all(); 
 
-      foreach ($model as $models) {
+      foreach ($unidade as $unidades) {
          if($checa_espaco == 0)
-              $nome_unidade_encaminhar = $models['dest_nomeunidadedest']; 
+              $nome_unidade_encaminhar = $unidades['dest_nomeunidadedest']; 
        else
-            $nome_unidade_encaminhar = $nome_unidade_encaminhar."<br>".$models['dest_nomeunidadedest'];
+            $nome_unidade_encaminhar = $nome_unidade_encaminhar."<br>".$unidades['dest_nomeunidadedest'];
           
        $checa_espaco ++; 
      }  

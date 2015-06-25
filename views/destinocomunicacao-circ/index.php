@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //view button
             'update' => function ($url, $model) {
                 return Html::a('<span class="glyphicon glyphicon-ok-circle"></span> Despachar', $url, [
-                            'title' => Yii::t('app', 'update'),
+                            //'title' => Yii::t('Atualizar', 'update'),
                             'class'=>'btn btn-primary btn-xs',                                  
                 ]);
             },

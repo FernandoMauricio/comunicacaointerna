@@ -52,7 +52,7 @@ $gridColumns = [
                             return GridView::ROW_COLLAPSED;
                         },
                         'detail'=>function ($model, $key, $index, $column) {
-                            return Yii::$app->controller->renderPartial('_form', ['model'=>$model]);
+                            return Yii::$app->controller->renderPartial('/comunicacaointerna/pdf3', ['model'=>$model]);
                         },
                         'headerOptions'=>['class'=>'kartik-sheet-style'], 
                         'expandOneOnly'=>true
