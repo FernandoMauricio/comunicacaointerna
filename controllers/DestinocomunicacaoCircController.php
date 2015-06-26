@@ -151,7 +151,11 @@ class DestinocomunicacaoCircController extends Controller
                     "UPDATE destinocomunicacao_dest SET dest_codsituacao = '2', `dest_coddespacho` = '".$model->dest_coddespacho."' WHERE dest_codcomunicacao = '".$session['sess_comunicacao']."' AND dest_nomeunidadeenvio = '".$session['sess_unidade']."' AND dest_codsituacao = 1");  
                     $command->execute();
 
-             return $this->redirect(['view', 'id' => $model->dest_coddestino]);
+
+            if($despachos->save()){
+                Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Foi realizado o <strong>DESPACHO</strong> da Comunicação Interna de código: ' . '<strong>' .$model->dest_codcomunicacao. '</strong>');
+             return $this->redirect(['index']);
+         }
         } else {
             return $this->render('update', [
                 'model' => $model,
