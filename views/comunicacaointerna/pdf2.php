@@ -12,6 +12,7 @@ use yii\helpers\BaseFileHelper;
 use yii\helpers\Url;
 
 //RESGATANDO AS INFORMAÇÕES DA CI
+$dest_coddestino = $model->dest_coddestino;
 $dest_nomeunidadeenvio =  $model->dest_nomeunidadeenvio;
 $dest_nomeunidadedest =  $model->dest_nomeunidadedest;
 $dest_codcomunicacao = $model->dest_codcomunicacao;
@@ -50,7 +51,7 @@ $session = Yii::$app->session;
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style>
-th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;}
+th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;} .anexos {font-size: 12px;font-weight: bold;}
 </style>
 </head>
 
@@ -69,22 +70,37 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 <br />
 <table width="100%" border="1">
   <tr>
-    <th height="28" scope="col">DATA</th>
+    <th height="28" scope="col">DATA/HORA</th>
     <th width="41%" scope="col">SOLICITANTE</th>
     <th scope="col">DESTINATÁRIO</th>
   </tr>
   <tr>
-    <td width="19%" height="44" scope="col"><div align="center"><?php echo $datasolicitacao ?></div></td>
+    <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
     <td width="41%" scope="col"><div align="center"><?php echo $dest_nomeunidadeenvio ?></div></td>
     <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?></div></td>
   </tr>
   <tr>
     <th height="122" scope="row">DISCRIMINAÇÃO</th>
     <td colspan="2"><?php echo $com_texto ?>
+    <p>&nbsp;</p>
+    <p class="anexos">ANEXOS - - - - - - - - - - - - - - -  - - -<br />
+      <?php
+//GET ANEXOS
+    $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao,['recursive'=>FALSE]);
+    if (isset($files[0])) {
+        foreach ($files as $index => $file) {
+            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $nameFicheiro, ['target'=>'_blank']). "<br/>"; // render do ficheiro no browser
+        }
+    } else {
+        echo "Não existem arquivos disponíveis para download.";
+    }
+?>
+    </p>
         <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
       <?php echo $com_codcolaboradorautorizacao ?>&nbsp;&nbsp;&nbsp;<br />
       <?php echo $com_codcargoautorizacao ?>&nbsp;&nbsp;&nbsp;<br />
-      <?php echo $com_dataautorizacao ?>&nbsp;&nbsp;&nbsp;<br />
+      <?php echo date('d/m/Y H:i:s', strtotime($com_dataautorizacao)); ?>&nbsp;&nbsp;&nbsp;<br />
   </div></td>
   </tr>
 </table>
@@ -129,26 +145,41 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
      }  
      ?>
   <tr>
-    <th width="19%" scope="row">DATA</th>
+    <th width="19%" scope="row">DATA/HORA</th>
     <th width="41%">REMETENTE</th>
     <th width="40%">DESTINATÁRIO</th>
   </tr>
   <tr>
-    <td scope="row"><div align="center"><?php echo $deco_data ?></div></td>
+    <td scope="row"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?></div></td>
     <td><div align="center"><?php echo $unidade_despachante ?></div></td>
     <td><p align="center"><?php echo $nome_unidade_encaminhar ?></p>
   </tr>
   <tr>
     <th height="305" scope="row">DESPACHO</th>
     <td colspan="2"><?php echo $deco_despacho ?>
+    <p>&nbsp;</p>
+    <p class="anexos">ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
+      <?php
+//GET ANEXOS
+    $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
+    if (isset($files[0])) {
+        foreach ($files as $index => $file) {
+            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
+        }
+    } else {
+        echo "Não existem arquivos disponíveis para download.";
+    }
+
+    ?>
+    </p>
         <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
       <?php echo $nome_despachante ?>&nbsp;&nbsp;&nbsp;<br />
       <?php echo $deco_cargo ?>&nbsp;&nbsp;&nbsp;<br />
-      <?php echo $deco_data ?>&nbsp;&nbsp;&nbsp;<br />
+      <?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?>&nbsp;&nbsp;&nbsp;<br />
   </div></td>
   </tr>
   <?php } ?>
 </table>
-<p>&nbsp;</p>
 </body>
 </html>

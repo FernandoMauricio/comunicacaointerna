@@ -16,6 +16,7 @@ use yii\bootstrap\Modal;
 use yii\helpers\Url;
 use kartik\select2\Select2;
 use dosamigos\ckeditor\CKEditor;
+use kartik\widgets\FileInput;
 
 
 
@@ -83,8 +84,18 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
 
     <?= $form->field($model, 'com_codsituacao')->hiddenInput()->label(false) ?>
 
-    <?= $form->field($model, 'file[]')->fileInput(['multiple' => true]) ?>
+    <?php // $form->field($model, 'file[]')->fileInput(['multiple' => true]) ?>
 
+    <?php
+echo FileInput::widget([
+    'model' => $model,
+    'attribute' => 'file[]',
+    'options' => ['multiple' => true,
+    'showUpload' => true,
+    ]
+]);
+    ?>
+<p></p>
 
     <div class="form-group">
         

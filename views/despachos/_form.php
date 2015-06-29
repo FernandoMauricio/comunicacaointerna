@@ -1,8 +1,11 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+//use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
+use kartik\widgets\FileInput;
+
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Despachos */
@@ -11,7 +14,7 @@ use dosamigos\ckeditor\CKEditor;
 
 <div class="despachos-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?php //echo $form->field($despachos, 'deco_codcomunicacao')->textInput(['maxlength' => true]) ?>
 
@@ -28,6 +31,7 @@ use dosamigos\ckeditor\CKEditor;
         'preset' => 'basic'
     ]) ?>
 
+    <?php //echo $form->field($despachos, 'file[]')->fileInput(['multiple' => true]) ?>
 
     <?php //echo $form->field($despachos, 'deco_codsituacao')->textInput(['maxlength' => true]) ?>
 
@@ -36,7 +40,7 @@ use dosamigos\ckeditor\CKEditor;
     <?php //echo $form->field($despachos, 'deco_nomeusuario')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Enviar Despacho', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Enviar Despacho', ['class' => 'btn btn-success btn-lg btn-block']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

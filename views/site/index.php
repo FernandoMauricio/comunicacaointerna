@@ -12,10 +12,13 @@ use app\models\Destinocomunicacao;
 
 $this->title = 'Documentação Eletrônica';
 
-            //BUSCA NO BANCO SE EXISTE CI PENDENTE DE AUTORIZAÇÃO
-             $checar_ci = Destinocomunicacao::find()
-                ->where(['dest_codsituacao' => 2, 'dest_nomeunidadedest' => $_SESSION['sess_unidade']])
-                ->count(); 
+            //BUSCA NO BANCO SE EXISTE CI PENDENTE DE DESPACHO
+            $sql = "SELECT COUNT(*) FROM `destinocomunicacao_dest` LEFT JOIN `comunicacaointerna_com` ON `destinocomunicacao_dest`.`dest_codcomunicacao` = `comunicacaointerna_com`.`com_codcomunicacao` WHERE (((`comunicacaointerna_com`.`com_codsituacao`=4) AND (`dest_nomeunidadedest`='SEDE ADMINISTRATIVA - GIC')) AND (`dest_codtipo` IN (2, 3))) AND (`dest_codsituacao`=2)";
+            $checar_ci = Destinocomunicacao::findBySql($sql)->count(); 
+
+             // $checar_ci = Destinocomunicacao::find()
+             //    ->where(['dest_codsituacao' => 2, 'dest_coddespacho' => 0, 'dest_nomeunidadedest' => $_SESSION['sess_unidade']])
+             //    ->count(); 
 
             //BUSCA NO BANCO SE EXISTE CI PENDENTE DE AUTORIZAÇÃO
              $checar_autorizacao = Comunicacaointerna::find()

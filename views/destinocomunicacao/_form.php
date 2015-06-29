@@ -10,6 +10,8 @@ use app\models\Unidades;
 use kartik\select2\Select2;
 use kartik\widgets\ActiveForm;
 use kartik\builder\Form;
+use nirvana\showloading\ShowLoadingAsset;
+
 
 
 
@@ -21,13 +23,18 @@ use kartik\builder\Form;
 <div class="destinocomunicacao-form">
 
 <?php
+  ShowLoadingAsset::register($this);
   $this->registerJs(
-   '$("document").ready(function(){ 
-        $("#novo_destino").on("pjax:end", function() {
-            $.pjax.reload({container:"#destinocomunicacaoGrid", timeout: 3000});  //Reload GridView
+
+   '$("document").ready(function(){
+        $("#novo_destino").on("pjax:start", function() { $("#novo_destino").showLoading();});
+        $("#novo_destino").on("pjax:end", function() {$.pjax.reload({container:"#destinocomunicacaoGrid", timeout: 3000});  //Reload GridView
+        $("#novo_destino").hideLoading();
         });
-    });'
+    });
+  '
 );
+
 ?>
  <br>
     <?php yii\widgets\Pjax::begin(['id' => 'novo_destino']) ?>

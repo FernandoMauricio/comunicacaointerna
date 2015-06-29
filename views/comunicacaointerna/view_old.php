@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 /**
  * THE VIEW BUTTON
  */
-echo Html::a('<i class="fa glyphicon glyphicon-print"></i> Imprimir', ['/comunicacaointerna/imprimir','id' => $model->com_codcomunicacao], [
+echo Html::a('<i class="fa glyphicon glyphicon-print"></i> Imprimir', ['/comunicacaointerna/pdf'], [
     'class'=>'btn btn-info', 
     'target'=>'_blank', 
     'data-toggle'=>'tooltip', 

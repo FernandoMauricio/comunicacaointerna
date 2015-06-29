@@ -311,6 +311,49 @@ class ComunicacaointernaController extends Controller
                     
     }
 
+
+            // Privacy statement output demo
+        public function actionImprimir($id) {
+
+            $model = $this->findModel($id);
+
+            $com_codcomunicacao = $model->com_codcomunicacao;
+            $com_codsituacao = $model->situacao->sitco_situacao1;
+            $datasolicitacao = $model->com_datasolicitacao;
+            $com_titulo = $model->com_titulo;
+            $com_texto = $model->com_texto;
+            $com_codcolaboradorautorizacao = $model->colaborador->usuario->usu_nomeusuario;
+            //$com_codcargoautorizacao = $model->cargo->car_cargo;
+            $com_dataautorizacao = $model->com_dataautorizacao;
+            $com_codtipo = $model->com_codtipo;
+
+            //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
+             $destinocomunicacao = Destinocomunicacao::find()
+                ->where(['dest_codcomunicacao' => $_GET])
+                ->all();
+
+
+
+            $pdf = new Pdf([
+                'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
+                'content' => $this->renderPartial('imprimir'),
+                'options' => [
+                    'title' => 'Comunicação Interna - Senac AM',
+                    'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
+                ],
+                'methods' => [
+                    'SetHeader' => ['DOCUMENTAÇÃO ELETRÔNICA - SENAC AM||Gerado em: ' . date("d/m/Y - H:i:s")],
+                    'SetFooter' => ['Gerência de Informática Corporativa - GIC||Página {PAGENO}'],
+                ]
+            ]);
+
+        return $pdf->render('imprimir', [
+            'model' => $this->findModel($id),
+            'destinocomunicacao' => $destinocomunicacao,
+        ]);
+        }
+
+
     /**
      * Finds the Comunicacaointerna model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -328,21 +371,6 @@ class ComunicacaointernaController extends Controller
 
     }
 
-
-        // Privacy statement output demo
-        public function actionPdf() {
-            $pdf = new Pdf([
-                'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
-                'content' => $this->renderPartial('pdf2'),
-                'options' => [
-                    'title' => 'Comunicação Interna - Senac AM',
-                    'subject' => 'Generating PDF files via yii2-mpdf extension has never been easy'
-                ],
-                'methods' => [
-                    'SetHeader' => ['DOCUMENTAÇÃO ELETRÔNICA - SENAC AM||Gerado em: ' . date("d/m/Y - H:i:s")],
-                    'SetFooter' => ['Gerência de Informática Corporativa - GIC||Página {PAGENO}'],
-                ]
-            ]);
-            return $pdf->render();
-        }
 }
+
+

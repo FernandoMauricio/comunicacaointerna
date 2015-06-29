@@ -22,6 +22,13 @@ $unidade = $_SESSION['sess_unidade'];
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+                'rowOptions' =>function($model){
+                    if($model->comunicacaointerna->com_codsituacao == '5' )
+                    {
+
+                            return['class'=>'danger'];                        
+                    }
+                },
         'hover' => true,
         'panel' => [
         'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem - '.$unidade.'</h3>',
@@ -33,20 +40,32 @@ $unidade = $_SESSION['sess_unidade'];
             //'dest_codcolaborador',
             //'dest_codunidadeenvio',
             //'dest_codunidadedest',
-            //'dest_codtipo',
+            [
+                'attribute' => 'com_codtipo',
+                'label' => 'Tipo',
+                'value' => 'comunicacaointerna.comCodtipo.tipdo_tipo',
+            ],
             //'dest_codsituacao',
             // 'dest_coddespacho',
              'dest_nomeunidadeenvio',
-             'dest_data',
+
+            [
+                'attribute' => 'comunicacaointerna.com_datasolicitacao',
+                'format' => ['datetime', 'dd/MM/yyyy as HH:mm:ss']
+            ],
 
             [
             'attribute' => 'comunicacaointerna.com_titulo',
             'value' => 'comunicacaointerna.com_titulo'
             ],
 
+            [
+                'attribute' => 'comunicacaointerna.com_codsituacao',
+                'value' => 'comunicacaointerna.situacao.sitco_situacao1',
+                'width'=>'180px'
 
+            ],
             // 'dest_nomeunidadedest',
-
             ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
         ],
     ]); ?>

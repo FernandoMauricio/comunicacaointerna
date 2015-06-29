@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Comunicacaointerna;
 use app\models\Destinocomunicacao;
 use app\models\DestinocomunicacaoEnc;
 use app\models\DestinocomunicacaoEncSearch;
@@ -13,6 +14,7 @@ use app\models\Despachos;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * DestinocomunicacaoCircController implements the CRUD actions for Destinocomunicacao model.
@@ -111,6 +113,7 @@ class DestinocomunicacaoCircController extends Controller
             $encaminhamentos->dest_coddespacho = 0; // AGUARDANDO DESPACHO
             $encaminhamentos->dest_data = date('Y-m-d h:m:s');
 
+
          if ($encaminhamentos->load(Yii::$app->request->post()) && $encaminhamentos->save())
          {
             //REALIZA O LOOP DE 1 OU MAIS INSERÇÕES
@@ -135,8 +138,32 @@ class DestinocomunicacaoCircController extends Controller
             $despachos->deco_nomeusuario = $session['sess_nomeusuario'];
             $despachos->deco_cargo = $session['sess_cargo'];
 
+                                                                                
          if ($despachos->load(Yii::$app->request->post()) && $despachos->save()) 
-        {
+        {  
+                //GRAVAR ANEXOS/////// VERIFICAR OS ANEXOS DE DESPACHO...
+                           
+                            if (!empty($_POST)) {
+
+                                $model->file = UploadedFile::getInstances($model, 'file');
+
+                                $subdiretorio = "uploads/" . $model->dest_codcomunicacao . "/" . $despachos->deco_coddespacho;
+
+                                                if(!file_exists($subdiretorio))
+                                                {
+                                                  if(!mkdir($subdiretorio));
+                                                }
+                                                             if ($model->file){
+                                                            foreach ($model->file as $file)
+                                                                 {
+                                                                     $file->saveAs($subdiretorio.'/'. $file->baseName . '.' . $file->extension);
+
+                                                                    $model->dest_anexo = $subdiretorio.'/';
+                                                                    $model->save();
+                                                                 }
+                                                        }
+                                                    }
+
             $model->dest_coddespacho = $despachos->deco_coddespacho;
             $encaminhamentos->dest_coddespacho = $model->dest_coddespacho;
 
@@ -153,7 +180,8 @@ class DestinocomunicacaoCircController extends Controller
 
 
             if($despachos->save()){
-                Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Foi realizado o <strong>DESPACHO</strong> da Comunicação Interna de código: ' . '<strong>' .$model->dest_codcomunicacao. '</strong>');
+
+                Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Foi realizado o <strong>Despachos</strong> da Comunicação Interna de código: ' . '<strong>' .$model->dest_codcomunicacao. '</strong>');
              return $this->redirect(['index']);
          }
         } else {
@@ -181,7 +209,7 @@ class DestinocomunicacaoCircController extends Controller
         //$this->findModel($id)->delete();
 
                 //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
-             $checar_destino = Destinocomunicacao::find()
+             $checar_destino = DestinocomunicacaoEnc::find()
                 ->where(['dest_codcomunicacao' => $_GET])
                 ->count();
 
@@ -203,9 +231,30 @@ class DestinocomunicacaoCircController extends Controller
                         }                          
                 }
 
-        //return $this->redirect(['index']);
     }
 
+
+    public function actionEncerrar($id)
+    {
+        $model = $this->findModel($id);
+
+                //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
+             $checar_ci = Comunicacaointerna::find($id)
+                ->where(['com_codcomunicacao' => $model->dest_codcomunicacao])
+                ->one();
+
+
+     //encerra a comunicacao que está em Circulação
+     $connection = Yii::$app->db;
+     $command = $connection->createCommand(
+     "UPDATE `db_ci`.`comunicacaointerna_com` SET `com_codsituacao` = '5' WHERE `com_codcomunicacao` = ".$model->dest_codcomunicacao."");
+    $command->execute();
+
+Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Comunicação Interna de código: ' . '<strong>' .$model->dest_codcomunicacao. '</strong> foi <strong>ENCERRADA!</strong>');
+     
+return $this->redirect(['index']);
+
+}
     /**
      * Finds the Destinocomunicacao model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

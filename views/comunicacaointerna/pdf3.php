@@ -22,6 +22,7 @@ $com_titulo = $model->com_titulo;
 $com_texto = $model->com_texto;
 $com_codcolaboradorautorizacao = $model->colaborador->usuario->usu_nomeusuario;
 $com_dataautorizacao = $model->com_dataautorizacao;
+$com_anexo = $model->com_anexo;
 
 //PEGANDO OS DESTINATÁIOS NESSE DESPACHO
      $destinatarios = "";
@@ -41,13 +42,12 @@ $com_dataautorizacao = $model->com_dataautorizacao;
 
 ?>
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style>
-th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;}
+th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;}.anexos {font-size: 12px;font-weight: bold;}
 </style>
 </head>
 
@@ -66,18 +66,33 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 <br />
 <table width="100%" border="1">
   <tr>
-    <th height="28" scope="col">DATA</th>
+    <th height="28" scope="col">DATA/HORA</th>
     <th width="41%" scope="col">SOLICITANTE</th>
     <th scope="col">DESTINATÁRIO</th>
   </tr>
   <tr>
-    <td width="19%" height="44" scope="col"><div align="center"><?php echo $datasolicitacao ?></div></td>
+    <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)) ?></div></td>
     <td width="41%" scope="col"><div align="center"><?php echo $session['sess_unidade'] ?></div></td>
     <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?></div></td>
   </tr>
     <tr>
     <th height="122" scope="row">DISCRIMINAÇÃO</th>
-    <td colspan="2"><?php echo $com_texto ?></td>
+    <td colspan="2"><?php echo $com_texto ?>
+    <p>&nbsp;</p>
+    <p class="anexos">ANEXOS - - - - - - - - - - - - - - -  - - -<br />
+      <?php
+//GET ANEXOS
+    $files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao);
+    if (isset($files[0])) {
+        foreach ($files as $index => $file) {
+            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $nameFicheiro) . "<br/>" ; // render do ficheiro no browser
+        }
+    } else {
+        echo "Não existem arquivos disponíveis para download.";
+    }
+?>
+    </p>
 </table>
 <p>&nbsp;</p>
 </body>

@@ -5,6 +5,7 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use app\models\Unidades;
 use kartik\select2\Select2;
+use nirvana\showloading\ShowLoadingAsset;
 
 
 /* @var $this yii\web\View */
@@ -36,12 +37,15 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
 <div class="destinocomunicacao-enc-form">
 
 <?php
+  ShowLoadingAsset::register($this);
   $this->registerJs(
-   '$("document").ready(function(){ 
-        $("#novo_destino_enc").on("pjax:end", function() {
-            $.pjax.reload({container:"#destinocomunicacaoEncGrid", timeout: 3000});  //Reload GridView
+   '$("document").ready(function(){
+        $("#novo_destino_enc").on("pjax:start", function() { $("#novo_destino_enc").showLoading();});
+        $("#novo_destino_enc").on("pjax:end", function() {$.pjax.reload({container:"#destinocomunicacaoEncGrid", timeout: 3000});  //Reload GridView
+        $("#novo_destino_enc").hideLoading();
         });
-    });'
+    });
+  '
 );
 ?>
  <br>

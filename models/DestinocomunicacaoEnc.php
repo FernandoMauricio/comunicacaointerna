@@ -38,7 +38,8 @@ class DestinocomunicacaoEnc extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['dest_codcomunicacao', 'dest_nomeunidadedest','dest_codsituacao','dest_coddespacho'], 'unique', 'targetAttribute' => ['dest_codcomunicacao', 'dest_nomeunidadedest', 'dest_codsituacao', 'dest_coddespacho']],
+            [['dest_codcomunicacao', 'dest_nomeunidadedest', 'dest_codsituacao', 'dest_coddespacho'], 'unique', 'targetAttribute' => ['dest_codcomunicacao', 'dest_nomeunidadedest', 'dest_codsituacao', 'dest_coddespacho']],
+            //[['dest_codcomunicacao', 'dest_nomeunidadedest','dest_codsituacao','dest_coddespacho'], 'unique', 'targetAttribute' => ['dest_codcomunicacao', 'dest_nomeunidadedest', 'dest_codsituacao', 'dest_coddespacho']],
             [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio','dest_codtipo', 'dest_codsituacao'], 'required'],
             [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codtipo', 'dest_codsituacao'], 'integer'],
             [['dest_nomeunidadeenvio','dest_nomeunidadedest'],  'string', 'max' => 100 ],

@@ -20,7 +20,8 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\ComunicacaointernaSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$unidade = $_SESSION['sess_unidade'];
+$session = Yii::$app->session;
+$unidade = $session['sess_unidade'];
 
 
 //Pega as mensagens de EXCLUSÃO DE CI
@@ -87,14 +88,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'unidade.uni_nomeabreviado'
             ],
 
-
+    */
+                'com_titulo',
             [
                 'attribute' => 'com_datasolicitacao',
                 'format' => ['datetime', 'dd/MM/yyyy HH:mm:ss']
-            ],*/
-
-            'com_titulo',
-
+            ],
             
 /*            [
                 'attribute' => 'com_codcolaboradorautorizacao',

@@ -5,6 +5,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
+$session = Yii::$app->session;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -25,6 +26,7 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
     <div class="wrap">
         <?php
+        $session = Yii::$app->session;
             NavBar::begin([
                 //'brandLabel' => 'Senac AM',
                 'brandLabel' => '<img src="css/img/logo_senac_topo.png"/>',
@@ -33,12 +35,15 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
+            if($session['sess_responsavelsetor']==1){
+
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
                     ['label' => 'Home', 'url' => 'index.php'],
                     ['label' => 'Criadas pelo Setor', 'url' => ['/comunicacaointerna/index']],
                     ['label' => 'Recebidas pelo Setor', 'url' => ['/destinocomunicacao-receb/index']],
+                    
                     ['label' => 'Despachos/Autorizações',
                 'items' => [
                  '<li class="dropdown-header">Área Gerencial</li>',
@@ -54,6 +59,18 @@ AppAsset::register($this);
                     //         'linkOptions' => ['data-method' => 'post']],
                 ],
             ]);
+}else
+            echo Nav::widget([
+                'options' => ['class' => 'navbar-nav navbar-right'],
+                'items' => [
+                    ['label' => 'Home', 'url' => 'index.php'],
+                    ['label' => 'Criadas pelo Setor', 'url' => ['/comunicacaointerna/index']],
+                    ['label' => 'Recebidas pelo Setor', 'url' => ['/destinocomunicacao-receb/index']],
+                    
+            ['label' => 'Sair', 'url' => 'http://localhost/senac/portal_senac_old/control_base_vermodulos/control_base_vermodulos.php'],
+                ],
+            ]);
+
             NavBar::end();
         ?>
 

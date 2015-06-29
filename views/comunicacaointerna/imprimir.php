@@ -6,6 +6,7 @@ use app\models\Comunicacaointerna;
 use app\models\ComunicacaointernaAut;
 use app\models\Destinocomunicacao;
 use app\models\DestinocomunicacaoEnc;
+use app\models\SituacaocomunicacaoSitco;
 use app\models\Despachos;
 use app\models\Cargos_car;
 use app\models\Colaborador;
@@ -15,15 +16,37 @@ use yii\helpers\Url;
 $session = Yii::$app->session;
 
 //RESGATANDO AS INFORMAÇÕES DA CI
-$com_codcomunicacao = $model->com_codcomunicacao;
-$com_codsituacao = $model->situacao->sitco_situacao1;
-$datasolicitacao = $model->com_datasolicitacao;
-$com_titulo = $model->com_titulo;
-$com_texto = $model->com_texto;
-$com_codcolaboradorautorizacao = $model->colaborador->usuario->usu_nomeusuario;
-//$com_codcargoautorizacao = $model->cargo->car_cargo;
-$com_dataautorizacao = $model->com_dataautorizacao;
-$com_codtipo = $model->com_codtipo;
+// $com_codcomunicacao = $model->com_codcomunicacao;
+// $com_codsituacao = $model->situacao->sitco_situacao1;
+// $datasolicitacao = $model->com_datasolicitacao;
+// $com_titulo = $model->com_titulo;
+// $com_texto = $model->com_texto;
+// $com_codcolaboradorautorizacao = $model->colaborador->usuario->usu_nomeusuario;
+// //$com_codcargoautorizacao = $model->cargo->car_cargo;
+// $com_dataautorizacao = $model->com_dataautorizacao;
+// $com_codtipo = $model->com_codtipo;
+$id = $_GET['id'];
+//$datasolicitacao = $id['com_datasolicitacao'];
+
+$sql_comunicacao = "SELECT * FROM comunicacaointerna_com WHERE com_codcomunicacao = ".$id."";
+  $comunicacoes = Comunicacaointerna::findBySql($sql_comunicacao)->all(); 
+  foreach ($comunicacoes as $comunicacao) {
+     
+     $com_codcomunicacao = $comunicacao["com_codcomunicacao"];
+     $datasolicitacao = $comunicacao["com_datasolicitacao"];
+     $com_texto = $comunicacao["com_texto"];
+     $com_codsituacao = $comunicacao["com_codsituacao"];
+     $com_titulo = $comunicacao["com_titulo"];
+     $com_codtipo = $comunicacao["com_codtipo"];
+   }
+
+//SITUACAO_CI...
+$sql_situacao = "select sitco_situacao1 from situacaocomunicacao_sitco where sitco_codsituacao = '".$com_codsituacao."'";
+$situacao = SituacaocomunicacaoSitco::findBySql($sql_situacao)->all();
+foreach ($situacao as $nome_situacao) { 
+$situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
+}
+
 
 //PEGANDO OS DESTINATÁIOS NESSE DESPACHO
      $destinatarios = "";
@@ -42,7 +65,6 @@ $com_codtipo = $model->com_codtipo;
      }  
 
 ?>
-
 
 <?php
 
@@ -64,16 +86,12 @@ $com_codtipo = $model->com_codtipo;
 
   }
   
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<style>
-th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;}.anexos {font-size: 12px;font-weight: bold;}
-</style>
 </head>
 
 <body>
@@ -85,7 +103,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   </tr>
   <tr>
     <td height="39">[<em><strong>ASSUNTO</strong></em>] <?php echo $com_titulo ?></td>
-    <td><div align="center">SITUAÇÃO: <?php echo $com_codsituacao ?></div></td>
+    <td><div align="center">SITUAÇÃO: <?php echo $situacao_comunicacao ?></div></td>
   </tr>
 </table>
 <br />
@@ -104,20 +122,6 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <th height="122" scope="row">DISCRIMINAÇÃO</th>
     <td colspan="2"><?php echo $com_texto ?>
     <p>&nbsp;</p>
-    <p class="anexos">ANEXOS - - - - - - - - - - - - - - -  - - -<br />
-      <?php
-//GET ANEXOS
-    $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao,['recursive'=>FALSE]);
-    if (isset($files[0])) {
-        foreach ($files as $index => $file) {
-            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $nameFicheiro, ['target'=>'_blank']). "<br/>"; // render do ficheiro no browser
-        }
-    } else {
-        echo "Não existem arquivos disponíveis para download.";
-    }
-?>
-    </p>
         <!-- <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br /> -->
       <?php //echo $com_codcolaboradorautorizacao ?>&nbsp;&nbsp;&nbsp;<br />
       <?php //echo $com_codcargoautorizacao ?>&nbsp;&nbsp;&nbsp;<br />
@@ -131,7 +135,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <th height="51" colspan="3" scope="col">DESPACHOS E ENCAMINHAMENTOS</th>
   </tr>
   <?php
-  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$com_codcomunicacao."' AND deco_codsituacao = 2 order by deco_coddespacho";
+  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$id."' AND deco_codsituacao = 2 order by deco_coddespacho";
   $model = Despachos::findBySql($sql6)->all(); 
   foreach ($model as $models) {
      
@@ -152,7 +156,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
      //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
      $nome_unidade_encaminhar = "";
      $checa_espaco = 0;
-     $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
+     $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$id."' AND dest_codtipo = 3 AND dest_coddespacho = '".$id."'";
 
       $unidade = Destinocomunicacao::findBySql($sql)->all(); 
 
@@ -196,27 +200,11 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   </tr>
   <tr>
     <th height="305" scope="row">DESPACHO</th>
-    <td colspan="2"><?php echo $deco_despacho ?>
-    <p>&nbsp;</p>
-    <p class="anexos">ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
-      <?php
-//GET ANEXOS
-    $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
-    if (isset($files[0])) {
-        foreach ($files as $index => $file) {
-            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
-        }
-    } else {
-        echo "Não existem arquivos disponíveis para download.";
-    }
-
-    ?>
-    </p>
+    <td colspan="2"><?php echo $deco_despacho ?><br>
       <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
       <?php echo $nome_despachante ?>&nbsp;&nbsp;&nbsp;<br />
       <?php echo $deco_cargo ?>&nbsp;&nbsp;&nbsp;<br />
-      <?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?>&nbsp;&nbsp;&nbsp;<br />
+      <?php echo $deco_data ?>&nbsp;&nbsp;&nbsp;<br />
   </div></td>
   </tr>
   <?php } ?>

@@ -91,7 +91,7 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
             'com_dataautorizacao' => 'Data/Hora Autorização',
             'com_codcolaboradorautorizacao' => 'Autorizado por:',
             'com_codcargoautorizacao' => 'Cargo',
-            'file' => 'Anexo',
+            'file' => 'Anexos',
         ];
     }
 

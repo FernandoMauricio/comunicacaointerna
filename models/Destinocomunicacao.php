@@ -25,6 +25,7 @@ use yii\db\Expression;
 class Destinocomunicacao extends \yii\db\ActiveRecord
 {
 
+public $file;
     /**
      * @inheritdoc
      */
@@ -42,7 +43,8 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
             [['dest_codcomunicacao', 'dest_nomeunidadedest'], 'unique', 'targetAttribute' => ['dest_codcomunicacao', 'dest_nomeunidadedest']],
             [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio','dest_codtipo', 'dest_codsituacao', 'dest_nomeunidadedest'], 'required'],
             [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codtipo', 'dest_codsituacao'], 'integer'],
-            [['dest_nomeunidadeenvio','dest_nomeunidadedest'],  'string', 'max' => 100 ],
+            [['dest_nomeunidadeenvio','dest_nomeunidadedest', 'dest_anexo'],  'string', 'max' => 100 ],
+            [['file'], 'file', 'maxFiles' => 10],
         ];
     }
 
@@ -61,7 +63,8 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
             'dest_codtipo' => 'Tipo',
             'dest_codsituacao' => 'Situação',
             'dest_nomeunidadeenvio' => 'Unidade Remetente',
-            'dest_nomeunidadedest' => 'Destino', 
+            'dest_nomeunidadedest' => 'Destino',
+            'file' => 'Anexos',
         ];
     }
 

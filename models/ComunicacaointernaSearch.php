@@ -18,8 +18,8 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
     public function rules()
     {
         return [
-            [['com_codcomunicacao', 'com_codunidade', 'com_codtipo', 'com_codsituacao', 'com_codcolaboradorautorizacao', 'com_codcargoautorizacao'], 'integer'],
-            [['com_datasolicitacao', 'com_titulo', 'com_texto', 'com_dataautorizacao', 'com_codcolaborador'], 'safe'],
+            [['com_codcomunicacao', 'com_codunidade', 'com_codcolaboradorautorizacao', 'com_codcargoautorizacao'], 'integer'],
+            [['com_datasolicitacao', 'com_codtipo', 'com_codsituacao', 'com_titulo', 'com_texto', 'com_dataautorizacao', 'com_codcolaborador'], 'safe'],
         ];
     }
 
@@ -60,14 +60,13 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
          $connection = Yii::$app->db;
          $connection = Yii::$app->db_base;
 
-        //$query->joinWith('colaborador');
+        $query->joinWith('comCodtipo');
+        $query->joinWith('situacao');
         
         $query->andFilterWhere([
             'com_codcomunicacao' => $this->com_codcomunicacao,
             'com_codunidade' => $this->com_codunidade,
             'com_datasolicitacao' => $this->com_datasolicitacao,
-            'com_codtipo' => $this->com_codtipo,
-            'com_codsituacao' => $this->com_codsituacao,
             'com_dataautorizacao' => $this->com_dataautorizacao,
             'com_codcolaboradorautorizacao' => $this->com_codcolaboradorautorizacao,
             'com_codcargoautorizacao' => $this->com_codcargoautorizacao,
@@ -78,6 +77,8 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
 
         $query->andFilterWhere(['like', 'com_titulo', $this->com_titulo])
             ->andFilterWhere(['com_codunidade' => $session['sess_codunidade']])
+            ->andFilterWhere(['like', 'tipodocumentacao_tipdo.tipdo_tipo', $this->com_codtipo])
+            ->andFilterWhere(['like', 'situacaocomunicacao_sitco.sitco_situacao1', $this->com_codsituacao])
             ->andFilterWhere(['like', 'com_texto', $this->com_texto]);
 
         return $dataProvider;

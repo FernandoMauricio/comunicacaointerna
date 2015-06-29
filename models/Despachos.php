@@ -25,6 +25,9 @@ use Yii;
  */
 class Despachos extends \yii\db\ActiveRecord
 {
+
+        public $file;
+        
     /**
      * @inheritdoc
      */
@@ -43,7 +46,7 @@ class Despachos extends \yii\db\ActiveRecord
             [['deco_codcomunicacao', 'deco_codcolaborador', 'deco_codunidade', 'deco_codcargo', 'deco_codsituacao'], 'integer'],
             [['deco_data'], 'safe'],
             [['deco_despacho'], 'string'],
-            [['deco_nomeunidade', 'deco_nomeusuario', 'deco_cargo'], 'string', 'max' => 100]
+            [['deco_nomeunidade', 'deco_nomeusuario', 'deco_cargo'], 'string', 'max' => 100],
         ];
     }
 

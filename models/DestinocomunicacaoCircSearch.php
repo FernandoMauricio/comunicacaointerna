@@ -56,7 +56,7 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
             return $dataProvider;
         }
 
-       //$query->joinWith('comunicacaointerna');
+       $query->joinWith('comunicacaointerna');
 
         $query->andFilterWhere([
             'dest_coddestino' => $this->dest_coddestino,
@@ -75,7 +75,7 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
         $session = Yii::$app->session;
 
         $query->andFilterWhere(['like', 'dest_nomeunidadeenvio', $this->dest_nomeunidadeenvio])
-            //->andFilterWhere(['dest_coddespacho' => 0])
+            ->andFilterWhere(['comunicacaointerna_com.com_codsituacao' => 4])
             ->andFilterWhere(['dest_nomeunidadedest' => $session['sess_unidade']])
             ->andFilterWhere(['dest_codtipo' => [2,3]])
             ->andFilterWhere(['dest_codsituacao' => 2])
