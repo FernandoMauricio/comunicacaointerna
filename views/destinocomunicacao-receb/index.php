@@ -1,21 +1,27 @@
 <?php
 
 use yii\helpers\Html;
-//use yii\grid\GridView;
+use kartik\widgets\DatePicker;
 use kartik\grid\GridView;
 use yii\widgets\Pjax;
+use kartik\widgets\Select2;
+use yii\helpers\ArrayHelper;
+use app\models\TipodocumentacaoTipdo;
+use app\models\SituacaoComunicacaoSitco;
+
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DestinocomunicacaoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Comunicações Internas - Recebidas pelo Setor';
+$this->title = 'Comunicações Internas ';
 $this->params['breadcrumbs'][] = $this->title;
-$unidade = $_SESSION['sess_unidade'];
+$session = Yii::$app->session;
+$unidade = $session['sess_unidade'];
 ?>
 <div class="destinocomunicacao-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1><?= Html::encode($this->title). '<small>Recebidas pelo Setor</small>' ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?php Pjax::begin(); ?>
@@ -35,37 +41,78 @@ $unidade = $_SESSION['sess_unidade'];
         'type'=>'primary',
     ],
         'columns' => [
-            //'dest_coddestino',
-            'dest_codcomunicacao',
-            //'dest_codcolaborador',
-            //'dest_codunidadeenvio',
-            //'dest_codunidadedest',
+
             [
-                'attribute' => 'com_codtipo',
-                'label' => 'Tipo',
-                'value' => 'comunicacaointerna.comCodtipo.tipdo_tipo',
+            'attribute' => 'dest_codcomunicacao',
+            'width'=>'100px',
             ],
-            //'dest_codsituacao',
-            // 'dest_coddespacho',
+        
              'dest_nomeunidadeenvio',
 
             [
-                'attribute' => 'comunicacaointerna.com_datasolicitacao',
-                'format' => ['datetime', 'dd/MM/yyyy as HH:mm:ss']
+                'attribute'=>'tipo', 
+                'vAlign'=>'middle',
+                'width'=>'160px',
+                'value'=>function ($model, $key, $index, $widget) { 
+                    return Html::a($model->comunicacaointerna->comCodtipo->tipdo_tipo);
+                },
+                'filterType'=>GridView::FILTER_SELECT2,
+                'filter'=>ArrayHelper::map(TipodocumentacaoTipdo::find()->orderBy('tipdo_codtipo')->asArray()->all(), 'tipdo_tipo', 'tipdo_tipo'), 
+                'filterWidgetOptions'=>[
+                    'pluginOptions'=>['allowClear'=>true],
+                ],
+                'filterInputOptions'=>['placeholder'=>'Tipo'],
+                'format'=>'raw'
             ],
+
 
             [
-            'attribute' => 'comunicacaointerna.com_titulo',
-            'value' => 'comunicacaointerna.com_titulo'
+                'attribute' => 'data_solicitacao',
+                'value' => 'comunicacaointerna.com_datasolicitacao',
+                'format' => ['datetime', 'd/m/Y'],
+                'width' => '190px',
+                'hAlign' => 'center',
+                'filter'=> DatePicker::widget([
+                'model' => $searchModel, 
+                'attribute' => 'data_solicitacao',
+                'pluginOptions' => [
+                     'autoclose'=>true,
+                     'format' => 'yyyy-mm-dd',
+                ]
+            ])
             ],
+
+             [
+                'attribute' => 'titulo',
+                'value' => function ($data) {
+
+                    $session = Yii::$app->session;      
+
+                    if($data->comunicacaointerna->com_codtipo == '1'  )
+                {
+                return $data->comunicacaointerna->com_titulo;
+                }else{
+                    return '****CONFIDENCIAL****';
+                }
+                },
+             ],
 
             [
-                'attribute' => 'comunicacaointerna.com_codsituacao',
-                'value' => 'comunicacaointerna.situacao.sitco_situacao1',
-                'width'=>'180px'
-
+                'attribute'=>'situacao', 
+                'vAlign'=>'middle',
+                'width'=>'160px',
+                'value'=>function ($model, $key, $index, $widget) { 
+                    return Html::a($model->comunicacaointerna->situacao->sitco_situacao1);
+                },
+                'filterType'=>GridView::FILTER_SELECT2,
+                'filter'=>ArrayHelper::map(SituacaocomunicacaoSitco::find()->orderBy('sitco_codsituacao')->asArray()->all(), 'sitco_codsituacao', 'sitco_situacao1'), 
+                'filterWidgetOptions'=>[
+                    'pluginOptions'=>['allowClear'=>true],
+                ],
+                'filterInputOptions'=>['placeholder'=>'Situação'],
+                'format'=>'raw'
             ],
-            // 'dest_nomeunidadedest',
+
             ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
         ],
     ]); ?>

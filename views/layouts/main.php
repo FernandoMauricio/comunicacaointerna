@@ -51,7 +51,7 @@ AppAsset::register($this);
                  ['label' => 'Autorizações Pendentes', 'url' => ['/comunicacaointerna-aut/index']],
                            ],
         ],
-            ['label' => 'Sair', 'url' => 'http://localhost/senac/portal_senac_old/control_base_vermodulos/control_base_vermodulos.php'],
+            ['label' => 'Sair', 'url' => 'http://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
                     // Yii::$app->user->isGuest ?
                     //     ['label' => 'Login', 'url' => ['/site/login']] :
                     //     ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
@@ -67,7 +67,7 @@ AppAsset::register($this);
                     ['label' => 'Criadas pelo Setor', 'url' => ['/comunicacaointerna/index']],
                     ['label' => 'Recebidas pelo Setor', 'url' => ['/destinocomunicacao-receb/index']],
                     
-            ['label' => 'Sair', 'url' => 'http://localhost/senac/portal_senac_old/control_base_vermodulos/control_base_vermodulos.php'],
+            ['label' => 'Sair', 'url' => 'http://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
                 ],
             ]);
 

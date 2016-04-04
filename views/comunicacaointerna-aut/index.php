@@ -72,7 +72,7 @@ $gridColumns = [
                         ],
                         [
                             'attribute' => 'com_datasolicitacao',
-                            'format' =>  ['date', 'php:d/m/Y H:i:s'],
+                            'format' =>  ['date', 'php:d/m/Y'],
                         ],
 
 

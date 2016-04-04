@@ -20,7 +20,7 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
     {
         return [
             [['dest_coddestino', 'dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codtipo', 'dest_codsituacao', 'dest_coddespacho'], 'integer'],
-            [['dest_data', 'dest_nomeunidadeenvio', 'dest_nomeunidadedest'], 'safe'],
+            [['dest_data', 'dest_nomeunidadeenvio', 'dest_nomeunidadedest', 'titulo', 'tipo', 'data_solicitacao', 'situacao'], 'safe'],
         ];
     }
 
@@ -42,11 +42,33 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
      */
     public function search($params)
     {
-        $query = Destinocomunicacao::find();
+        $query = Destinocomunicacao::find()
+        ->orderBy(['dest_codcomunicacao' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['titulo'] = [
+        'asc' => ['comunicacaointerna_com.com_titulo' => SORT_ASC],
+        'desc' => ['comunicacaointerna_com.com_titulo' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['tipo'] = [
+        'asc' => ['comunicacaointerna_com.com_tipo' => SORT_ASC],
+        'desc' => ['comunicacaointerna_com.com_tipo' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['data_solicitacao'] = [
+        'asc' => ['comunicacaointerna_com.com_datasolicitacao' => SORT_ASC],
+        'desc' => ['comunicacaointerna_com.com_datasolicitacao' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['situacao'] = [
+        'asc' => ['comunicacaointerna_com.com_codsituacao' => SORT_ASC],
+        'desc' => ['comunicacaointerna_com.com_codsituacao' => SORT_DESC],
+        ];
+
 
         $this->load($params);
 
@@ -56,7 +78,8 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
             return $dataProvider;
         }
 
-       $query->joinWith('comunicacaointerna');
+        $query->joinWith('comunicacaointerna.comCodtipo');
+        $query->joinWith('comunicacaointerna');
 
         $query->andFilterWhere([
             'dest_coddestino' => $this->dest_coddestino,
@@ -75,6 +98,10 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
         $session = Yii::$app->session;
 
         $query->andFilterWhere(['like', 'dest_nomeunidadeenvio', $this->dest_nomeunidadeenvio])
+            ->andFilterWhere(['like', 'comunicacaointerna_com.com_titulo', $this->titulo])
+            ->andFilterWhere(['=', 'tipodocumentacao_tipdo.tipdo_tipo', $this->tipo])
+            ->andFilterWhere(['like', 'comunicacaointerna_com.com_datasolicitacao', $this->data_solicitacao])
+            ->andFilterWhere(['=', 'comunicacaointerna_com.com_codsituacao', $this->situacao])
             ->andFilterWhere(['comunicacaointerna_com.com_codsituacao' => 4])
             ->andFilterWhere(['dest_nomeunidadedest' => $session['sess_unidade']])
             ->andFilterWhere(['dest_codtipo' => [2,3]])

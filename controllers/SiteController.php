@@ -50,6 +50,12 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        session_start();
+
+        if (!isset($_SESSION['sess_codusuario']) && !isset($_SESSION['sess_codcolaborador']) && !isset($_SESSION['sess_codunidade']) && !isset($_SESSION['sess_nomeusuario']) && !isset($_SESSION['sess_coddepartamento']) && !isset($_SESSION['sess_codcargo']) && !isset($_SESSION['sess_cargo']) && !isset($_SESSION['sess_setor']) && !isset($_SESSION['sess_unidade']) && !isset($_SESSION['sess_responsavelsetor'])) 
+        {
+           return $this->redirect('http://portalsenac.am.senac.br');
+        }
 
              //BUSCA NO BANCO SE EXISTE CI PENDENTE
              $checar_ci = Comunicacaointerna::find()

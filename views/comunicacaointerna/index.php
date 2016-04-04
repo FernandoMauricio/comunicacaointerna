@@ -89,10 +89,24 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
 
     */
-                'com_titulo',
+             [
+                'attribute' => 'com_titulo',
+                'value' => function ($data) {
+
+                    $session = Yii::$app->session;      
+
+                    if($data->com_codtipo == '1'  )
+                {
+                return $data->com_titulo;
+                }else{
+                    return '****CONFIDENCIAL****';
+                }
+                },
+             ],
             [
                 'attribute' => 'com_datasolicitacao',
-                'format' => ['datetime', 'dd/MM/yyyy HH:mm:ss']
+                'format' => ['date', 'php:d/m/Y'],
+                'width'=>'130px',
             ],
             
 /*            [

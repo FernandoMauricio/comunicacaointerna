@@ -6,8 +6,10 @@ use Yii;
 use app\models\Comunicacaointerna;
 use app\models\ComunicacaointernaSearch;
 use app\models\Destinocomunicacao;
+use app\models\Emailusuario;
 use app\models\DestinocomunicacaoSearch;
 use app\models\UploadForm;
+use app\models\Unidades;
 use app\models\Model;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -44,6 +46,11 @@ class ComunicacaointernaController extends Controller
     public function actionIndex()
 
     {
+        $session = Yii::$app->session;
+        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
+        {
+           return $this->redirect('http://portalsenac.am.senac.br');
+        }
 
         $searchModel = new ComunicacaointernaSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
@@ -62,6 +69,12 @@ class ComunicacaointernaController extends Controller
      */
     public function actionView($id)
     {
+                        $session = Yii::$app->session;
+        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
+        {
+           return $this->redirect('http://portalsenac.am.senac.br');
+        }
+        
             //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
              $destinocomunicacao = Destinocomunicacao::find()
                 ->where(['dest_codcomunicacao' => $_GET])
@@ -81,15 +94,20 @@ class ComunicacaointernaController extends Controller
      */
     public function actionCreate()
     {
+        $session = Yii::$app->session;
+        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
+        {
+           return $this->redirect('http://portalsenac.am.senac.br');
+        }
+
         $model = new Comunicacaointerna();
 
                 //Coletar a sessão do usuário
-                $session = Yii::$app->session;
+                //$session = Yii::$app->session;
                 $model->com_codcolaborador= $session['sess_codcolaborador'];
                 $model->com_codunidade= $session['sess_codunidade'];
-                $session->close();
 
-                if ($_SESSION['sess_responsavelsetor'] == 0){
+                if ($session['sess_responsavelsetor'] == 0){
 
                 $model->nomesituacao = 'Em Elaboração';
                 $model->com_codsituacao = 1;
@@ -103,7 +121,7 @@ class ComunicacaointernaController extends Controller
 
                 if ($model->load(Yii::$app->request->post()) && $model->save())
                 {
-                    $model->com_datasolicitacao = date('Y-m-d h:m:s');
+                    $model->com_datasolicitacao = date('Y-m-d H:i:s');
 
                     $model->save();
                     //setando a session da comunicação
@@ -126,11 +144,17 @@ class ComunicacaointernaController extends Controller
      */
     public function actionUpdate($id)
       {
+         $session = Yii::$app->session;
+         
+        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
+        {
+           return $this->redirect('http://portalsenac.am.senac.br');
+        }
           
                 $model = $this->findModel($id);
 
                 //Resgatando as sessões da CI
-                 $session = Yii::$app->session;
+                 //$session = Yii::$app->session;
 
                 //conexão com os bancos
                  $connection = Yii::$app->db;
@@ -141,7 +165,7 @@ class ComunicacaointernaController extends Controller
                 $model->com_codunidade = $session['sess_codunidade'];
 
                 //Caso NÃO seja gerente, situação fica PARA AUTORIZAÇÃO, se não, fica EM CIRCULAÇÃO
-                if ($_SESSION['sess_responsavelsetor'] == 0){
+                if ($session['sess_responsavelsetor'] == 0){
 
                 $model->nomesituacao = 'Enviar para Autorização';
             }else{
@@ -158,7 +182,7 @@ class ComunicacaointernaController extends Controller
                                 $destinocomunicacao->dest_codtipo = 2; //TIPO = COM CÓPIA
                                 $destinocomunicacao->dest_codsituacao = 1; // AGUARDANDO ABERTURA
                                 $destinocomunicacao->dest_coddespacho = 0; // AGUARDANDO DESPACHO
-                                $destinocomunicacao->dest_data = date('Y-m-d h:m:s');
+                                $destinocomunicacao->dest_data = date('Y-m-d H:i:s');
 
         //USUÁRIOS APENAS IRÃO EDITAR COMUNICAÇÕES COM STATUS DE 'EM ELABORAÇÃO'
         if($model->com_codsituacao <> 1){
@@ -177,7 +201,24 @@ class ComunicacaointernaController extends Controller
                                         $destinocomunicacao->dest_codcolaborador=$model->com_codcolaborador;
                                         $destinocomunicacao->dest_codunidadeenvio=$model->com_codunidade;
                                         $destinocomunicacao->dest_nomeunidadeenvio=$session['sess_unidade'];
-                                        $destinocomunicacao->dest_data = date('Y-m-d h:m:s');
+                                        $destinocomunicacao->dest_data = date('Y-m-d H:i:s');
+
+$teste = Yii::$app->request->post('Destinocomunicacao');
+$teste2 = $teste['dest_nomeunidadedest'];
+
+$sql_unidades = "SELECT * FROM `db_base`.`unidade_uni` INNER JOIN `db_ci`.`destinocomunicacao_dest` ON `db_base`.`unidade_uni`.`uni_nomeabreviado` = `db_ci`.`destinocomunicacao_dest`.`dest_nomeunidadedest` WHERE `db_ci`.`destinocomunicacao_dest`.`dest_codcomunicacao` ='".$destinocomunicacao->dest_codcomunicacao."' AND `db_ci`.`destinocomunicacao_dest`.`dest_nomeunidadedest` ='".$teste2."'";
+
+        $unidades = Unidades::findBySql($sql_unidades)->all(); 
+
+        foreach ($unidades as $unidade) {
+
+              $cod_unidade = $unidade['uni_codunidade'];
+
+                $command = $connection->createCommand(
+                 "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codunidadedest` = ".$cod_unidade." WHERE `dest_codcomunicacao` ='".$model->com_codcomunicacao."' AND `dest_nomeunidadedest` ='".$teste2."'");
+                $command->execute();
+
+             }
                                     }
 
                                     $searchModel = new DestinocomunicacaoSearch();
@@ -235,14 +276,31 @@ class ComunicacaointernaController extends Controller
                                                 }
                                         }                
                 //Caso NÃO seja gerente, situação fica PARA AUTORIZAÇÃO, se não, fica EM CIRCULAÇÃO
-                            if ($_SESSION['sess_responsavelsetor'] == 0){
+                            if ($session['sess_responsavelsetor'] == 0){
 
                             $model->com_codsituacao = 3; 
-                            $model->save();           
+                            $model->save();
+
+         //ENVIANDO EMAIL PARA O GERENTE INFORMANDO SOBRE A CI PENDENTE DE AUTORIZAÇÃO
+          $sql_email = "SELECT emus_email FROM emailusuario_emus, colaborador_col, responsavelambiente_ream WHERE ream_codunidade = '".$model->com_codunidade."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = emus_codusuario";
+      
+      $email_autorizacao = Emailusuario::findBySql($sql_email)->all(); 
+      foreach ($email_autorizacao as $email)
+          {
+            $email_gerente  = $email["emus_email"];
+
+                            Yii::$app->mailer->compose()
+                            ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
+                            ->setTo($email_gerente)
+                            ->setSubject('CI Aguardando Autorização')
+                            ->setTextBody('Existe uma CI de código: '.$id.' aguardando sua autorização')
+                            ->setHtmlBody('<h4>Prezado(a) Gerente, <br><br>Existe uma Comunicação Interna de <strong style="color: #337ab7"">código: '.$id.'</strong> aguardando sua autorização. <br> Por favor, não responda esse e-mail. Acesse http://portalsenac.am.senac.br para AUTORIZAR a CI. <br><br> Atenciosamente, <br> Sistema Gerenciador de Documentação Eletrônica.</h4>')
+                            ->send();
+                        }        
                         }else{
 
                             $model->com_codsituacao = 4;
-                            $model->com_dataautorizacao = date('Y-m-d h:m:s');
+                            $model->com_dataautorizacao = date('Y-m-d H:i:s');
                             $model->com_codcolaboradorautorizacao = $session['sess_codcolaborador'];
                             $model->com_codcargoautorizacao = $session['sess_codcargo'];
                             $model->save();
@@ -251,7 +309,43 @@ class ComunicacaointernaController extends Controller
                 $connection = Yii::$app->db;
                 $command = $connection->createCommand(
                  "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = '2' WHERE `dest_codcomunicacao` =".$model->com_codcomunicacao);
-                $command->execute();  
+                $command->execute();
+
+         //ENVIA EMAIL PARA TODAS AS UNIDADES QUE FORAM INSERIDAS NO DESTINO DA CI
+         //CRIANDO ARRAY COM SETORES PARTICIPANTES DA CI....
+         //
+         //
+          $contador = 0;
+          $manda_email = 0;
+          $unidade_destino = "";
+          $sql_unidade_destino = "SELECT dest_codunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = ".$model->com_codcomunicacao;
+
+          $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
+                 foreach ($unidades as $unidade)
+                    {
+                     $unidade_destino  = $unidade["dest_codunidadedest"];
+                   
+
+          $sql_email_unidade = "SELECT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
+      
+                          $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all(); 
+                          foreach ($email_unidades as $email_unidade)
+                                       {
+                                         $email_unidade_gerente  = $email_unidade["emus_email"];
+
+                                                Yii::$app->mailer->compose()
+                                                ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
+                                                ->setTo($email_unidade_gerente)
+                                                ->setSubject('CI Aguardando Despacho')
+                                                ->setTextBody('Existe uma CI de código: '.$id.' aguardando seu despacho')
+                                                ->setHtmlBody('<h4>Prezado(a) Gerente, <br><br>Existe uma Comunicação Interna de <strong style="color: #337ab7"">código: '.$id.'</strong> EM CIRCULAÇÃO aguardando seu DESPACHO. <br> Por favor, não responda esse e-mail. Acesse http://portalsenac.am.senac.br para realizar o DESPACHO. <br><br> Atenciosamente, <br> Sistema Gerenciador de Documentação Eletrônica.</h4>')
+                                                ->send();
+
+                                       }
+                $manda_email++;
+            }
+
+
 
                         }
                              return $this->redirect(['index']);

@@ -12,10 +12,11 @@ use app\models\Colaborador;
 use yii\helpers\BaseFileHelper;
 use yii\helpers\Url;
 
-$session = Yii::$app->session;
+//$session = Yii::$app->session;
 
 //RESGATANDO AS INFORMAÇÕES DA CI
 $com_codcomunicacao = $model->com_codcomunicacao;
+$unidade_solicitante =  $model->unidades->uni_nomeabreviado;
 $com_codsituacao = $model->situacao->sitco_situacao1;
 $datasolicitacao = $model->com_datasolicitacao;
 $com_titulo = $model->com_titulo;
@@ -72,7 +73,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   </tr>
   <tr>
     <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)) ?></div></td>
-    <td width="41%" scope="col"><div align="center"><?php echo $session['sess_unidade'] ?></div></td>
+    <td width="41%" scope="col"><div align="center"><?php echo $unidade_solicitante ?></div></td>
     <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?></div></td>
   </tr>
     <tr>
@@ -86,7 +87,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $nameFicheiro) . "<br/>" ; // render do ficheiro no browser
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'.$com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']). "<br/>" ; // render do ficheiro no browser
         }
     } else {
         echo "Não existem arquivos disponíveis para download.";

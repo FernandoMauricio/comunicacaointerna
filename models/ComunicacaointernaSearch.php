@@ -42,7 +42,8 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
     public function search($params)
     {
 
-        $query = ComunicacaoInterna::find();
+        $query = ComunicacaoInterna::find()
+        ->orderBy(['com_codcomunicacao' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -26,6 +26,12 @@ class Destinocomunicacao extends \yii\db\ActiveRecord
 {
 
 public $file;
+public $titulo;
+public $tipo;
+public $data_solicitacao;
+public $situacao;
+
+
     /**
      * @inheritdoc
      */
@@ -40,11 +46,13 @@ public $file;
     public function rules()
     {
         return [
-            [['dest_codcomunicacao', 'dest_nomeunidadedest'], 'unique', 'targetAttribute' => ['dest_codcomunicacao', 'dest_nomeunidadedest']],
+            [['dest_codcomunicacao', 'dest_codsituacao', 'dest_nomeunidadedest','dest_coddespacho'], 'unique', 'targetAttribute' => ['dest_codcomunicacao',  'dest_codsituacao', 'dest_nomeunidadedest','dest_coddespacho']],
+            //[['dest_codcomunicacao',  'dest_nomeunidadedest','dest_coddespacho'], 'unique', 'targetAttribute' => ['dest_codcomunicacao', 'dest_nomeunidadedest','dest_coddespacho'], 'message' => '"{value}" Já está inserido na CI e ainda não realizou o despacho!'],
+            [['titulo', 'tipo', 'data_solicitacao', 'situacao'], 'safe'],
             [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio','dest_codtipo', 'dest_codsituacao', 'dest_nomeunidadedest'], 'required'],
-            [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codtipo', 'dest_codsituacao'], 'integer'],
+            [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codunidadedest', 'dest_codtipo', 'dest_codsituacao'], 'integer'],
             [['dest_nomeunidadeenvio','dest_nomeunidadedest', 'dest_anexo'],  'string', 'max' => 100 ],
-            [['file'], 'file', 'maxFiles' => 10],
+            [['file'], 'file', 'maxFiles' => 10,'checkExtensionByMimeType'=>false, 'extensions' => 'pdf, zip, rar, doc, docx'],
         ];
     }
 
@@ -56,13 +64,17 @@ public $file;
     {
         return [
             'dest_coddestino' => 'Código Destino',
-            'dest_codcomunicacao' => 'Cód. Comunicação',
+            'dest_codcomunicacao' => 'Cód.',
             'dest_codcolaborador' => 'Código Colaborador',
             'dest_codunidadeenvio' => 'Código da Unidade',
-            'dest_data' => 'Data/Hora',
+            'dest_data' => 'Data',
+            'data_solicitacao' => 'Data da Solicitação',
+            'titulo' => 'Título',
+            'tipo' => 'Tipo',
+            'situacao' => 'Situação',
             'dest_codtipo' => 'Tipo',
             'dest_codsituacao' => 'Situação',
-            'dest_nomeunidadeenvio' => 'Unidade Remetente',
+            'dest_nomeunidadeenvio' => 'Unidade',
             'dest_nomeunidadedest' => 'Destino',
             'file' => 'Anexos',
         ];
@@ -97,6 +109,7 @@ public $file;
     {
         return $this->hasOne(Unidades::className(),['uni_nomeabreviado' => 'dest_nomeunidadedest']);
     }
+
 
 }
 

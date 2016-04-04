@@ -8,8 +8,10 @@ use app\models\Destinocomunicacao;
 use app\models\DestinocomunicacaoEnc;
 use app\models\SituacaocomunicacaoSitco;
 use app\models\Despachos;
-use app\models\Cargos_car;
+use app\models\Cargos;
+use app\models\Unidades;
 use app\models\Colaborador;
+use app\models\UsuarioUsu;
 use yii\helpers\BaseFileHelper;
 use yii\helpers\Url;
 
@@ -38,10 +40,41 @@ $sql_comunicacao = "SELECT * FROM comunicacaointerna_com WHERE com_codcomunicaca
      $com_codsituacao = $comunicacao["com_codsituacao"];
      $com_titulo = $comunicacao["com_titulo"];
      $com_codtipo = $comunicacao["com_codtipo"];
+     $codcolaborador_autorizacao = $comunicacao["com_codcolaboradorautorizacao"];
+     $codcargo_autorizacao = $comunicacao["com_codcargoautorizacao"];
+     $com_dataautorizacao = $comunicacao["com_dataautorizacao"];
+     $com_codunidade = $comunicacao["com_codunidade"];
    }
 
+
+   //UNIDADE SOLICITANTE
+   $sql_solicitante = "SELECT `db_base`.`unidade_uni`.`uni_nomeabreviado` FROM `db_base`.`unidade_uni` WHERE `uni_codunidade` = '".$com_codunidade."'";
+          $solicitantes = Unidades::findBySql($sql_solicitante)->all();
+                 foreach ($solicitantes as $solicitante)
+                    {
+                     $unidade_solicitante  = $solicitante["uni_nomeabreviado"];
+                    }
+
+
+    // COLABORADOR AUTORIZOU....
+   $sql_colaborador = "SELECT `db_base`.`usuario_usu`.`usu_nomeusuario` FROM `db_base`.`usuario_usu`, `db_base`.`colaborador_col` WHERE col_codcolaborador = '".$codcolaborador_autorizacao."' and col_codusuario = usu_codusuario";
+          $colaboradores = UsuarioUsu::findBySql($sql_colaborador)->all();
+                 foreach ($colaboradores as $colaborador)
+                    {
+                     $nome_autorizacao  = $colaborador["usu_nomeusuario"];
+                    }
+                         
+    // CARGO AUTORIZOU....
+   $sql_cargo = "SELECT `db_base`.`cargos_car`.`car_cargo` FROM  `db_base`.`cargos_car` WHERE car_codcargo = '".$codcargo_autorizacao."'";
+          $cargos = Cargos::findBySql($sql_cargo)->all();
+                 foreach ($cargos as $cargo)
+                    {
+                     $cargo_autorizacao  = $cargo["car_cargo"];
+                    }
+          
+
 //SITUACAO_CI...
-$sql_situacao = "select sitco_situacao1 from situacaocomunicacao_sitco where sitco_codsituacao = '".$com_codsituacao."'";
+$sql_situacao = "SELECT sitco_situacao1 FROM situacaocomunicacao_sitco WHERE sitco_codsituacao = '".$com_codsituacao."'";
 $situacao = SituacaocomunicacaoSitco::findBySql($sql_situacao)->all();
 foreach ($situacao as $nome_situacao) { 
 $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
@@ -93,46 +126,45 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
-
 <body>
 <table width="100%" border="1">
   <tr>
     <td width="18%" rowspan="2"><img src="../views/comunicacaointerna/pdf/logo.jpg" width="115" height="70" /></td>
-    <td width="58%" height="43"><div align="center"><strong> FORMULÁRIO DE DESPACHO</strong></div></td>
-    <td width="24%"><div align="center"><strong>CÓDIGO: <?php echo $com_codcomunicacao ?></strong></div></td>
+    <td width="58%" height="43"><div align="center" style="font-size: 12px; "><strong> FORMULÁRIO DE DESPACHO</strong></div></td>
+    <td width="24%"><div align="center"  style="font-size: 12px;"><strong>CÓDIGO: <?php echo $com_codcomunicacao ?></strong></div></td>
   </tr>
   <tr>
-    <td height="39">[<em><strong>ASSUNTO</strong></em>] <?php echo $com_titulo ?></td>
-    <td><div align="center">SITUAÇÃO: <?php echo $situacao_comunicacao ?></div></td>
+    <td height="39"  style="font-size: 12px;">[<em><strong>ASSUNTO</strong></em>] <?php echo $com_titulo ?></td>
+    <td><div align="center"  style="font-size: 12px;">SITUAÇÃO: <?php echo $situacao_comunicacao ?></div></td>
   </tr>
 </table>
-<br />
+
 <table width="100%" border="1">
   <tr>
-    <th height="28" scope="col">DATA/HORA</th>
-    <th width="41%" scope="col">SOLICITANTE</th>
-    <th scope="col">DESTINATÁRIO</th>
+    <th height="28" scope="col" style="font-size: 12px;">DATA/HORA</th>
+    <th width="41%" scope="col"  style="font-size: 12px;">SOLICITANTE</th>
+    <th scope="col"  style="font-size: 12px;">DESTINATÁRIO</th>
   </tr>
   <tr>
-    <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
-    <td width="41%" scope="col"><div align="center"><?php echo $session['sess_unidade'] ?></div></td>
-    <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?></div></td>
+    <td width="19%" height="44" scope="col"><div align="center"  style="font-size: 12px;"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
+    <td width="41%" scope="col"><div align="center"  style="font-size: 12px;"><?php echo $unidade_solicitante ?></div></td>
+    <td width="40%" scope="col"><div align="center"  style="font-size: 12px;"><?php echo $destinatarios ?></div></td>
   </tr>
     <tr>
-    <th height="122" scope="row">DISCRIMINAÇÃO</th>
-    <td colspan="2"><?php echo $com_texto ?>
+    <!-- <th height="122" scope="row">DISCRIMINAÇÃO</th> -->
+    <td colspan="3" style="font-size: 12px;"><?php echo $com_texto ?>
     <p>&nbsp;</p>
-        <!-- <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br /> -->
-      <?php //echo $com_codcolaboradorautorizacao ?>&nbsp;&nbsp;&nbsp;<br />
-      <?php //echo $com_codcargoautorizacao ?>&nbsp;&nbsp;&nbsp;<br />
-      <?php //echo $com_dataautorizacao ?>&nbsp;&nbsp;&nbsp;<br />
+      <div class="assinatura" style="font-size: 10px;" >Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
+      <?php echo $nome_autorizacao ?>&nbsp;&nbsp;&nbsp;<br />
+      <?php echo $cargo_autorizacao ?>&nbsp;&nbsp;&nbsp;<br />
+      <?php echo date('d/m/Y H:i:s', strtotime($com_dataautorizacao)) ?>&nbsp;&nbsp;&nbsp;<br />
   </div></td>
   </tr>
 </table>
 <hr />
 <table width="100%" border="1">
   <tr>
-    <th height="51" colspan="3" scope="col">DESPACHOS E ENCAMINHAMENTOS</th>
+    <th height="51" align="center" style="font-size: 12px;" colspan="3" scope="col">DESPACHOS E ENCAMINHAMENTOS</th>
   </tr>
   <?php
   $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$id."' AND deco_codsituacao = 2 order by deco_coddespacho";
@@ -156,9 +188,9 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
      //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
      $nome_unidade_encaminhar = "";
      $checa_espaco = 0;
-     $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$id."' AND dest_codtipo = 3 AND dest_coddespacho = '".$id."'";
+     $sql_encaminhar = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$id."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
 
-      $unidade = Destinocomunicacao::findBySql($sql)->all(); 
+      $unidade = Destinocomunicacao::findBySql($sql_encaminhar)->all(); 
 
       foreach ($unidade as $unidades) {
          if($checa_espaco == 0)
@@ -189,22 +221,22 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
   }  
      ?>
   <tr>
-    <th width="19%" scope="row">DATA/HORA</th>
-    <th width="41%">REMETENTE</th>
-    <th width="40%">DESTINATÁRIO</th>
+    <th width="19%" scope="row"  style="font-size: 12px;">DATA/HORA</th>
+    <th width="41%"  style="font-size: 12px;">REMETENTE</th>
+    <th width="40%"  style="font-size: 12px;">DESTINATÁRIO</th>
   </tr>
   <tr>
-    <td scope="row"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?></div></td>
-    <td><div align="center"><?php echo $unidade_despachante ?></div></td>
-    <td><p align="center"><?php echo $nome_unidade_encaminhar ?></p>
+    <td scope="row"><div align="center"  style="font-size: 12px;"><?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?></div></td>
+    <td><div align="center"  style="font-size: 12px;"><?php echo $unidade_despachante ?></div></td>
+    <td><p align="center"  style="font-size: 12px;"><?php echo $nome_unidade_encaminhar ?></p>
   </tr>
   <tr>
-    <th height="305" scope="row">DESPACHO</th>
-    <td colspan="2"><?php echo $deco_despacho ?><br>
-      <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
+    <!-- <th height="305" scope="row">DESPACHO</th> -->
+    <td colspan="3"  style="font-size: 12px;"><?php echo $deco_despacho ?><br>
+      <div class="assinatura" style="font-size: 10px;" >Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
       <?php echo $nome_despachante ?>&nbsp;&nbsp;&nbsp;<br />
       <?php echo $deco_cargo ?>&nbsp;&nbsp;&nbsp;<br />
-      <?php echo $deco_data ?>&nbsp;&nbsp;&nbsp;<br />
+      <?php echo date('d/m/Y H:i:s', strtotime($deco_data)) ?>&nbsp;&nbsp;&nbsp;<br />
   </div></td>
   </tr>
   <?php } ?>

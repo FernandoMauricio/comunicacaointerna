@@ -1,11 +1,17 @@
 <?php
 
 use yii\helpers\Html;
+use kartik\widgets\DynaGrid;
+use yii\helpers\ArrayHelper;
+use yii\widgets\Pjax;
 use kartik\grid\GridView;
 use kartik\editable\Editable;
-use yii\widgets\Pjax;
+use kartik\widgets\DatePicker;
+use kartik\widgets\Select2;
 use app\models\SituacaodestinoSide;
 use app\models\Comunicacaointerna;
+use app\models\TipodocumentacaoTipdo;
+use app\models\SituacaoComunicacaoSitco;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DestinocomunicacaoSearch */
@@ -50,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $gridColumns = [
                             [
                                 'class'=>'kartik\grid\ExpandRowColumn',
-                                'width'=>'50px',
+                                'format' => 'raw',
                                 'value'=>function ($model, $key, $index, $column) {
                                     return GridView::ROW_COLLAPSED;
                                 },
@@ -61,20 +67,55 @@ $gridColumns = [
                                 'expandOneOnly'=>true
                                 ],
 
-                                'dest_codcomunicacao',
-                                'dest_nomeunidadeenvio',
                                 [
-                                'attribute' => 'comunicacaointerna.com_datasolicitacao',
-                                'format' =>  ['date', 'php:d/m/Y H:i:s'],
+                                'attribute' => 'dest_codcomunicacao',
+                                'options' => ['width' => '3000'],
+                                ],                                
+
+                                [
+                                'attribute' => 'dest_nomeunidadeenvio',
+                                'options' => ['width' => '5000'],
                                 ],
 
                                 [
-                                'attribute' => 'comunicacaointerna.com_titulo',
-                                'value' => 'comunicacaointerna.com_titulo'
+                                    'attribute'=>'tipo', 
+                                    'vAlign'=>'middle',
+                                    'value'=>function ($model, $key, $index, $widget) { 
+                                        return Html::a($model->comunicacaointerna->comCodtipo->tipdo_tipo);
+                                    },
+                                    'filterType'=>GridView::FILTER_SELECT2,
+                                    'filter'=>ArrayHelper::map(TipodocumentacaoTipdo::find()->orderBy('tipdo_codtipo')->asArray()->all(), 'tipdo_tipo', 'tipdo_tipo'), 
+                                    'filterWidgetOptions'=>[
+                                        'pluginOptions'=>['allowClear'=>true],
+                                    ],
+                                    'filterInputOptions'=>['placeholder'=>'Tipo'],
+                                    'format'=>'raw'
+                                ],
+
+                                [
+                                    'attribute' => 'data_solicitacao',
+                                    'value' => 'comunicacaointerna.com_datasolicitacao',
+                                    'format' => ['datetime', 'd/m/Y'],
+                                    'hAlign' => 'center',
+                                    'filter'=> DatePicker::widget([
+                                    'model' => $searchModel, 
+                                    'attribute' => 'data_solicitacao',
+                                    'pluginOptions' => [
+                                         'autoclose'=>true,
+                                         'format' => 'yyyy-mm-dd',
+                                    ]
+                                ])
+                                ],
+
+                                [
+                                'attribute' => 'titulo',
+                                'value' => 'comunicacaointerna.com_titulo',
+                                'options' => ['width' => '10000'],
                                 ],
 
                                 ['class' => 'yii\grid\ActionColumn',
                                 'template' => '{update} {encerrar}',
+                                'options' => ['width' => '15000'],
                                 'buttons' => [
 
                                 //DESPACHAR BUTTON
@@ -107,22 +148,26 @@ $gridColumns = [
 
     <?php 
 
-    echo GridView::widget([
+  echo GridView::widget([
     'dataProvider'=>$dataProvider,
     'filterModel'=>$searchModel,
     'columns'=>$gridColumns,
     'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
     'headerRowOptions'=>['class'=>'kartik-sheet-style'],
     'filterRowOptions'=>['class'=>'kartik-sheet-style'],
-    'pjax'=>false, // pjax is set to always true for this demo
+    'pjax'=>true,
+    'striped'=>true,
+    'hover'=>true,
+    'persistResize'=>false,
     'beforeHeader'=>[
         [
             'columns'=>[
-                ['content'=>'Detalhes da Comunicação Interna', 'options'=>['colspan'=>5, 'class'=>'text-center warning']], 
-                ['content'=>'Área de Despacho', 'options'=>['colspan'=>3, 'class'=>'text-center warning']], 
+                ['content'=>'Detalhes da Comunicação Interna', 'options'=>['colspan'=>6, 'class'=>'text-center warning']], 
+                ['content'=>'Área de Despacho', 'options'=>['colspan'=>2, 'class'=>'text-center warning']], 
             ],
         ]
     ],
+
 
         'panel' => [
         'type'=>GridView::TYPE_PRIMARY,

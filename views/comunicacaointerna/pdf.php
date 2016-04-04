@@ -92,8 +92,8 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 <table width="100%" border="1">
   <tr>
     <th height="28" scope="col">DATA/HORA</th>
-    <th width="41%" scope="col">SOLICITANTE</th>
-    <th scope="col">DESTINATÁRIO</th>
+    <th width="41%" scope="col">DE</th>
+    <th scope="col">PARA</th>
   </tr>
   <tr>
     <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
@@ -101,21 +101,24 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?></div></td>
   </tr>
     <tr>
-    <th height="122" scope="row">DISCRIMINAÇÃO</th>
-    <td colspan="2"><?php echo $com_texto ?>
+  <!--   <th height="122" scope="row">DISCRIMINAÇÃO</th> -->
+    
+    <td colspan="3"><p>&nbsp;</p><?php echo $com_texto ?>
     <p>&nbsp;</p>
     <p class="anexos">ANEXOS - - - - - - - - - - - - - - -  - - -<br />
       <?php
+      if($com_codsituacao != 'Em Elaboração'){
 //GET ANEXOS
     $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao,['recursive'=>FALSE]);
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $nameFicheiro, ['target'=>'_blank']). "<br/>"; // render do ficheiro no browser
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']). "<br/>"; // render do ficheiro no browser
         }
     } else {
         echo "Não existem arquivos disponíveis para download.";
     }
+  }
 ?>
     </p>
         <!-- <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br /> -->
@@ -186,8 +189,8 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
      ?>
   <tr>
     <th width="19%" scope="row">DATA/HORA</th>
-    <th width="41%">REMETENTE</th>
-    <th width="40%">DESTINATÁRIO</th>
+    <th width="41%">DE</th>
+    <th width="40%">PARA</th>
   </tr>
   <tr>
     <td scope="row"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?></div></td>
@@ -195,8 +198,8 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <td><p align="center"><?php echo $nome_unidade_encaminhar ?></p>
   </tr>
   <tr>
-    <th height="305" scope="row">DESPACHO</th>
-    <td colspan="2"><?php echo $deco_despacho ?>
+    <!-- <th height="305" scope="row">DESPACHO</th> -->
+    <td colspan="3"><p>&nbsp;</p><?php echo $deco_despacho ?>
     <p>&nbsp;</p>
     <p class="anexos">ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
       <?php

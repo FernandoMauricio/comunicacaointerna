@@ -26,12 +26,16 @@ use kartik\widgets\FileInput;
     <?php //echo $form->field($model, 'file[]')->fileInput(['multiple' => true]) ?>
 
     <?php
+echo '<label class="control-label">Anexos</label>  <strong style="color: #E61238""><small>extensões permitidas: .pdf / .zip / .rar / .doc / .docx</small></strong>';
 echo FileInput::widget([
     'model' => $model,
     'attribute' => 'file[]',
-    'options' => ['multiple' => true,
-    'showUpload' => true,
-    ]
+    'options' => ['multiple' => true, 'accept'=>'.pdf, .zip, .rar, .doc, .docx',
+    ],
+    'pluginOptions' => [
+    'showRemove'=> false,
+    'showUpload'=> false,
+    ],
 ]);
     ?>
 <br>

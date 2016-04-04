@@ -13,7 +13,7 @@ use yii\helpers\Url;
 
 //RESGATANDO AS INFORMAÇÕES DA CI
 $dest_coddestino = $model->dest_coddestino;
-$dest_nomeunidadeenvio =  $model->dest_nomeunidadeenvio;
+$unidade_solicitante =  $model->comunicacaointerna->unidades->uni_nomeabreviado;
 $dest_nomeunidadedest =  $model->dest_nomeunidadedest;
 $dest_codcomunicacao = $model->dest_codcomunicacao;
 $com_codcomunicacao = $model->comunicacaointerna->com_codcomunicacao;
@@ -21,9 +21,10 @@ $com_codsituacao = $model->comunicacaointerna->situacao->sitco_situacao1;
 $datasolicitacao = $model->comunicacaointerna->com_datasolicitacao;
 $com_titulo = $model->comunicacaointerna->com_titulo;
 $com_texto = $model->comunicacaointerna->com_texto;
-$com_codcolaboradorautorizacao = $model->comunicacaointerna->colaborador->usuario->usu_nomeusuario;
+$com_codcolaboradorautorizacao = $model->comunicacaointerna->colaboradorAutorizacao->usuario->usu_nomeusuario;
 $com_codcargoautorizacao = $model->comunicacaointerna->cargo->car_cargo;
 $com_dataautorizacao = $model->comunicacaointerna->com_dataautorizacao;
+$com_codtipo = $model->comunicacaointerna->com_codtipo;
 
 $session = Yii::$app->session;
 
@@ -44,6 +45,30 @@ $session = Yii::$app->session;
      }  
 
 ?>
+
+<?php
+
+  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+  {
+       
+     
+     $com_titulo = "CONFIDENCIAL";
+     $com_texto = "<div align='center'>********************************************************************************<br>".
+              "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br></div>";
+
+  }
+  
+
+?>
+
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -71,26 +96,27 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 <table width="100%" border="1">
   <tr>
     <th height="28" scope="col">DATA/HORA</th>
-    <th width="41%" scope="col">SOLICITANTE</th>
-    <th scope="col">DESTINATÁRIO</th>
+    <th width="41%" scope="col">DE</th>
+    <th scope="col">PARA</th>
   </tr>
   <tr>
     <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
-    <td width="41%" scope="col"><div align="center"><?php echo $dest_nomeunidadeenvio ?></div></td>
+    <td width="41%" scope="col"><div align="center"><?php echo $unidade_solicitante ?></div></td>
     <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?></div></td>
   </tr>
   <tr>
-    <th height="122" scope="row">DISCRIMINAÇÃO</th>
-    <td colspan="2"><?php echo $com_texto ?>
+    <!-- <th height="122" scope="row">DISCRIMINAÇÃO</th> -->
+    <td colspan="3"><p>&nbsp;</p><?php echo $com_texto ?>
     <p>&nbsp;</p>
     <p class="anexos">ANEXOS - - - - - - - - - - - - - - -  - - -<br />
       <?php
 //GET ANEXOS
-    $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao,['recursive'=>FALSE]);
+    $files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE]);
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $nameFicheiro, ['target'=>'_blank']). "<br/>"; // render do ficheiro no browser
+            echo Html::a($nameFicheiro, 'http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
+            //echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
         }
     } else {
         echo "Não existem arquivos disponíveis para download.";
@@ -143,11 +169,28 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
           
        $checa_espaco ++; 
      }  
+
+  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+  {
+       
+
+     $deco_despacho = "<div align='center'>********************************************************************************<br>".
+              "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br>".
+          "********************************************************************************<br></div>";
+            
+  }  
      ?>
   <tr>
     <th width="19%" scope="row">DATA/HORA</th>
-    <th width="41%">REMETENTE</th>
-    <th width="40%">DESTINATÁRIO</th>
+    <th width="41%">DE</th>
+    <th width="40%">PARA</th>
   </tr>
   <tr>
     <td scope="row"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?></div></td>
@@ -155,8 +198,8 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <td><p align="center"><?php echo $nome_unidade_encaminhar ?></p>
   </tr>
   <tr>
-    <th height="305" scope="row">DESPACHO</th>
-    <td colspan="2"><?php echo $deco_despacho ?>
+    <!-- <th height="305" scope="row">DESPACHO</th> -->
+    <td colspan="3"><p>&nbsp;</p><?php echo $deco_despacho ?>
     <p>&nbsp;</p>
     <p class="anexos">ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
       <?php
@@ -165,7 +208,8 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
+            echo Html::a($nameFicheiro,  "http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/". $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>" ; // render do ficheiro no browser
+            //echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $deco_coddespacho . '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
         }
     } else {
         echo "Não existem arquivos disponíveis para download.";
