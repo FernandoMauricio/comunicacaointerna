@@ -23,6 +23,7 @@ use Yii;
  */
 class UsuarioUsu extends \yii\db\ActiveRecord
 {
+    public $passwordConfirm;
     /**
      * @inheritdoc
      */
@@ -45,8 +46,9 @@ class UsuarioUsu extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['usu_loginusuario', 'usu_senhausuario', 'usu_nomeusuario', 'usu_codtipo', 'usu_codsituacao'], 'required'],
+            [['usu_loginusuario', 'usu_senhausuario', 'usu_nomeusuario', 'usu_codtipo', 'usu_codsituacao', 'passwordConfirm'], 'required'],
             [['usu_codtipo', 'usu_codsituacao'], 'integer'],
+            [['passwordConfirm'], 'compare', 'compareAttribute' => 'usu_senhausuario'],
             [['usu_loginusuario', 'usu_senhausuario'], 'string', 'max' => 45],
             [['usu_nomeusuario'], 'string', 'max' => 50],
             [['usu_loginusuario'], 'unique']
@@ -60,8 +62,9 @@ class UsuarioUsu extends \yii\db\ActiveRecord
     {
         return [
             'usu_codusuario' => 'Usu Codusuario',
-            'usu_loginusuario' => 'Usu Loginusuario',
-            'usu_senhausuario' => 'Usu Senhausuario',
+            'usu_loginusuario' => 'Login',
+            'usu_senhausuario' => 'Nova Senha',
+            'passwordConfirm' => 'Confirme a Nova Senha',
             'usu_nomeusuario' => 'Usu Nomeusuario',
             'usu_codtipo' => 'Usu Codtipo',
             'usu_codsituacao' => 'Usu Codsituacao',

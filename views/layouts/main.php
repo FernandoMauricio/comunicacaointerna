@@ -6,6 +6,8 @@ use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
 $session = Yii::$app->session;
+$sess_codusuario = $session['sess_codusuario'];
+
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -51,6 +53,7 @@ AppAsset::register($this);
                  ['label' => 'Autorizações Pendentes', 'url' => ['/comunicacaointerna-aut/index']],
                            ],
         ],
+                ['label' => 'Alterar Senha', 'url' => ['usuario-usu/update', 'id' => $sess_codusuario]],
             ['label' => 'Sair', 'url' => 'http://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
                     // Yii::$app->user->isGuest ?
                     //     ['label' => 'Login', 'url' => ['/site/login']] :
@@ -66,6 +69,7 @@ AppAsset::register($this);
                     ['label' => 'Home', 'url' => 'index.php'],
                     ['label' => 'Criadas pelo Setor', 'url' => ['/comunicacaointerna/index']],
                     ['label' => 'Recebidas pelo Setor', 'url' => ['/destinocomunicacao-receb/index']],
+                    ['label' => 'Alterar Senha', 'url' => ['usuario-usu/update', 'id' => $sess_codusuario]],
                     
             ['label' => 'Sair', 'url' => 'http://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
                 ],

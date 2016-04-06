@@ -1,13 +1,21 @@
 <?php
 /* @var $this yii\web\View */
-namespace yii\bootstrap;
+// namespace yii\bootstrap;
 use yii\helpers\Html;
 use app\models\Comunicacaointerna;
 use app\models\Destinocomunicacao;
+use yii\helpers\ArrayHelper;
 
                    $nome_user    = $_SESSION['sess_nomeusuario'];
                    $unidade_user = $_SESSION['sess_unidade'];
                    $cod_unidade  = $_SESSION['sess_codunidade'];    
+
+
+foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+echo '<div class="alert alert-'.$key.'">'.$message.'</div>';
+}
+
+
 
 $this->title = 'Documentação Eletrônica';
 

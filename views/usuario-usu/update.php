@@ -5,10 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\UsuarioUsu */
 
-$this->title = 'Update Usuario Usu: ' . ' ' . $model->usu_codusuario;
-$this->params['breadcrumbs'][] = ['label' => 'Usuario Usus', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->usu_codusuario, 'url' => ['view', 'id' => $model->usu_codusuario]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->title = 'Atualizar Senha: ' . ' ' . $model->usu_nomeusuario;
+$this->params['breadcrumbs'][] = 'Atualizar';
 ?>
 <div class="usuario-usu-update">
 

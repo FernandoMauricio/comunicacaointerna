@@ -12,18 +12,14 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'usu_loginusuario')->textInput(['maxlength' => 45]) ?>
+    <?= $form->field($model, 'usu_loginusuario')->textInput(['readonly'=>true,'maxlength' => true]) ?>
 
-    <?= $form->field($model, 'usu_senhausuario')->textInput(['maxlength' => 45]) ?>
+    <?= $form->field($model, 'usu_senhausuario')->input('password') ?>
 
-    <?= $form->field($model, 'usu_nomeusuario')->textInput(['maxlength' => 50]) ?>
-
-    <?= $form->field($model, 'usu_codtipo')->textInput(['maxlength' => 10]) ?>
-
-    <?= $form->field($model, 'usu_codsituacao')->textInput(['maxlength' => 10]) ?>
+    <?= $form->field($model, 'passwordConfirm')->input('password') ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Atualizar Senha', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
