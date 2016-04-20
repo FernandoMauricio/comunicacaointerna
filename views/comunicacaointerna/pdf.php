@@ -24,6 +24,11 @@ $com_codcolaboradorautorizacao = $model->colaborador->usuario->usu_nomeusuario;
 //$com_codcargoautorizacao = $model->cargo->car_cargo;
 $com_dataautorizacao = $model->com_dataautorizacao;
 $com_codtipo = $model->com_codtipo;
+$cod_situacao = $model->com_codsituacao;
+$com_usuarioEncerramento = $model->com_usuarioEncerramento;
+$com_dataEncerramento = $model->com_dataEncerramento;
+
+// $com_usuarioEncerramento = $model->com_usuarioEncerramento;
 
 //PEGANDO OS DESTINATÁIOS NESSE DESPACHO
      $destinatarios = "";
@@ -77,6 +82,19 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 </head>
 
 <body>
+
+ <?php
+
+ //MENSAGEM INFORMANDO O USUÁRIO E A DATA QUE FINALIZOU A CI
+  if($cod_situacao == 5 AND $com_usuarioEncerramento != NULL ){
+
+    echo "<div class='alert alert-danger' align='center' role='alert'> Comunicação Interna <strong>Encerrada</strong> por: <strong> ". $com_usuarioEncerramento ."</strong> na data ". date('d/m/Y à\s H:i', strtotime($com_dataEncerramento)) ."</div>";
+
+  }
+
+    ?>
+
+
 <table width="100%" border="1">
   <tr>
     <td width="16%" rowspan="2"><img src="../views/comunicacaointerna/pdf/logo.jpg" width="180" height="75" /></td> <!-- width="115" height="70" -->
@@ -85,7 +103,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   </tr>
   <tr>
     <td height="39">[<em><strong>ASSUNTO</strong></em>] <?php echo $com_titulo ?></td>
-    <td><div align="center">SITUAÇÃO: <?php echo $com_codsituacao ?></div></td>
+    <td><div align="center">SITUAÇÃO: <?php echo $com_codsituacao ?><br></div></td>
   </tr>
 </table>
 <br />

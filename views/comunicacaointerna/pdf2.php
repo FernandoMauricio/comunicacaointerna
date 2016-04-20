@@ -25,6 +25,9 @@ $com_codcolaboradorautorizacao = $model->comunicacaointerna->colaboradorAutoriza
 $com_codcargoautorizacao = $model->comunicacaointerna->cargo->car_cargo;
 $com_dataautorizacao = $model->comunicacaointerna->com_dataautorizacao;
 $com_codtipo = $model->comunicacaointerna->com_codtipo;
+$cod_situacao = $model->comunicacaointerna->com_codsituacao;
+$com_usuarioEncerramento = $model->comunicacaointerna->com_usuarioEncerramento;
+$com_dataEncerramento = $model->comunicacaointerna->com_dataEncerramento;
 
 $session = Yii::$app->session;
 
@@ -81,6 +84,18 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 </head>
 
 <body>
+
+ <?php
+
+ //MENSAGEM INFORMANDO O USUÁRIO E A DATA QUE FINALIZOU A CI
+  if($cod_situacao == 5 AND $com_usuarioEncerramento != NULL ){
+
+    echo "<div class='alert alert-danger' align='center' role='alert'> Comunicação Interna <strong>Encerrada</strong> por: <strong> ". $com_usuarioEncerramento ."</strong> na data ". date('d/m/Y à\s H:i', strtotime($com_dataEncerramento)) ."</div>";
+
+  }
+
+    ?>
+
 <table width="100%" border="1">
   <tr>
     <td width="16%" rowspan="2"><img src="../views/comunicacaointerna/pdf/logo.jpg" width="180" height="75" /></td> <!-- width="115" height="70" -->
