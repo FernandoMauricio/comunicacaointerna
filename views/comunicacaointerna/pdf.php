@@ -88,7 +88,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
  //MENSAGEM INFORMANDO O USUÁRIO E A DATA QUE FINALIZOU A CI
   if($cod_situacao == 5 AND $com_usuarioEncerramento != NULL ){
 
-    echo "<div class='alert alert-danger' align='center' role='alert'> Comunicação Interna <strong>Encerrada</strong> por: <strong> ". $com_usuarioEncerramento ."</strong> na data ". date('d/m/Y à\s H:i', strtotime($com_dataEncerramento)) ."</div>";
+    echo "<div class='alert alert-danger' align='center' role='alert'><span class='glyphicon glyphicon-alert' aria-hidden='true'></span> Comunicação Interna <strong>Encerrada</strong> por: <strong> ". $com_usuarioEncerramento ."</strong> na data ". date('d/m/Y à\s H:i', strtotime($com_dataEncerramento)) ."</div>";
 
   }
 
