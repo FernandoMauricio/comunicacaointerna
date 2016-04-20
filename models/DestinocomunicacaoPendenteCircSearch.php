@@ -42,8 +42,7 @@ class DestinocomunicacaoPendenteCircSearch extends Destinocomunicacao
      */
     public function search($params)
     {
-        $query = Destinocomunicacao::find();
-        //->where(['dest_codcomunicacao' => 1131]);
+        $query = Destinocomunicacao::find()->select(['dest_nomeunidadedest'])->distinct();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

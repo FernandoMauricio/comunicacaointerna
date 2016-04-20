@@ -52,7 +52,7 @@ class ComunicacaointernaAut extends \yii\db\ActiveRecord
         return [
             [['com_codcolaborador', 'com_codunidade', 'com_datasolicitacao', 'com_titulo', 'com_texto', 'com_codtipo', 'com_codsituacao'], 'required'],
             [['com_codcolaborador', 'com_codunidade', 'com_codtipo', 'com_codsituacao', 'com_codcolaboradorautorizacao', 'com_codcargoautorizacao'], 'integer'],
-            [['com_datasolicitacao'], 'safe'],
+            [['com_datasolicitacao', 'com_usuarioEncerramento', 'com_dataEncerramento'], 'safe'],
             [['com_texto'], 'string'],
             [['com_titulo'], 'string', 'max' => 100],
         ];

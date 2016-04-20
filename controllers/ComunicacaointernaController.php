@@ -318,12 +318,13 @@ $sql_unidades = "SELECT * FROM `db_base`.`unidade_uni` INNER JOIN `db_ci`.`desti
           $contador = 0;
           $manda_email = 0;
           $unidade_destino = "";
-          $sql_unidade_destino = "SELECT dest_codunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = ".$model->com_codcomunicacao;
+          $sql_unidade_destino = "SELECT dest_codunidadedest,dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = ".$model->com_codcomunicacao;
 
           $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
                  foreach ($unidades as $unidade)
                     {
                      $unidade_destino  = $unidade["dest_codunidadedest"];
+                     $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
                    
 
           $sql_email_unidade = "SELECT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
@@ -336,7 +337,7 @@ $sql_unidades = "SELECT * FROM `db_base`.`unidade_uni` INNER JOIN `db_ci`.`desti
                                                 Yii::$app->mailer->compose()
                                                 ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
                                                 ->setTo($email_unidade_gerente)
-                                                ->setSubject('CI Aguardando Despacho')
+                                                ->setSubject('CI '.$id. ' Aguardando Despacho - ' .$nomeunidade_destino)
                                                 ->setTextBody('Existe uma CI de código: '.$id.' aguardando seu despacho')
                                                 ->setHtmlBody('<h4>Prezado(a) Gerente, <br><br>Existe uma Comunicação Interna de <strong style="color: #337ab7"">código: '.$id.'</strong> EM CIRCULAÇÃO aguardando seu DESPACHO. <br> Por favor, não responda esse e-mail. Acesse http://portalsenac.am.senac.br para realizar o DESPACHO. <br><br> Atenciosamente, <br> Sistema Gerenciador de Documentação Eletrônica.</h4>')
                                                 ->send();

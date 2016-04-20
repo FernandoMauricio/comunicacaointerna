@@ -53,7 +53,7 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
     <?php $form = ActiveForm::begin(['options' => ['data-pjax' => true ]]); ?>
 
         <?php
-                    $rows = Unidades::find()->all();
+                    $rows = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomeabreviado')->all();
                     $data_unidades = ArrayHelper::map($rows, 'uni_nomeabreviado', 'uni_nomeabreviado');
                     echo $form->field($encaminhamentos, 'dest_nomeunidadedest')->widget(Select2::classname(), [
                         'data' => array_merge(["" => ""], $data_unidades),

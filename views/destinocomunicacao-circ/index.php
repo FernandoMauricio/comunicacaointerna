@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use kartik\widgets\DynaGrid;
 use yii\helpers\ArrayHelper;
 use yii\widgets\Pjax;
 use kartik\grid\GridView;
@@ -95,7 +94,7 @@ $gridColumns = [
                                 [
                                     'attribute' => 'data_solicitacao',
                                     'value' => 'comunicacaointerna.com_datasolicitacao',
-                                    'format' => ['datetime', 'd/m/Y'],
+                                    'format' => ['datetime', 'php:d/m/Y'],
                                     'hAlign' => 'center',
                                     'filter'=> DatePicker::widget([
                                     'model' => $searchModel, 
@@ -148,17 +147,14 @@ $gridColumns = [
 
     <?php 
 
-  echo GridView::widget([
+    echo GridView::widget([
     'dataProvider'=>$dataProvider,
     'filterModel'=>$searchModel,
     'columns'=>$gridColumns,
     'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
     'headerRowOptions'=>['class'=>'kartik-sheet-style'],
     'filterRowOptions'=>['class'=>'kartik-sheet-style'],
-    'pjax'=>true,
-    'striped'=>true,
-    'hover'=>true,
-    'persistResize'=>false,
+    'pjax'=>false, // pjax is set to always true for this demo
     'beforeHeader'=>[
         [
             'columns'=>[
@@ -167,7 +163,6 @@ $gridColumns = [
             ],
         ]
     ],
-
 
         'panel' => [
         'type'=>GridView::TYPE_PRIMARY,

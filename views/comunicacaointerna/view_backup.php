@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Cargo',
                 'value' => $model->cargo->car_cargo,
 
-            ],
+             ],
              
             [
                 'attribute' => 'com_dataautorizacao',

@@ -7,7 +7,7 @@ use yii\widgets\Pjax;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use app\models\TipodocumentacaoTipdo;
-use app\models\SituacaoComunicacaoSitco;
+use app\models\SituacaocomunicacaoSitco;
 
 
 /* @var $this yii\web\View */
@@ -69,7 +69,7 @@ $unidade = $session['sess_unidade'];
             [
                 'attribute' => 'data_solicitacao',
                 'value' => 'comunicacaointerna.com_datasolicitacao',
-                'format' => ['datetime', 'd/m/Y'],
+                'format' => ['datetime', 'php:d/m/Y'],
                 'width' => '190px',
                 'hAlign' => 'center',
                 'filter'=> DatePicker::widget([

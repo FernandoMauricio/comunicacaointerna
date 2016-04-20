@@ -110,6 +110,10 @@ public $situacao;
         return $this->hasOne(Unidades::className(),['uni_nomeabreviado' => 'dest_nomeunidadedest']);
     }
 
+    public function getColaborador()
+    {
+        return $this->hasOne(Colaborador::className(), ['col_codcolaborador' => 'dest_codcolaborador']);
+    }
 
 }
 
