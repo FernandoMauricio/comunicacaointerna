@@ -339,7 +339,17 @@ $sql_unidades = "SELECT * FROM `db_base`.`unidade_uni` INNER JOIN `db_ci`.`desti
                                                 ->setTo($email_unidade_gerente)
                                                 ->setSubject('CI '.$id. ' Aguardando Despacho - ' .$nomeunidade_destino)
                                                 ->setTextBody('Existe uma CI de código: '.$id.' aguardando seu despacho')
-                                                ->setHtmlBody('<h4>Prezado(a) Gerente, <br><br>Existe uma Comunicação Interna de <strong style="color: #337ab7"">código: '.$id.'</strong> EM CIRCULAÇÃO aguardando seu DESPACHO. <br> Por favor, não responda esse e-mail. Acesse http://portalsenac.am.senac.br para realizar o DESPACHO. <br><br> Atenciosamente, <br> Sistema Gerenciador de Documentação Eletrônica.</h4>')
+                                                ->setHtmlBody('<p>Prezado(a)&nbsp;Gerente,</p>
+
+                                                <p>Existe uma Comunica&ccedil;&atilde;o Interna <span style="color:#337AB7">'.$id.' </span>aguardando seu despacho. Abaixo, segue algumas informa&ccedil;&otilde;es; :</p>
+
+                                                <p><strong>T&iacute;tulo: </strong><span style="color:#337AB7">'. $model->com_titulo .'</span></p>
+
+                                                <p><strong>Autorizado Por: </strong><span style="color:#337AB7">'. $model->colaborador->usuario->usu_nomeusuario .'</span></p>
+
+                                                <p><strong>Data/Hora</strong>:&nbsp;<span style="color:#337AB7">'. date('d/m/Y H:i', strtotime($model->com_dataautorizacao)) .'</span></p>
+
+                                                ')
                                                 ->send();
 
                                        }

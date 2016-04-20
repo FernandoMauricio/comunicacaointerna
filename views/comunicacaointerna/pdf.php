@@ -103,7 +103,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   </tr>
   <tr>
     <td height="39">[<em><strong>ASSUNTO</strong></em>] <?php echo $com_titulo ?></td>
-    <td><div align="center">SITUAÇÃO: <?php echo $com_codsituacao ?><br></div></td>
+    <td><div align="center">SITUAÇÃO: <?php echo $com_codsituacao ?></div></td>
   </tr>
 </table>
 <br />
