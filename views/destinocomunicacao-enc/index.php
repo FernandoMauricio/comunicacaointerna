@@ -21,15 +21,10 @@ use yii\widgets\Pjax;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            [
-                'attribute' => 'dest_codcomunicacao',
-                'value' => 'comunicacaointerna.com_codcomunicacao',
-
-            ],
 
             [
                 'attribute' => 'dest_nomeunidadedest',
-                'value' => 'unidades.uni_nomeabreviado',
+                'value' => 'unidades.uni_nomecompleto',
 
             ],
 

@@ -97,16 +97,15 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
         //Coletar a sessão do usuário
         $session = Yii::$app->session;
 
-        $query->andFilterWhere(['like', 'dest_nomeunidadeenvio', $this->dest_nomeunidadeenvio])
+        $query->andFilterWhere(['like', 'dest_codunidadeenvio', $this->dest_codunidadeenvio])
             ->andFilterWhere(['like', 'comunicacaointerna_com.com_titulo', $this->titulo])
             ->andFilterWhere(['=', 'tipodocumentacao_tipdo.tipdo_tipo', $this->tipo])
             ->andFilterWhere(['like', 'comunicacaointerna_com.com_datasolicitacao', $this->data_solicitacao])
             ->andFilterWhere(['=', 'comunicacaointerna_com.com_codsituacao', $this->situacao])
             ->andFilterWhere(['comunicacaointerna_com.com_codsituacao' => 4])
-            ->andFilterWhere(['dest_nomeunidadedest' => $session['sess_unidade']])
+            ->andFilterWhere(['dest_codunidadedest' => $session['sess_codunidade']])
             ->andFilterWhere(['dest_codtipo' => [2,3]])
-            ->andFilterWhere(['dest_codsituacao' => 2])
-            ->andFilterWhere(['like', 'dest_nomeunidadedest', $this->dest_nomeunidadedest]);
+            ->andFilterWhere(['dest_codsituacao' => 2]);
 
         return $dataProvider;
     }

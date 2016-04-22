@@ -37,7 +37,7 @@ $unidade = $session['sess_unidade'];
                 },
         'hover' => true,
         'panel' => [
-        'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem - '.$unidade.'</h3>',
+        'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem - '.utf8_encode($unidade).'</h3>',
         'type'=>'primary',
     ],
         'columns' => [

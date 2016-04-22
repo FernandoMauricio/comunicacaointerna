@@ -18,20 +18,20 @@ $this->title = 'Destino Comunicação' ;
 <?php Pjax::begin(['id' => 'destinocomunicacaoGrid']); ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'showOnEmpty'=>false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            [
-                'attribute' => 'dest_codcomunicacao',
-                'value' => 'comunicacaointerna.com_codcomunicacao',
+           // [
+            //     'attribute' => 'dest_codcomunicacao',
+            //     'value' => 'comunicacaointerna.com_codcomunicacao',
 
-            ],
+            // ],
 
             [
                 'attribute' => 'dest_nomeunidadedest',
-                'value' => 'unidades.uni_nomeabreviado',
+                'value' => 'unidades.uni_nomecompleto',
 
             ],
 

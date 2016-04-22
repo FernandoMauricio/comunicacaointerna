@@ -7,7 +7,7 @@ use app\models\Destinocomunicacao;
 use yii\helpers\ArrayHelper;
 
                    $nome_user    = $_SESSION['sess_nomeusuario'];
-                   $unidade_user = $_SESSION['sess_unidade'];
+                   $unidade_user = $_SESSION['sess_codunidade'];
                    $cod_unidade  = $_SESSION['sess_codunidade'];    
 
 
@@ -20,7 +20,7 @@ echo '<div class="alert alert-'.$key.'">'.$message.'</div>';
 $this->title = 'Documentação Eletrônica';
 
             //BUSCA NO BANCO SE EXISTE CI PENDENTE DE DESPACHO
-            $sql = "SELECT COUNT(*) FROM `destinocomunicacao_dest` LEFT JOIN `comunicacaointerna_com` ON `destinocomunicacao_dest`.`dest_codcomunicacao` = `comunicacaointerna_com`.`com_codcomunicacao` WHERE (((`comunicacaointerna_com`.`com_codsituacao`=4) AND (`dest_nomeunidadedest`='$unidade_user')) AND (`dest_codtipo` IN (2, 3))) AND (`dest_codsituacao`=2)";
+            $sql = "SELECT COUNT(*) FROM `destinocomunicacao_dest` LEFT JOIN `comunicacaointerna_com` ON `destinocomunicacao_dest`.`dest_codcomunicacao` = `comunicacaointerna_com`.`com_codcomunicacao` WHERE (((`comunicacaointerna_com`.`com_codsituacao`=4) AND (`dest_codunidadedest`='$unidade_user')) AND (`dest_codtipo` IN (2, 3))) AND (`dest_codsituacao`=2)";
             $checar_ci = Destinocomunicacao::findBySql($sql)->count(); 
 
              // $checar_ci = Destinocomunicacao::find()

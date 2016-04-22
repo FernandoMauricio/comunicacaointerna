@@ -41,8 +41,8 @@ use nirvana\showloading\ShowLoadingAsset;
     <?php $form = ActiveForm::begin(['options' => ['data-pjax' => true ]]); ?>
 
         <?php
-                    $rows = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomeabreviado')->all();
-                    $data_unidades = ArrayHelper::map($rows, 'uni_nomeabreviado', 'uni_nomeabreviado');
+                    $rows = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomecompleto')->all();
+                    $data_unidades = ArrayHelper::map($rows, 'uni_nomecompleto', 'uni_nomecompleto');
                     echo $form->field($destinocomunicacao, 'dest_nomeunidadedest')->widget(Select2::classname(), [
                         'data' => array_merge(["" => ""], $data_unidades),
                         'options' => ['placeholder' => 'Selecione uma Unidade...'],

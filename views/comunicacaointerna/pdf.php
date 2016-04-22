@@ -115,7 +115,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   </tr>
   <tr>
     <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
-    <td width="41%" scope="col"><div align="center"><?php echo $session['sess_unidade'] ?></div></td>
+    <td width="41%" scope="col"><div align="center"><?php echo utf8_encode($session['sess_unidade']) ?></div></td>
     <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?></div></td>
   </tr>
     <tr>

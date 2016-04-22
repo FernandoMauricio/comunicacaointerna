@@ -68,7 +68,7 @@ $gridColumns = [
                         ],
 
                         ['attribute' => 'com_codunidade',
-                        'value' => 'unidades.uni_nomeabreviado'
+                        'value' => 'unidades.uni_nomecompleto'
                         ],
                         [
                             'attribute' => 'com_datasolicitacao',
