@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Destinocomunicacao */
 
-$this->title = $destinocomunicacao->dest_coddestino;
+$this->title = $model->dest_coddestino;
 $this->params['breadcrumbs'][] = ['label' => 'Destinocomunicacaos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'id' => $destinocomunicacao->dest_coddestino], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $destinocomunicacao->dest_coddestino], [
+        <?= Html::a('Update', ['update', 'id' => $model->dest_coddestino], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->dest_coddestino], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -26,15 +26,20 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?= DetailView::widget([
-        'model' => $destinocomunicacao,
+        'model' => $model,
         'attributes' => [
             'dest_coddestino',
             'dest_codcomunicacao',
             'dest_codcolaborador',
             'dest_codunidadeenvio',
+            'dest_codunidadedest',
             'dest_data',
             'dest_codtipo',
             'dest_codsituacao',
+            'dest_coddespacho',
+            'dest_nomeunidadeenvio',
+            'dest_nomeunidadedest',
+            'dest_anexo',
         ],
     ]) ?>
 

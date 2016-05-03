@@ -56,8 +56,8 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
                     $rows = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomecompleto')->all();
                     $data_unidades = ArrayHelper::map($rows, 'uni_nomecompleto', 'uni_nomecompleto');
                     echo $form->field($encaminhamentos, 'dest_nomeunidadedest')->widget(Select2::classname(), [
-                        'data' => array_merge(["" => ""], $data_unidades),
-                        'options' => ['placeholder' => 'Selecione uma Unidade...'],
+                        'data' => $data_unidades,
+                        'options' => ['placeholder' => 'Selecione uma Unidade...','multiple'=>true],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
@@ -65,7 +65,7 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
     ?> 
 
     <div class="form-group">
-        <?= Html::submitButton('Inserir Unidade', ['class' =>  'btn btn-info']) ?>
+        <?php //Html::submitButton('Inserir Unidade', ['class' =>  'btn btn-info']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

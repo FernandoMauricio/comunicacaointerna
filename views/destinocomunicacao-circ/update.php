@@ -15,16 +15,9 @@ $this->params['breadcrumbs'][] = 'Área de Despacho';
 
     <h1><?= Html::encode($this->title) . '<small> Comunicacação Interna: ' . $despachos->deco_codcomunicacao .'</small>' ?></h1>
 
-    <?= $this->render('/destinocomunicacao-enc/_form', [
-        'encaminhamentos' => $encaminhamentos,
-    ]) ?>
-
-   <?= $this->render('/destinocomunicacao-enc/index', [
-        'searchEncModel' => $searchEncModel,
-        'dataProvider2' => $dataProvider2,
-    ]) ?>
 
     <?= $this->render('_form', [
+        'encaminhamentos' => $encaminhamentos,
         'model' => $model,
         'despachos' => $despachos,
     ]) ?>
@@ -38,5 +31,16 @@ $this->params['breadcrumbs'][] = 'Área de Despacho';
         'model' => $model,
         'despachos' => $despachos,
     ]) ?>
+
+
+   <?php 
+
+   //index dos destinos inseridos um a um - obsoleto
+   // $this->render('/destinocomunicacao-enc/index', [
+   //      'searchEncModel' => $searchEncModel,
+   //      'dataProvider2' => $dataProvider2,
+   //  ]) 
+
+    ?>
 
 </div>

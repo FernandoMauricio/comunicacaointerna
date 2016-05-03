@@ -6,23 +6,20 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Destinocomunicacao;
-use app\models\Comunicacaointerna;
 
 /**
  * DestinocomunicacaoSearch represents the model behind the search form about `app\models\Destinocomunicacao`.
  */
-
 class DestinocomunicacaoSearch extends Destinocomunicacao
 {
-
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['dest_coddestino', 'dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codtipo', 'dest_codsituacao', 'dest_coddespacho'], 'integer'],
-            [['dest_data', 'dest_nomeunidadeenvio', 'dest_nomeunidadedest'], 'safe'],
+            [['dest_coddestino', 'dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codunidadedest', 'dest_codtipo', 'dest_codsituacao', 'dest_coddespacho'], 'integer'],
+            [['dest_data', 'dest_nomeunidadeenvio', 'dest_nomeunidadedest', 'dest_anexo'], 'safe'],
         ];
     }
 
@@ -53,32 +50,26 @@ class DestinocomunicacaoSearch extends Destinocomunicacao
         $this->load($params);
 
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to any records when validation fails
+            // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
 
-        $query->joinWith('comunicacaointerna');
-
         $query->andFilterWhere([
             'dest_coddestino' => $this->dest_coddestino,
-            //'dest_codcomunicacao' => $this->dest_codcomunicacao,
+            'dest_codcomunicacao' => $this->dest_codcomunicacao,
             'dest_codcolaborador' => $this->dest_codcolaborador,
             'dest_codunidadeenvio' => $this->dest_codunidadeenvio,
+            'dest_codunidadedest' => $this->dest_codunidadedest,
             'dest_data' => $this->dest_data,
             'dest_codtipo' => $this->dest_codtipo,
             'dest_codsituacao' => $this->dest_codsituacao,
             'dest_coddespacho' => $this->dest_coddespacho,
-            
         ]);
 
-        //Coletar a sessão do usuário
-        $session = Yii::$app->session;
-
-        $query->andFilterWhere(['dest_codcomunicacao' => $_GET])
-            ->andFilterWhere(['comunicacaointerna_com.com_codcomunicacao' => $this->dest_codcomunicacao])
-            ->andFilterWhere(['dest_codunidadeenvio' => $session['sess_codunidade']])
-            ->andFilterWhere(['dest_codsituacao' => 1]);
+        $query->andFilterWhere(['like', 'dest_nomeunidadeenvio', $this->dest_nomeunidadeenvio])
+            ->andFilterWhere(['like', 'dest_nomeunidadedest', $this->dest_nomeunidadedest])
+            ->andFilterWhere(['like', 'dest_anexo', $this->dest_anexo]);
 
         return $dataProvider;
     }

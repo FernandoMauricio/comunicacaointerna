@@ -2,51 +2,44 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-use yii\bootstrap\Modal;
-use yii\helpers\Url;
-use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\DestinocomunicacaoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Destino Comunicação' ;
+$this->title = 'Destinocomunicacaos';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="destinocomunicacao-index">
 
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-<?php Pjax::begin(['id' => 'destinocomunicacaoGrid']); ?>
+    <p>
+        <?= Html::a('Create Destinocomunicacao', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
-        'showOnEmpty'=>false,
+        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-           // [
-            //     'attribute' => 'dest_codcomunicacao',
-            //     'value' => 'comunicacaointerna.com_codcomunicacao',
-
-            // ],
-
-            [
-                'attribute' => 'dest_nomeunidadedest',
-                'value' => 'unidades.uni_nomecompleto',
-
-            ],
-
-            //'dest_coddestino',
-            //'dest_codcolaborador',
-            //'dest_codunidadeenvio',
+            'dest_coddestino',
+            'dest_codcomunicacao',
+            'dest_codcolaborador',
+            'dest_codunidadeenvio',
+            'dest_codunidadedest',
             // 'dest_data',
             // 'dest_codtipo',
             // 'dest_codsituacao',
+            // 'dest_coddespacho',
+            // 'dest_nomeunidadeenvio',
+            // 'dest_nomeunidadedest',
+            // 'dest_anexo',
 
-            ['class' => 'yii\grid\ActionColumn','template' => '{delete}'],
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-<?php Pjax::end(); ?>
-
-
 
 </div>

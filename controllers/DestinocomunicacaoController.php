@@ -3,13 +3,12 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Unidades;
 use app\models\Destinocomunicacao;
+use app\models\Comunicacaointerna;
 use app\models\DestinocomunicacaoSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
 
 /**
  * DestinocomunicacaoController implements the CRUD actions for Destinocomunicacao model.
@@ -34,28 +33,12 @@ class DestinocomunicacaoController extends Controller
      */
     public function actionIndex()
     {
-                        $session = Yii::$app->session;
-        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
-        {
-           return $this->redirect('http://portalsenac.am.senac.br');
-        }
-
-
-            $destinocomunicacao = new Destinocomunicacao();
-
-             if ($destinocomunicacao->load(Yii::$app->request->post()) && $destinocomunicacao->save())
-             {
-                  $destinocomunicacao = new Destinocomunicacao(); //reset model
-             }
-
         $searchModel = new DestinocomunicacaoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'destinocomunicacao' => $destinocomunicacao,
-
         ]);
     }
 
@@ -67,7 +50,7 @@ class DestinocomunicacaoController extends Controller
     public function actionView($id)
     {
         return $this->render('view', [
-            'destinocomunicacao' => $this->findModel($id),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -78,32 +61,58 @@ class DestinocomunicacaoController extends Controller
      */
     public function actionCreate()
     {
-                     $session = Yii::$app->session;
-        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
-        {
-           return $this->redirect('http://portalsenac.am.senac.br');
-        }
+           $session = Yii::$app->session;
+
+            $model = new Destinocomunicacao();
+
+            $comunicacaointerna = new Comunicacaointerna();
+
+            $model->dest_codcomunicacao = 1371;
+            $model->dest_codcolaborador = 310;
+            $model->dest_codunidadeenvio = 1;
+            $model->dest_data = date('Y-m-d H:i:s');
+            $model->dest_codtipo = 3; //TIPO = ENCAMINHADO PARA
+            $model->dest_codsituacao = 1; // AGUARDANDO ABERTURA
+            $model->dest_coddespacho = 0; // AGUARDANDO DESPACHO
+            $model->dest_nomeunidadeenvio = $session['sess_unidade'];
+            
+             if ($model->load(Yii::$app->request->post())) {
 
 
-        //conexão com os bancos
-         $connection = Yii::$app->db;
-         $connection = Yii::$app->db_base;
-
-        $destinocomunicacao = new Destinocomunicacao();
-
-                $searchModel = new DestinocomunicacaoSearch();
-                 $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        if ($destinocomunicacao->load(Yii::$app->request->post()) && $destinocomunicacao->save()) {
-            return $this->redirect(['view', 'id' => $destinocomunicacao->dest_coddestino]);
+                $destinos = array();
+                if (isset($_POST['Comunicacaointerna']))
+                {
+                        $valid = true;
+                        $comunicacaointerna->attributes = $_POST['Comunicacaointerna'];
+                        $valid = $comunicacaointerna->validate() && $valid;
+                        if (!empty($_POST['Destinocomunicacao']))
+                        {
+                                // Validate each destino row and store in the $destinos array
+                                foreach ($_POST['Destinocomunicacao'] as $key => $destinoPost)
+                                {
+                                        $destino = new Destinocomunicacao;
+                                        $destino->attributes = $destinoPost;
+                                        $valid = $destino->validate() && $valid;
+                                        $destinos[$key] = $destino;
+                                }
+                                if ($valid)
+                                {
+                                        if ($comunicacaointerna->save(false))
+                                        {
+                                                // Loop through all destinos and save each one
+                                                foreach ($destinos as $destino)
+                                                {
+                                                        $destino->save(false);
+                                                }
+                                        }
+                                }
+                        }
+                }
+            return $this->redirect(['index']);
         } else {
             return $this->render('create', [
-                'destinocomunicacao' => $destinocomunicacao,
-                'searchModel' => $searchModel,
-                'dataProvider' => $dataProvider,
-                'destinocomunicacao' => $destinocomunicacao,
+                'model' => $model,
             ]);
-
         }
     }
 
@@ -115,19 +124,13 @@ class DestinocomunicacaoController extends Controller
      */
     public function actionUpdate($id)
     {
-                        $session = Yii::$app->session;
-        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
-        {
-           return $this->redirect('http://portalsenac.am.senac.br');
-        }
-        
-        $destinocomunicacao = $this->findModel($id);
+        $model = $this->findModel($id);
 
-        if ($destinocomunicacao->load(Yii::$app->request->post()) && $destinocomunicacao->save()) {
-            return $this->redirect(['view', 'id' => $destinocomunicacao->dest_coddestino]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->dest_coddestino]);
         } else {
             return $this->render('update', [
-                'destinocomunicacao' => $destinocomunicacao,
+                'model' => $model,
             ]);
         }
     }
@@ -154,8 +157,8 @@ class DestinocomunicacaoController extends Controller
      */
     protected function findModel($id)
     {
-        if (($destinocomunicacao = Destinocomunicacao::findOne($id)) !== null) {
-            return $destinocomunicacao;
+        if (($model = Destinocomunicacao::findOne($id)) !== null) {
+            return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

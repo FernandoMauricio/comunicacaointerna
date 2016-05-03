@@ -42,7 +42,7 @@ class Despachos extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['deco_codcomunicacao', 'deco_codcolaborador', 'deco_codunidade', 'deco_codcargo', 'deco_data', 'deco_codsituacao'], 'required'],
+            [['deco_codcomunicacao', 'deco_despacho', 'deco_codcolaborador', 'deco_codunidade', 'deco_codcargo', 'deco_data', 'deco_codsituacao'], 'required'],
             [['deco_codcomunicacao', 'deco_codcolaborador', 'deco_codunidade', 'deco_codcargo', 'deco_codsituacao'], 'integer'],
             [['deco_data'], 'safe'],
             [['deco_despacho'], 'string'],

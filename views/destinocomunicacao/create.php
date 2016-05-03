@@ -2,22 +2,20 @@
 
 use yii\helpers\Html;
 
+
+/* @var $this yii\web\View */
+/* @var $model app\models\Destinocomunicacao */
+
+$this->title = 'Create Destinocomunicacao';
+$this->params['breadcrumbs'][] = ['label' => 'Destinocomunicacaos', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="destinocomunicacao-create">
 
-<!-- Render create form -->    
+    <h1><?= Html::encode($this->title) ?></h1>
+
     <?= $this->render('_form', [
-        'destinocomunicacao' => $destinocomunicacao,
-        'searchModel' => $searchModel,
-        'dataProvider' => $dataProvider,
-        'destinocomunicacao' => $destinocomunicacao,
+        'model' => $model,
     ]) ?>
 
-<!-- Render create form -->    
-    <?= $this->render('index', [
-        'destinocomunicacao' => $destinocomunicacao,
-        'searchModel' => $searchModel,
-        'dataProvider' => $dataProvider,
-        'destinocomunicacao' => $destinocomunicacao,
-    ]) ?>
 </div>

@@ -1,8 +1,11 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use kartik\widgets\FileInput;
+use app\models\Unidades;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Destinocomunicacao */
@@ -14,16 +17,19 @@ use kartik\widgets\FileInput;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?php //echo $form->field($model, 'dest_codcomunicacao')->textInput(['maxlength' => 10]) ?>
 
-    <?php //echo $form->field($model, 'dest_codcolaborador')->textInput() ?>
+        <?php
+                    $rows = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomecompleto')->all();
+                    $data_unidades = ArrayHelper::map($rows, 'uni_nomecompleto', 'uni_nomecompleto');
+                    echo $form->field($encaminhamentos, 'dest_nomeunidadedest')->widget(Select2::classname(), [
+                        'data' => $data_unidades,
+                        'options' => ['placeholder' => 'Selecione uma Unidade...','multiple'=>true],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);                    
+    ?> 
 
-    <?php //echo $form->field($model, 'dest_codunidadeenvio')->textInput() ?>
-
-    <?php //echo $form->field($model, 'dest_codtipo')->textInput(['maxlength' => 10]) ?>
-
-    <?php //echo $form->field($model, 'dest_codsituacao')->textInput(['maxlength' => 10]) ?>
-    <?php //echo $form->field($model, 'file[]')->fileInput(['multiple' => true]) ?>
 
     <?php
 echo '<label class="control-label">Anexos</label>  <strong style="color: #E61238""><small>extensões permitidas: .pdf / .zip / .rar / .doc / .docx</small></strong>';

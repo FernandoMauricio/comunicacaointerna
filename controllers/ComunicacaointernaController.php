@@ -17,6 +17,7 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\helpers\Html;
 use kartik\mpdf\Pdf;
+use yii\helpers\ArrayHelper;
 
 use mPDF;
 
@@ -192,7 +193,7 @@ class ComunicacaointernaController extends Controller
         return $this->redirect(['index']);
 
                 }else 
-                if ($destinocomunicacao->load(Yii::$app->request->post()) && $destinocomunicacao->save())
+                if ($destinocomunicacao->load(Yii::$app->request->post()) && $model->save())
 
                                     {   //REALIZA O LOOP DE 1 OU MAIS INSERÇÕES
                                         $destinocomunicacao = new Destinocomunicacao(); //reset model
@@ -203,26 +204,34 @@ class ComunicacaointernaController extends Controller
                                         $destinocomunicacao->dest_nomeunidadeenvio=$session['sess_unidade'];
                                         $destinocomunicacao->dest_data = date('Y-m-d H:i:s');
 
-$teste = Yii::$app->request->post('Destinocomunicacao');
-$teste2 = $teste['dest_nomeunidadedest'];
 
-$sql_unidades = "SELECT * FROM `db_base`.`unidade_uni` INNER JOIN `db_ci`.`destinocomunicacao_dest` ON `db_base`.`unidade_uni`.`uni_nomeabreviado` = `db_ci`.`destinocomunicacao_dest`.`dest_nomeunidadedest` WHERE `db_ci`.`destinocomunicacao_dest`.`dest_codcomunicacao` ='".$destinocomunicacao->dest_codcomunicacao."' AND `db_ci`.`destinocomunicacao_dest`.`dest_nomeunidadedest` ='".$teste2."'";
+        //pega os destinos que foram escolhidos
+        $request = Yii::$app->request;
+        $Destinocomunicacao = Yii::$app->request->post('Destinocomunicacao');
 
-        $unidades = Unidades::findBySql($sql_unidades)->all(); 
+        //realiza a filtragem com o formato de array
+        $listagemUnidades = "SELECT * FROM `unidade_uni` WHERE `uni_nomeabreviado` IN('".implode("','",$Destinocomunicacao['dest_nomeunidadedest'])."')";
 
-        foreach ($unidades as $unidade) {
+                 $destinos = Unidades::findBySql($listagemUnidades)->all(); 
 
-              $cod_unidade = $unidade['uni_codunidade'];
+                foreach ($destinos as $destino) {
 
-                $command = $connection->createCommand(
-                 "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codunidadedest` = ".$cod_unidade." WHERE `dest_codcomunicacao` ='".$model->com_codcomunicacao."' AND `dest_nomeunidadedest` ='".$teste2."'");
-                $command->execute();
+                    $cod_unidade = $destino['uni_codunidade'];
+                    $nomeUnidade = $destino['uni_nomeabreviado'];
 
-             }
-                                    }
+        //seleciona somente as unidades escolhidas pelo usuário
+        $sql_unidades = "SELECT * FROM `db_base`.`unidade_uni` INNER JOIN `db_ci`.`destinocomunicacao_dest` ON `db_base`.`unidade_uni`.`uni_codunidade` = `db_ci`.`destinocomunicacao_dest`.`dest_codunidadedest` WHERE `db_ci`.`destinocomunicacao_dest`.`dest_codcomunicacao` ='".$destinocomunicacao->dest_codcomunicacao."' AND `db_ci`.`destinocomunicacao_dest`.`dest_nomeunidadedest` ='".$nomeUnidade."'";
 
-                                    $searchModel = new DestinocomunicacaoSearch();
-                                    $dataProvider = $searchModel->search(Yii::$app->request->queryParams); 
+
+                    //insert no banco das unidades da qual o usuário selecionou
+                        $command = $connection->createCommand();
+                        $command->insert('db_ci.destinocomunicacao_dest', array('dest_codcomunicacao'=>$destinocomunicacao->dest_codcomunicacao, 'dest_codcolaborador'=>$destinocomunicacao->dest_codcolaborador, 'dest_codunidadeenvio'=>$destinocomunicacao->dest_codunidadeenvio, 'dest_codunidadedest'=>$cod_unidade, 'dest_data'=>date('Y-m-d H:i:s'), 'dest_codtipo'=>2, 'dest_codsituacao'=>1, 'dest_coddespacho'=>0, 'dest_nomeunidadeenvio'=>$session['sess_unidade'],'dest_nomeunidadedest'=>$nomeUnidade ));
+                        $command->execute();
+                }
+            }
+
+            $searchModel = new DestinocomunicacaoSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams); 
                                     
             //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
              $checar_destino = Destinocomunicacao::find()
