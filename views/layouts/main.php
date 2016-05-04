@@ -30,7 +30,6 @@ AppAsset::register($this);
         <?php
         $session = Yii::$app->session;
             NavBar::begin([
-                //'brandLabel' => 'Senac AM',
                 'brandLabel' => '<img src="css/img/logo_senac_topo.png"/>',
                 'brandUrl' => Yii::$app->homeUrl,
                 'options' => [
@@ -53,13 +52,17 @@ AppAsset::register($this);
                  ['label' => 'Autorizações Pendentes', 'url' => ['/comunicacaointerna-aut/index']],
                            ],
         ],
-                ['label' => 'Alterar Senha', 'url' => ['usuario-usu/update', 'id' => $sess_codusuario]],
-            ['label' => 'Sair', 'url' => 'http://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
-                    // Yii::$app->user->isGuest ?
-                    //     ['label' => 'Login', 'url' => ['/site/login']] :
-                    //     ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-                    //         'url' => ['/site/logout'],
-                    //         'linkOptions' => ['data-method' => 'post']],
+                
+
+                    ['label' => 'Usuário (' . ucwords(strtolower($session['sess_nomeusuario'])) . ')',
+                'items' => [
+                 '<li class="dropdown-header">Área Usuário</li>',
+                    ['label' => 'Alterar Senha', 'url' => ['usuario-usu/update', 'id' => $sess_codusuario]],
+                    ['label' => 'Versões Anteriores', 'url' => ['/site/versao']],
+                    ['label' => 'Sair', 'url' => 'http://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
+                    
+                           ],
+                    ],
                 ],
             ]);
 }else
@@ -69,9 +72,15 @@ AppAsset::register($this);
                     ['label' => 'Home', 'url' => 'index.php'],
                     ['label' => 'Criadas pelo Setor', 'url' => ['/comunicacaointerna/index']],
                     ['label' => 'Recebidas pelo Setor', 'url' => ['/destinocomunicacao-receb/index']],
+                    ['label' => 'Usuário (' . ucwords(strtolower($session['sess_nomeusuario'])) . ')',
+                'items' => [
+                 '<li class="dropdown-header">Área Usuário</li>',
                     ['label' => 'Alterar Senha', 'url' => ['usuario-usu/update', 'id' => $sess_codusuario]],
+                    ['label' => 'Versões Anteriores', 'url' => ['/site/versao']],
+                    ['label' => 'Sair', 'url' => 'http://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
                     
-            ['label' => 'Sair', 'url' => 'http://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
+                           ],
+                    ],
                 ],
             ]);
 

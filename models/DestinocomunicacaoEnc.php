@@ -41,7 +41,7 @@ class DestinocomunicacaoEnc extends \yii\db\ActiveRecord
             [['dest_codcomunicacao', 'dest_codsituacao', 'dest_nomeunidadedest','dest_coddespacho'], 'unique', 'targetAttribute' => ['dest_codcomunicacao',  'dest_codsituacao', 'dest_nomeunidadedest','dest_coddespacho']],
             //[['dest_codcomunicacao',  'dest_nomeunidadedest','dest_coddespacho'], 'unique', 'targetAttribute' => ['dest_codcomunicacao', 'dest_nomeunidadedest','dest_coddespacho'], 'message' => '"{value}" Já está inserido na CI e ainda não realizou o despacho!'],
             [['dest_nomeunidadedest'], 'safe'],
-            [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio','dest_codtipo', 'dest_codsituacao','dest_nomeunidadedest'], 'required'],
+            [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio','dest_codtipo', 'dest_codsituacao'], 'required'],
             [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codunidadedest', 'dest_codtipo', 'dest_codsituacao'], 'integer'],
             [['dest_nomeunidadeenvio'],  'string', 'max' => 100 ],
         ];

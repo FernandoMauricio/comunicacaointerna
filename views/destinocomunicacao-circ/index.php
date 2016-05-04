@@ -85,7 +85,7 @@ $gridColumns = [
                                     'filterType'=>GridView::FILTER_SELECT2,
                                     'filter'=>ArrayHelper::map(TipodocumentacaoTipdo::find()->orderBy('tipdo_codtipo')->asArray()->all(), 'tipdo_tipo', 'tipdo_tipo'), 
                                     'filterWidgetOptions'=>[
-                                        'pluginOptions'=>['allowClear'=>true],
+                                        'pluginOptions'=>['allowClear'=>true, 'width' => '100px'],
                                     ],
                                     'filterInputOptions'=>['placeholder'=>'Tipo'],
                                     'format'=>'raw'
@@ -113,7 +113,7 @@ $gridColumns = [
                                 ],
 
                                 ['class' => 'yii\grid\ActionColumn',
-                                'template' => '{update} {encerrar}',
+                                'template' => '{update} {autoresp}',
                                 'options' => ['width' => '15000'],
                                 'buttons' => [
 
@@ -126,16 +126,28 @@ $gridColumns = [
                                 },
 
 
-                                //FINALIZAR CI
-                                'encerrar' => function ($url, $comunicacaointerna) {
-                                    return Html::a('<span class="glyphicon glyphicon-floppy-disk"></span> Finalizar CI', $url, [
-                                                'class'=>'btn btn-danger btn-xs',
+                                // //FINALIZAR CI
+                                // 'encerrar' => function ($url, $comunicacaointerna) {
+                                //     return Html::a('<span class="glyphicon glyphicon-floppy-disk"></span> Finalizar CI', $url, [
+                                //                 'class'=>'btn btn-danger btn-xs',
+                                //                 'data' => [
+                                //                                 'confirm' => 'Você tem CERTEZA que deseja ENCERRAR essa Comunicação Interna?',
+                                //                                 'method' => 'post',
+                                //                             ],
+                                //     ]);
+                                // },
+
+                                //RESPONDER "CIENTE" COM UM CLIQUE
+                                'autoresp' => function ($url, $despachos) {
+                                    return Html::a('<span class="glyphicon glyphicon-ok"></span> Ciente', $url, [
+                                                'class'=>'btn btn-success btn-xs',
                                                 'data' => [
-                                                                'confirm' => 'Você tem CERTEZA que deseja ENCERRAR essa Comunicação Interna?',
+                                                                'confirm' => 'Você tem CERTEZA que deseja RESPONDER AUTOMATICAMENTE "Ciente" para essa Comunicação Interna?',
                                                                 'method' => 'post',
                                                             ],
                                     ]);
                                 },
+
                             ],
                             ],
                         ];

@@ -59,7 +59,7 @@ $unidade = $session['sess_unidade'];
                 'filterType'=>GridView::FILTER_SELECT2,
                 'filter'=>ArrayHelper::map(TipodocumentacaoTipdo::find()->orderBy('tipdo_codtipo')->asArray()->all(), 'tipdo_tipo', 'tipdo_tipo'), 
                 'filterWidgetOptions'=>[
-                    'pluginOptions'=>['allowClear'=>true],
+                    'pluginOptions'=>['allowClear'=>true, 'width' => '100px'],
                 ],
                 'filterInputOptions'=>['placeholder'=>'Tipo'],
                 'format'=>'raw'
@@ -107,7 +107,7 @@ $unidade = $session['sess_unidade'];
                 'filterType'=>GridView::FILTER_SELECT2,
                 'filter'=>ArrayHelper::map(SituacaocomunicacaoSitco::find()->orderBy('sitco_codsituacao')->asArray()->all(), 'sitco_codsituacao', 'sitco_situacao1'), 
                 'filterWidgetOptions'=>[
-                    'pluginOptions'=>['allowClear'=>true],
+                    'pluginOptions'=>['allowClear'=>true, 'width' => '100px'],
                 ],
                 'filterInputOptions'=>['placeholder'=>'Situação'],
                 'format'=>'raw'

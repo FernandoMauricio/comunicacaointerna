@@ -385,7 +385,86 @@ class ComunicacaointernaController extends Controller
      * @param string $id
      * @return mixed
      */
-    
+  
+
+      public function actionEncerrar($id)
+    {
+         $session = Yii::$app->session;
+         
+        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
+        {
+           return $this->redirect('http://portalsenac.am.senac.br');
+        }
+
+
+        //USUÁRIOS APENAS IRÃO EDITAR COMUNICAÇÕES COM STATUS DE 'EM ELABORAÇÃO'
+       if ($session['sess_responsavelsetor'] == 0){
+
+        Yii::$app->session->setFlash('warning', '<strong>AVISO! </strong> Somente o <strong>GERENTE</strong> poderá finalizar a Comunicação Interna');
+
+        return $this->redirect(['index']);
+
+                }else 
+
+    $model = $this->findModel($id);
+    $model->com_usuarioEncerramento = $session['sess_nomeusuario'];
+    $model->com_dataEncerramento = date('Y-m-d H:i:s');
+
+    //encerra a comunicacao que está em Circulação
+    $connection = Yii::$app->db;
+    $command = $connection->createCommand(
+    "UPDATE `db_ci`.`comunicacaointerna_com` SET `com_codsituacao` = '5', `com_usuarioEncerramento` = '".$model->com_usuarioEncerramento."', `com_dataEncerramento` = '".$model->com_dataEncerramento."'  WHERE `com_codcomunicacao` = ".$model->com_codcomunicacao."");
+    $command->execute();
+
+         //ENVIO DE E-MAIL PARA OS GERENTES RETIRANDO A DUPLICIDADE DO ENVIO INFORMANDO SOBRE O ENCERRAMENTO
+          $sql_unidade_destino = "SELECT DISTINCT dest_nomeunidadedest,dest_codcomunicacao,dest_codunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = ".$model->com_codcomunicacao;
+
+                 $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
+                 foreach ($unidades as $unidade)
+                    {
+                     $id_ci  = $unidade["dest_codcomunicacao"];
+                     $unidade_destino  = $unidade["dest_codunidadedest"];
+                     $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
+                     $id_usuarioEncerramento = $unidade["dest_codcolaborador"];
+
+
+                $sql_email_unidade = "SELECT DISTINCT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
+      
+                          $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all();
+                          foreach ($email_unidades as $email_unidade)
+                                       {
+                                         $email_unidade_gerente  = $email_unidade["emus_email"];
+
+                                                Yii::$app->mailer->compose()
+                                                ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
+                                                ->setTo($email_unidade_gerente)
+                                                ->setSubject('CI '.$id_ci. ' ENCERRADA - ' .$nomeunidade_destino)
+                                                ->setTextBody('A Comunicação Interna de código: '.$id_ci.' foi ENCERRADA!')
+                                                ->setHtmlBody('<p>Prezado(a), Gerente</p>
+
+                                                <p>A Comunica&ccedil;&atilde;o Interna de c&oacute;digo <span style="color:#337AB7"><strong>'.$id_ci.'</strong></span> foi ENCERRADA:</p>
+
+                                                <p><strong>Respons&aacute;vel pelo Encerramento</strong>:<span style="color:#337AB7"><strong> '.$model->com_usuarioEncerramento.'</strong></span></p>
+
+                                                <p><strong>Data do Encerramento</strong>: <span style="color:#337AB7"><strong> '.date('d/m/Y H:i', strtotime($model->com_dataEncerramento)).'</strong></span></p>
+
+                                                <p><i><strong>Por favor, n&atilde;o responda esse e-mail. Acesse http://portalsenac.am.senac.br</strong></i></p>
+
+                                                <p>Atenciosamente,&nbsp;</p>
+
+                                                <p>Sistema Gerenciador de Documentação Eletrônica</p>')
+                                                ->send();
+            
+                      }
+
+           }
+
+    Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Comunicação Interna de código: ' . '<strong>' .$model->com_codcomunicacao. '</strong> foi <strong>ENCERRADA!</strong>');
+     
+return $this->redirect(['index']);
+
+}
+
   public function actionDelete($id)
     {   
                 //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI

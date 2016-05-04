@@ -24,37 +24,13 @@ $this->title = 'Documentação Eletrônica';
 ?>
 
 <div class="site-index">
-        <h1 class="text-center"> Documentação Eletrônica</h1>
+        <h1 class="text-center"> Histórico de Versões</h1>
             <div class="body-content">
                 <div class="container">
                     
-                            <h3>Bem vindo(a), <?php echo $nome_user = ucwords(strtolower($nome_user))?>!</h3>
-
-                            <?php
-
-                            if($_SESSION['sess_responsavelsetor'] == 1 AND $checar_ci > 0){
-
-                            ?>
-                            <div class="alert alert-danger" role="alert"><strong><?php echo $nome_user = ucwords(strtolower($nome_user)) . ",</strong>"?> você tem <?php echo $checar_ci ?> despacho(os) pendente(es). Para visualizar, <a href="http://portalsenac.am.senac.br/comunicacaointerna/web/index.php?r=destinocomunicacao-circ%2Findex" class="alert-link">clique aqui.</a></div>
-                            
-                            <?php
-                                 }       
-                            ?>
-
-                            <?php
-
-                            if($_SESSION['sess_responsavelsetor'] == 1 AND $checar_autorizacao > 0){
-
-                            ?>
-                            <div class="alert alert-success" role="alert">Existem <?php echo $checar_autorizacao ?> Comunicação(ões) Interna(as) pendente(es) de autorização. Para visualizar, <a href="http://portalsenac.am.senac.br/comunicacaointerna/web/index.php?r=comunicacaointerna-aut%2Findex" class="alert-link">clique aqui.</a></div>
-                            
-                            <?php
-                                 }       
-                            ?>
-
                 <div class="panel panel-primary">
                 <div class="panel-heading">
-                            <i class="glyphicon glyphicon-star-empty"></i>  O que há de novo? (Versão 1.3)
+                            <i class="glyphicon glyphicon-star-empty"></i> Versão 1.3 - (ATUALMENTE)
                 </div>
                   <div class="panel-body">
                             <h4><strong>Destinos / Encaminhamentos</strong></h4>
@@ -68,11 +44,36 @@ $this->title = 'Documentação Eletrônica';
 
                             <h4><strong>Layout da página principal</strong></h4>
                                 <h5>Diminuição do tamanho do título "Documentação Eletrônica" e Inclusão do quadro de avisos de atualizações</h5><br />
-   
-                            <h4 style="color: #d35400;"><i>Para visualizar detalhes de Versões Anteriores, clique abaixo:</i></h4>
-                            <p><a href="index.php?r=site/versao" class="btn btn-warning" role="button">Histórico de Versões</a></p>
                      </div>
                 </div>
+
+                <div class="panel panel-danger">
+                <div class="panel-heading">
+                            <i class="glyphicon glyphicon-folder-close"></i> Versão 1.2
+                </div>
+                  <div class="panel-body">
+                            <h4><strong>Alterar Senha</strong></h4>
+                                <h5>Incluído a funcionalidade para o usuário alterar a senha do Portal Senac</h5><br />
+                            <h4><strong>Registro de Finalização de CI</strong></h4>
+                                <h5>Os usuários receberão um e-mail informando o responsável que realizou o ENCERRAMENTO da CI. O registro poderá ser visualizado também em "Recebidas pelo Setor" ou "Criadas pelo Setor"</h5><br />
+                            <h4><strong>Alterações no layout de e-mail</strong></h4>
+                                <h5>As notificações que são enviadas por e-mail tiveram seu layout alterado para uma melhor visualização e compreensão por parte do usuário</h5><br />
+                     </div>
+                </div>
+
+                <div class="panel panel-danger">
+                <div class="panel-heading">
+                            <i class="glyphicon glyphicon-folder-close"></i> Versão 1.1
+                </div>
+                  <div class="panel-body">
+                            <h4><strong>Melhoramento nas buscas de CI</strong></h4>
+                                <h5>Melhorado o sistema de buscas em "Despachos/Autorizações" e "Recebidas pelo Setor", sendo incluído buscas por: TIPO, DATA DA SOLICITAÇÃO, TÍTULO.</h5><br />
+                            <h4><strong>Inclusão de envio de e-mails</strong></h4>
+                                <h5>Caso haja algum despacho pendente e/ou autorização pendente, o usuário será notificado por e-mail</h5><br />    
+                     </div>
+                </div>
+
+
             </div>
         </div>   
 </div>

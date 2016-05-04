@@ -7,12 +7,31 @@ $(function(){
 	});
 });
 
-//uploadExtraData
-/*function() {
-    var obj = {};
-    $('.comunicacao-interna-com-form').find('input').each(function() {
-        var id = $(this).attr('id'), val = $(this).val();
-        obj[id] = val;
-    });
-    return obj;
-}*/
+
+// --- Delete action (bootbox) ---
+yii.confirm = function (message, ok, cancel) {
+ 
+    bootbox.confirm(
+        {
+            message: message,
+            buttons: {
+                confirm: {
+                    label: "OK"
+                },
+                cancel: {
+                    label: "Cancel"
+                }
+            },
+            callback: function (confirmed) {
+                if (confirmed) {
+                    !ok || ok();
+                } else {
+                    !cancel || cancel();
+                }
+            }
+        }
+    );
+    // confirm will always return false on the first call
+    // to cancel click handler
+    return false;
+}

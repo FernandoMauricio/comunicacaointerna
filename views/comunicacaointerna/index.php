@@ -70,25 +70,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'width'=>'5px'
             ],
 
-/*  OUTRO EXEMPLO QUE POSSO USAR:          [
-                'header' => 'Criado Por',
-                'attribute' => 'com_codcolaborador',
-                'value' => function ($data) {
-                return $data->colaborador->usuario->usu_nomeusuario;
-                },
-             ],*/
             [
                 'attribute' => 'com_codtipo',
                 'value' => 'comCodtipo.tipdo_tipo',
                 'width'=>'130px'
             ],
 
-/*            [
-                'attribute' => 'com_codunidade',
-                'value' => 'unidade.uni_nomeabreviado'
-            ],
-
-    */
              [
                 'attribute' => 'com_titulo',
                 'value' => function ($data) {
@@ -109,12 +96,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'width'=>'130px',
             ],
             
-/*            [
-                'attribute' => 'com_codcolaboradorautorizacao',
-                'value' => 'colaboradorAutorizacao.usuario.usu_nomeusuario'
-            ],
-*/
-
             [
                 'attribute' => 'com_codsituacao',
                 'value' => 'situacao.sitco_situacao1',
@@ -122,7 +103,24 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ],
 
-            ['class' => 'yii\grid\ActionColumn', 'template' => '{view} {update} {delete}'],
+
+                ['class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {update} {encerrar} {delete} ',
+                'options' => ['width' => '150px'],
+                'buttons' => [
+
+                //FINALIZAR CI
+                'encerrar' => function ($url, $model) {
+                    return Html::a('<span class="glyphicon glyphicon-floppy-disk"></span>', $url, [
+                                'data' => [
+                                                'confirm' => 'Você tem CERTEZA que deseja ENCERRAR essa Comunicação Interna?',
+                                                'method' => 'post',
+                                            ],
+                    ]);
+                },
+
+                ],
+            ],
         ],
 
     ]);

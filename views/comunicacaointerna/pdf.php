@@ -222,16 +222,19 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <p class="anexos">ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
       <?php
 //GET ANEXOS
+             $files = 0;
+      if($files > 0) {
     $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
             echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
         }
-    } else {
+      } 
+   }else {
         echo "Não existem arquivos disponíveis para download.";
     }
-
+ 
     ?>
     </p>
       <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />

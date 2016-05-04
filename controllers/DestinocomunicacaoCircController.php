@@ -154,6 +154,7 @@ class DestinocomunicacaoCircController extends Controller
         $request = Yii::$app->request;
         $DestinocomunicacaoEnc = Yii::$app->request->post('DestinocomunicacaoEnc');
 
+if($DestinocomunicacaoEnc['dest_nomeunidadedest'] > 0) {
         //realiza a filtragem com o formato de array
         $listagemUnidades = "SELECT * FROM `unidade_uni` WHERE `uni_nomeabreviado` IN('".implode("','",$DestinocomunicacaoEnc['dest_nomeunidadedest'])."')";
 
@@ -174,7 +175,7 @@ class DestinocomunicacaoCircController extends Controller
         $command->execute();
            }
        }
-
+}
             //instacia um novo despacho
             $despachos = new Despachos();
             $despachos->deco_codcomunicacao = $model->dest_codcomunicacao;
@@ -329,30 +330,75 @@ class DestinocomunicacaoCircController extends Controller
     }
 
 
-    public function actionEncerrar($id)
+ public function actionAutoresp($id)
     {
-    $session = Yii::$app->session;
+                $session = Yii::$app->session;
+        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
+        {
+           return $this->redirect('http://portalsenac.am.senac.br');
+        }
+        $model = $this->findModel($id);
 
-    $model = $this->findModel($id);
+                //conexão com os bancos
+                 $connection = Yii::$app->db;
+                 $connection = Yii::$app->db_base;
 
-                //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
-             $comunicacaointerna = Comunicacaointerna::find($id)
-                ->where(['com_codcomunicacao' => $model->dest_codcomunicacao])
-                ->one();
+            //instacia um novo despacho
+            $despachos = new Despachos();
+            $despachos->deco_codcomunicacao = $model->dest_codcomunicacao;
+            $despachos->deco_codcolaborador = $session['sess_codcolaborador'];
+            $despachos->deco_codunidade = $session['sess_codunidade'];
+            $despachos->deco_codcargo = $session['sess_codcargo'];
+            $despachos->deco_data = date('Y-m-d H:i:s');
+            $despachos->deco_codsituacao = $model->dest_codsituacao;
+            $despachos->deco_nomeunidade = $session['sess_unidade'];
+            $despachos->deco_nomeusuario = $session['sess_nomeusuario'];
+            $despachos->deco_cargo = $session['sess_cargo'];
+            $despachos->deco_despacho = 'Ciente!'; //resposta automatica
 
-    
-    $comunicacaointerna->com_usuarioEncerramento = $session['sess_nomeusuario'];
-    $comunicacaointerna->com_dataEncerramento = date('Y-m-d H:i:s');
+             
+            $model->dest_coddespacho = $despachos->deco_coddespacho;
 
+                    //Atualiza a situação do DESTINO para "ABERTO"(cód 3) e insere o código de despacho para poder realizar a filtragem e enviar o e-mail"
+                    $connection = Yii::$app->db;
+                    $command = $connection->createCommand(
+                    "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = '3' WHERE `dest_coddestino` = '".$model->dest_coddestino."' AND `dest_codcomunicacao` =" . $model->dest_codcomunicacao);
+                    $command->execute();
 
-    //encerra a comunicacao que está em Circulação
-    $connection = Yii::$app->db;
-    $command = $connection->createCommand(
-    "UPDATE `db_ci`.`comunicacaointerna_com` SET `com_codsituacao` = '5', `com_usuarioEncerramento` = '".$comunicacaointerna->com_usuarioEncerramento."', `com_dataEncerramento` = '".$comunicacaointerna->com_dataEncerramento."'  WHERE `com_codcomunicacao` = ".$model->dest_codcomunicacao."");
-    $command->execute();
+                    //Atualiza os destinos que estão duplicados e encerra os mesmos
+                    $command = $connection->createCommand(
+                    "UPDATE destinocomunicacao_dest SET dest_codsituacao = '3' WHERE dest_codcomunicacao = '".$model->dest_codcomunicacao."' AND dest_codunidadedest = '".$model->dest_codunidadedest."' AND dest_codsituacao = 2");  
+                    $command->execute();
 
-         //ENVIO DE E-MAIL PARA OS GERENTES RETIRANDO A DUPLICIDADE DO ENVIO INFORMANDO SOBRE O ENCERRAMENTO
-          $sql_unidade_destino = "SELECT DISTINCT dest_nomeunidadedest,dest_codcomunicacao,dest_codunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = ".$model->dest_codcomunicacao;
+                //GRAVAR ANEXOS
+                           
+                            if (!empty($_POST)) {
+
+                                $model->file = UploadedFile::getInstances($model, 'file');
+
+                                $subdiretorio = "uploads/" . $model->dest_codcomunicacao . "/" . $despachos->deco_coddespacho;
+
+                                                if(!file_exists($subdiretorio))
+                                                {
+                                                  if(!mkdir($subdiretorio));
+                                                }
+                                                             if ($model->file){
+                                                            foreach ($model->file as $file)
+                                                                 {
+                                                                     $file->saveAs($subdiretorio.'/'. $file->baseName . '.' . $file->extension);
+
+                                                                    $model->dest_anexo = $subdiretorio.'/';
+                                                                    $model->save();
+                                                                 }
+                                                        }
+                                                    }
+
+         //ENVIA EMAIL PARA TODAS AS UNIDADES QUE FORAM INSERIDAS NO DESTINO DA CI
+         //CRIANDO ARRAY COM SETORES PARTICIPANTES DA CI....
+         //
+         //
+         //ENVIO DE E-MAIL PARA OS GERENTES RETIRANDO A DUPLICIDADE DO ENVIO NO ENVIO CASO ALGUM GERENTE NÃO TENHA DESPACHADO
+          $sql_unidade_destino = "SELECT DISTINCT dest_nomeunidadedest,dest_codcomunicacao,dest_codunidadedest FROM destinocomunicacao_dest WHERE dest_codtipo = '2' AND dest_codsituacao = '2' AND dest_codcomunicacao = ".$model->dest_codcomunicacao." OR dest_codtipo = '3' AND dest_codsituacao = '2' AND dest_codcomunicacao = ".$model->dest_codcomunicacao;
 
                  $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
                  foreach ($unidades as $unidade)
@@ -360,9 +406,8 @@ class DestinocomunicacaoCircController extends Controller
                      $id_ci  = $unidade["dest_codcomunicacao"];
                      $unidade_destino  = $unidade["dest_codunidadedest"];
                      $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
-                     $id_usuarioEncerramento = $unidade["dest_codcolaborador"];
-
-
+                   
+                  
                 $sql_email_unidade = "SELECT DISTINCT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
       
                           $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all();
@@ -373,32 +418,31 @@ class DestinocomunicacaoCircController extends Controller
                                                 Yii::$app->mailer->compose()
                                                 ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
                                                 ->setTo($email_unidade_gerente)
-                                                ->setSubject('CI '.$id_ci. ' ENCERRADA - ' .$nomeunidade_destino)
-                                                ->setTextBody('A Comunicação Interna de código: '.$id_ci.' foi ENCERRADA!')
-                                                ->setHtmlBody('<p>Prezado(a), Gerente</p>
+                                                ->setSubject('CI '.$id_ci. ' Aguardando Despacho - ' .$nomeunidade_destino)
+                                                ->setTextBody('Existe uma CI de código: '.$id_ci.' aguardando seu despacho')
+                                                ->setHtmlBody('<p>Prezado(a)&nbsp;Gerente,</p>
 
-                                                <p>A Comunica&ccedil;&atilde;o Interna de c&oacute;digo <span style="color:#337AB7"><strong>'.$id_ci.'</strong></span> foi ENCERRADA:</p>
+                                                <p>Existe uma Comunica&ccedil;&atilde;o Interna <span style="color:#337AB7">'.$id_ci.' </span>aguardando seu despacho. Abaixo, segue o respons&aacute;vel que realizou o o&nbsp;&uacute;ltimo despacho:</p>
 
-                                                <p><strong>Respons&aacute;vel pelo Encerramento</strong>:<span style="color:#337AB7"><strong> '.$comunicacaointerna->com_usuarioEncerramento.'</strong></span></p>
+                                                <p><strong>Despachado por: </strong><span style="color:#337AB7">'.$despachos->deco_nomeusuario.'</span></p>
 
-                                                <p><strong>Data do Encerramento</strong>: <span style="color:#337AB7"><strong> '.date('d/m/Y H:i', strtotime($comunicacaointerna->com_dataEncerramento)).'</strong></span></p>
+                                                <p><strong>Data/Hora</strong>:&nbsp;<span style="color:#337AB7">'.date('d/m/Y H:i', strtotime($despachos->deco_data)).'</span></p>
 
-                                                <p><i><strong>Por favor, n&atilde;o responda esse e-mail. Acesse http://portalsenac.am.senac.br</strong></i></p>
-
-                                                <p>Atenciosamente,&nbsp;</p>
-
-                                                <p>Sistema Gerenciador de Documentação Eletrônica</p>')
+                                                ')
                                                 ->send();
             
-                      }
+                                  }
 
-           }
+                        }
 
-    Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Comunicação Interna de código: ' . '<strong>' .$model->dest_codcomunicacao. '</strong> foi <strong>ENCERRADA!</strong>');
-     
-return $this->redirect(['index']);
+                $despachos->save();
 
-}
+                Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Foi realizado o <strong>DESPACHO AUTOMÁTICO</strong> da Comunicação Interna de código: ' . '<strong>' .$model->dest_codcomunicacao. '</strong>');
+             
+             return $this->redirect(['index']);
+      
+    }
+
     /**
      * Finds the Destinocomunicacao model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
