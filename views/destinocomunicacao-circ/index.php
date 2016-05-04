@@ -120,31 +120,22 @@ $gridColumns = [
                                 //DESPACHAR BUTTON
                                 'update' => function ($url, $model) {
                                     return Html::a('<span class="glyphicon glyphicon-ok-circle"></span> Despachar', $url, [
+                                                'title' => Yii::t('app', 'Realizar Despacho'),
                                                 'class'=>'btn btn-primary btn-xs',
                                
                                     ]);
                                 },
 
-
-                                // //FINALIZAR CI
-                                // 'encerrar' => function ($url, $comunicacaointerna) {
-                                //     return Html::a('<span class="glyphicon glyphicon-floppy-disk"></span> Finalizar CI', $url, [
-                                //                 'class'=>'btn btn-danger btn-xs',
-                                //                 'data' => [
-                                //                                 'confirm' => 'Você tem CERTEZA que deseja ENCERRAR essa Comunicação Interna?',
-                                //                                 'method' => 'post',
-                                //                             ],
-                                //     ]);
-                                // },
-
                                 //RESPONDER "CIENTE" COM UM CLIQUE
                                 'autoresp' => function ($url, $despachos) {
                                     return Html::a('<span class="glyphicon glyphicon-ok"></span> Ciente', $url, [
                                                 'class'=>'btn btn-success btn-xs',
+                                                'title' => Yii::t('app', 'Inserir Resposta Automática'),
                                                 'data' => [
                                                                 'confirm' => 'Você tem CERTEZA que deseja RESPONDER AUTOMATICAMENTE "Ciente" para essa Comunicação Interna?',
                                                                 'method' => 'post',
                                                             ],
+
                                     ]);
                                 },
 

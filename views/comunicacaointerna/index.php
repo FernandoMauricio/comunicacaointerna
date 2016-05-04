@@ -112,6 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 //FINALIZAR CI
                 'encerrar' => function ($url, $model) {
                     return Html::a('<span class="glyphicon glyphicon-floppy-disk"></span>', $url, [
+                                'title' => Yii::t('app', 'Finalizar CI'),
                                 'data' => [
                                                 'confirm' => 'Você tem CERTEZA que deseja ENCERRAR essa Comunicação Interna?',
                                                 'method' => 'post',
