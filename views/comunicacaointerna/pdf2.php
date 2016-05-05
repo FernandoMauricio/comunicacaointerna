@@ -28,6 +28,7 @@ $com_codtipo = $model->comunicacaointerna->com_codtipo;
 $cod_situacao = $model->comunicacaointerna->com_codsituacao;
 $com_usuarioEncerramento = $model->comunicacaointerna->com_usuarioEncerramento;
 $com_dataEncerramento = $model->comunicacaointerna->com_dataEncerramento;
+$dest_coddespacho = $model->dest_coddespacho;
 
 $session = Yii::$app->session;
 
@@ -126,20 +127,16 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <p>&nbsp;</p>
     <p class="anexos">ANEXOS - - - - - - - - - - - - - - -  - - -<br />
       <?php
-       $files = 0;
-      if($files > 0) {
 //GET ANEXOS
-    $files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE]);
+    if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-            echo Html::a($nameFicheiro, 'http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
-            //echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
-        }
-    } 
-  }else {
-        echo "Não existem arquivos disponíveis para download.";
+            echo Html::a($nameFicheiro, 'http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ;
+      } 
     }
+  }
+
 ?>
     </p>
         <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
@@ -222,20 +219,17 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <p>&nbsp;</p>
     <p class="anexos">ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
       <?php
-       $files = 0;
-      if($files > 0) {
+
 //GET ANEXOS
+      if($deco_coddespacho == $dest_coddespacho){
     $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-            echo Html::a($nameFicheiro,  "http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/". $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>" ; // render do ficheiro no browser
-            //echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $deco_coddespacho . '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
-        }
+            echo Html::a($nameFicheiro,  "http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/". $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>";
        }
-     }else {
-        echo "Não existem arquivos disponíveis para download.";
-}
+       }
+     }
     ?>
     </p>
         <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />

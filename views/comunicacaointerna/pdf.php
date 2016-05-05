@@ -28,7 +28,6 @@ $cod_situacao = $model->com_codsituacao;
 $com_usuarioEncerramento = $model->com_usuarioEncerramento;
 $com_dataEncerramento = $model->com_dataEncerramento;
 
-// $com_usuarioEncerramento = $model->com_usuarioEncerramento;
 
 //PEGANDO OS DESTINATÁIOS NESSE DESPACHO
      $destinatarios = "";
@@ -127,8 +126,6 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
       <?php
       if($com_codsituacao != 'Em Elaboração'){
     
-       $files = 0;
-      if($files > 0) {
 //GET ANEXOS
     $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao,['recursive'=>FALSE]);
     if (isset($files[0])) {
@@ -136,10 +133,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
             echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']). "<br/>"; // render do ficheiro no browser
         }
-    } 
-  }else {
-        echo "Não existem arquivos disponíveis para download.";
-    }
+  }
   }
 ?>
     </p>
@@ -225,20 +219,26 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <p>&nbsp;</p>
     <p class="anexos">ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
       <?php
-       $files = 0;
-      if($files > 0) {
+      
+           $sql_destino = "SELECT DISTINCT dest_coddespacho FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 3";
+
+      $destino = Destinocomunicacao::findBySql($sql_destino)->all(); 
+
+      foreach ($destino as $destinos) {
+
+        $dest_coddespacho = $destinos["dest_coddespacho"];
 //GET ANEXOS
+      if($deco_coddespacho == $dest_coddespacho){
     $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
-        }
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
       } 
-   }else {
-        echo "Não existem arquivos disponíveis para download.";
-    }
- 
+   }
+ }
+
+ }
     ?>
     </p>
       <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
