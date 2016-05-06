@@ -215,7 +215,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   </tr>
   <tr>
     <!-- <th height="305" scope="row">DESPACHO</th> -->
-    <td colspan="3"><p>&nbsp;</p><?php echo $deco_despacho ?>
+    <td colspan="3"><p>&nbsp;</p><p><?php echo $deco_despacho ?></p>
     <p>&nbsp;</p>
     <p class="anexos">ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
       <?php

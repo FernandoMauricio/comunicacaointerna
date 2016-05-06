@@ -146,7 +146,7 @@ $gridColumns = [
 
 ?>
 
-    <?php Pjax::begin(); ?>
+    <?php Pjax::begin(['id'=>'w0-pjax']); ?>
 
     <?php 
 
@@ -157,7 +157,7 @@ $gridColumns = [
     'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
     'headerRowOptions'=>['class'=>'kartik-sheet-style'],
     'filterRowOptions'=>['class'=>'kartik-sheet-style'],
-    'pjax'=>false, // pjax is set to always true for this demo
+    'pjax'=>true, // pjax is set to always true for this demo
     'beforeHeader'=>[
         [
             'columns'=>[

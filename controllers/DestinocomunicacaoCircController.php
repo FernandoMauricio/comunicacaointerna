@@ -354,7 +354,7 @@ if($DestinocomunicacaoEnc['dest_nomeunidadedest'] > 0) {
             $despachos->deco_nomeunidade = $session['sess_unidade'];
             $despachos->deco_nomeusuario = $session['sess_nomeusuario'];
             $despachos->deco_cargo = $session['sess_cargo'];
-            $despachos->deco_despacho = 'Ciente!'; //resposta automatica
+            $despachos->deco_despacho = 'Ciente.'; //resposta automatica
 
              
             $model->dest_coddespacho = $despachos->deco_coddespacho;

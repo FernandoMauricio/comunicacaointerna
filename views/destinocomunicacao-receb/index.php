@@ -24,30 +24,21 @@ $unidade = $session['sess_unidade'];
     <h1><?= Html::encode($this->title). '<small>Recebidas pelo Setor</small>' ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?php Pjax::begin(); ?>
-    <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-                'rowOptions' =>function($model){
-                    if($model->comunicacaointerna->com_codsituacao == '5' )
-                    {
+    <?php Pjax::begin(['id' => 'w0-pjax']); ?>
 
-                            return['class'=>'danger'];                        
-                    }
-                },
-        'hover' => true,
-        'panel' => [
-        'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem - '.utf8_encode($unidade).'</h3>',
-        'type'=>'primary',
-    ],
-        'columns' => [
+    <?php
+
+$gridColumns = [
 
             [
             'attribute' => 'dest_codcomunicacao',
             'width'=>'100px',
             ],
         
-             'dest_nomeunidadeenvio',
+             [
+              'attribute'=>'dest_nomeunidadeenvio',
+              'width'=>'30%',
+             ],
 
             [
                 'attribute'=>'tipo', 
@@ -84,6 +75,7 @@ $unidade = $session['sess_unidade'];
 
              [
                 'attribute' => 'titulo',
+                'width'=>'50%',
                 'value' => function ($data) {
 
                     $session = Yii::$app->session;      
@@ -114,7 +106,49 @@ $unidade = $session['sess_unidade'];
             ],
 
             ['class' => 'yii\grid\ActionColumn', 'template' => '{view}'],
-        ],
-    ]); ?>
-<?php Pjax::end(); ?>
+    ]; 
+
+    ?>
+
+    <?php Pjax::begin(['id'=>'w0-pjax']); ?>
+
+    <?php 
+
+    echo GridView::widget([
+    'dataProvider'=>$dataProvider,
+    'filterModel'=>$searchModel,
+    'columns'=>$gridColumns,
+    'rowOptions' =>function($model){
+                if($model->comunicacaointerna->com_codsituacao == '5' )
+                {
+
+                        return['class'=>'danger'];                        
+                }
+
+
+    },
+    'containerOptions'=>['style'=>'overflow: auto'], // only set when $responsive = false
+    'headerRowOptions'=>['class'=>'kartik-sheet-style'],
+    'filterRowOptions'=>['class'=>'kartik-sheet-style'],
+    'pjax'=>true, // pjax is set to always true for this demo
+    'condensed' => true,
+    'hover' => true,
+    'beforeHeader'=>[
+        [
+            'columns'=>[
+                ['content'=>'Detalhes da Comunicação Interna - Recebidas pelo Setor', 'options'=>['colspan'=>5, 'class'=>'text-center warning']], 
+                ['content'=>'Ações', 'options'=>['colspan'=>2, 'class'=>'text-center warning']], 
+            ],
+        ]
+    ],
+
+        'panel' => [
+        'type'=>GridView::TYPE_PRIMARY,
+        'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem - '.utf8_encode($unidade).'</h3>',
+    ],
+]);
+    ?>
+    <?php Pjax::end(); ?>
+
 </div>
+

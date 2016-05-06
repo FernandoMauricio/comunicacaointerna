@@ -32,6 +32,8 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
 
     public $nomesituacao;
     public $file;
+    public $data_solicitacao;
+    public $situacaocomunicacao;
  
     /**
      * @inheritdoc
@@ -50,7 +52,7 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
             [['com_codtipo'], 'validarTipo'],
             [['com_codcolaborador', 'com_codunidade', 'com_titulo', 'com_texto', 'com_codtipo', 'com_codsituacao'], 'required'],
             [['com_codtipo', 'com_codsituacao', 'com_codcolaboradorautorizacao', 'com_codcargoautorizacao'], 'integer'],
-            [['com_datasolicitacao', 'com_dataautorizacao', 'nomesituacao', 'com_usuarioEncerramento', 'com_dataEncerramento'], 'safe'],
+            [['com_datasolicitacao', 'com_dataautorizacao', 'nomesituacao', 'com_usuarioEncerramento', 'com_dataEncerramento','data_solicitacao','situacaocomunicacao'], 'safe'],
             [['file'], 'file', 'maxFiles' => 10,'checkExtensionByMimeType'=>false, 'extensions' => 'pdf, zip, rar, doc, docx'],
             [['com_texto'], 'string'],
             [['com_titulo', 'com_anexo'], 'string', 'max' => 100],
@@ -92,6 +94,8 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
             'com_codcolaboradorautorizacao' => 'Autorizado por:',
             'com_codcargoautorizacao' => 'Cargo',
             'file' => 'Anexos',
+            'data_solicitacao' => 'Data da Solicitação',
+            'situacaocomunicacao' => 'Situação',
         ];
     }
 

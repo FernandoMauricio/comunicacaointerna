@@ -19,7 +19,7 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
     {
         return [
             [['com_codcomunicacao', 'com_codunidade', 'com_codcolaboradorautorizacao', 'com_codcargoautorizacao'], 'integer'],
-            [['com_datasolicitacao', 'com_codtipo', 'com_codsituacao', 'com_titulo', 'com_texto', 'com_dataautorizacao', 'com_codcolaborador'], 'safe'],
+            [['com_datasolicitacao', 'com_codtipo', 'com_codsituacao', 'com_titulo', 'com_texto', 'com_dataautorizacao', 'com_codcolaborador', 'data_solicitacao', 'situacaocomunicacao'], 'safe'],
         ];
     }
 
@@ -48,6 +48,17 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $dataProvider->sort->attributes['data_solicitacao'] = [
+        'asc' => ['comunicacaointerna_com.com_datasolicitacao' => SORT_ASC],
+        'desc' => ['comunicacaointerna_com.com_datasolicitacao' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['situacaocomunicacao'] = [
+        'asc' => ['comunicacaointerna_com.com_codsituacao' => SORT_ASC],
+        'desc' => ['comunicacaointerna_com.com_codsituacao' => SORT_DESC],
+        ];
+
 
         $this->load($params);
 
@@ -78,8 +89,9 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
 
         $query->andFilterWhere(['like', 'com_titulo', $this->com_titulo])
             ->andFilterWhere(['com_codunidade' => $session['sess_codunidade']])
-            ->andFilterWhere(['like', 'tipodocumentacao_tipdo.tipdo_tipo', $this->com_codtipo])
-            ->andFilterWhere(['like', 'situacaocomunicacao_sitco.sitco_situacao1', $this->com_codsituacao])
+            ->andFilterWhere(['=', 'tipodocumentacao_tipdo.tipdo_tipo', $this->com_codtipo])
+            ->andFilterWhere(['like', 'comunicacaointerna_com.com_datasolicitacao', $this->data_solicitacao])
+            ->andFilterWhere(['=', 'situacaocomunicacao_sitco.sitco_situacao1', $this->situacaocomunicacao])
             ->andFilterWhere(['like', 'com_texto', $this->com_texto]);
 
         return $dataProvider;

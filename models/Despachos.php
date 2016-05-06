@@ -70,20 +70,13 @@ class Despachos extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAnexodespachoAndes()
-    {
-        return $this->hasMany(AnexodespachoAnde::className(), ['ande_coddespacho' => 'deco_coddespacho']);
-    }
 
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getDecoCodcomunicacao()
     {
-        return $this->hasOne(ComunicacaointernaCom::className(), ['com_codcomunicacao' => 'deco_codcomunicacao']);
+        return $this->hasOne(Comunicacaointerna::className(), ['com_codcomunicacao' => 'deco_codcomunicacao']);
     }
 
     /**
