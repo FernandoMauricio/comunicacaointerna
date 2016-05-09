@@ -44,9 +44,13 @@ class DestinocomunicacaoRecebSearch extends Destinocomunicacao
     public function search($params)
     {
         //VERIFICAR O USO DO DISTINCT PARA TRAZER APENAS UM RESULTADO DE CI
+
+        // $sql = 'SELECT DISTINCT * FROM destinocomunicacao_dest, comunicacaointerna_com ORDER BY dest_coddestino DESC';
+        // $query = Destinocomunicacao::findBySql($sql)->all();  
+
         $query = Destinocomunicacao::find()
         ->distinct('dest_codcomunicacao')
-        //->joinWith('comunicacaointerna')
+        ->joinWith('comunicacaointerna')
         ->orderBy(['dest_codcomunicacao' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
@@ -102,6 +106,7 @@ class DestinocomunicacaoRecebSearch extends Destinocomunicacao
         $session = Yii::$app->session;
 
         $query->andFilterWhere(['like', 'dest_codunidadeenvio', $this->dest_codunidadeenvio])
+            ->andFilterWhere(['like', 'dest_nomeunidadeenvio', $this->dest_nomeunidadeenvio])
             ->andFilterWhere(['like', 'comunicacaointerna_com.com_titulo', $this->titulo])
             ->andFilterWhere(['=', 'tipodocumentacao_tipdo.tipdo_tipo', $this->tipo])
             ->andFilterWhere(['like', 'comunicacaointerna_com.com_datasolicitacao', $this->data_solicitacao])
