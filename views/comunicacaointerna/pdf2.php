@@ -226,7 +226,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
       <?php
 
 //GET ANEXOS
-      
+      if($deco_coddespacho == $dest_coddespacho){
     $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
@@ -238,6 +238,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   }else{
             echo Html::a($nameFicheiro,  "http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/". $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>";
           }
+        }
        }
        }
     ?>
