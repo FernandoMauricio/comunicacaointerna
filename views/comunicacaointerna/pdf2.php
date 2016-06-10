@@ -132,7 +132,12 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+  {
+    echo '***************** Arquivos Confidenciais';
+  }else{
             echo Html::a($nameFicheiro, 'http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ;
+          }
       } 
     }
   }
@@ -221,15 +226,20 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
       <?php
 
 //GET ANEXOS
-      if($deco_coddespacho == $dest_coddespacho){
+      
     $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+            
+  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+  {
+    echo '***************** Arquivos Confidenciais';
+  }else{
             echo Html::a($nameFicheiro,  "http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/". $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>";
+          }
        }
        }
-     }
     ?>
     </p>
         <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />

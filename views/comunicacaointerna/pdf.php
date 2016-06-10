@@ -131,8 +131,13 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+  {
+    echo '***************** Arquivos Confidenciais';
+  }else{
             echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']). "<br/>"; // render do ficheiro no browser
-        }
+       }
+    }
   }
   }
 ?>
@@ -233,7 +238,12 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+  {
+    echo '***************** Arquivos Confidenciais';
+  }else{
             echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ; // render do ficheiro no browser
+          }
       } 
    }
  }
