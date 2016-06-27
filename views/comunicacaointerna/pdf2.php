@@ -33,6 +33,7 @@ $session = Yii::$app->session;
 
 //PEGANDO OS DESTINATÁIOS NESSE DESPACHO
      $destinatarios = "";
+     $destinatariosCopia = "";
      $contador = 0;
      $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 2";
 
@@ -43,6 +44,20 @@ $session = Yii::$app->session;
               $destinatarios = $models['dest_nomeunidadedest']; 
        }else
             $destinatarios = $destinatarios."<br>".$models['dest_nomeunidadedest'];
+          
+       $contador ++; 
+     }  
+
+     $contador = 0;
+     $sqlCopia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 4";
+
+       $modelCopia = Destinocomunicacao::findBySql($sqlCopia)->all(); 
+
+      foreach ($modelCopia as $modelsCopia) {
+         if($contador == 0){
+              $destinatariosCopia = $modelsCopia['dest_nomeunidadedestCopia'];  
+       }else
+            $destinatariosCopia = $destinatariosCopia."<br>".$modelsCopia['dest_nomeunidadedestCopia'];
           
        $contador ++; 
      }  
@@ -118,8 +133,14 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   <tr>
     <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
     <td width="41%" scope="col"><div align="center"><?php echo $unidade_solicitante ?></div></td>
-    <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?></div></td>
-  </tr>
+    <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?><br><br>
+     <?php if($contador != 0)
+         {
+       ?>
+      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Cópia Para:</strong><br>
+      <?php echo $destinatariosCopia; ?></em> 
+      <?php } ?>
+      </font></div></td>
   <tr>
     <!-- <th height="122" scope="row">DISCRIMINAÇÃO</th> -->
     <td colspan="3"><p>&nbsp;</p><?php echo $com_texto ?>
@@ -127,19 +148,19 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <p class="anexos">ANEXOS - - - - - - - - - - - - - - -  - - -<br />
       <?php
 //GET ANEXOS
-    if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
-    if (isset($files[0])) {
-        foreach ($files as $index => $file) {
-            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
-  {
-    echo '***************** Arquivos Confidenciais';
-  }else{
-            echo Html::a($nameFicheiro, 'http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ;
-          }
-      } 
-    }
-  }
+  //   if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
+  //   if (isset($files[0])) {
+  //       foreach ($files as $index => $file) {
+  //           $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+  // if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+  // {
+  //   echo '***************** Arquivos Confidenciais';
+  // }else{
+  //           echo Html::a($nameFicheiro, 'http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ;
+  //         }
+  //     } 
+  //   }
+  // }
 
 ?>
     </p>
@@ -232,21 +253,21 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
         $dest_coddespacho = $destinos["dest_coddespacho"];
 
 //GET ANEXOS
-      if($deco_coddespacho == $dest_coddespacho){
-    $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
-    if (isset($files[0])) {
-        foreach ($files as $index => $file) {
-            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+  //     if($deco_coddespacho == $dest_coddespacho){
+  //   $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
+  //   if (isset($files[0])) {
+  //       foreach ($files as $index => $file) {
+  //           $nameFicheiro = substr($file, strrpos($file, '/') + 1);
             
-  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
-  {
-    echo '***************** Arquivos Confidenciais';
-  }else{
-            echo Html::a($nameFicheiro,  "http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/". $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>";
-          }
-        }
-       }
-       }
+  // if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+  // {
+  //   echo '***************** Arquivos Confidenciais';
+  // }else{
+  //           echo Html::a($nameFicheiro,  "http://portalsenac.am.senac.br/comunicacaointerna/web/uploads/". $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>";
+  //         }
+  //       }
+  //      }
+  //      }
      }
     ?>
     </p>

@@ -119,11 +119,11 @@ $gridColumns = [
 
                                 //DESPACHAR BUTTON
                                 'update' => function ($url, $model) {
-                                    return Html::a('<span class="glyphicon glyphicon-ok-circle"></span> Despachar', $url, [
+                                    return $model->dest_codtipo != 4 ?  Html::a('<span class="glyphicon glyphicon-ok-circle"></span> Despachar', $url, [
                                                 'title' => Yii::t('app', 'Realizar Despacho'),
                                                 'class'=>'btn btn-primary btn-xs',
                                
-                                    ]);
+                                    ]): '';
                                 },
 
                                 //RESPONDER "CIENTE" COM UM CLIQUE

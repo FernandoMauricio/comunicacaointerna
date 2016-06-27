@@ -105,7 +105,7 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
             ->andFilterWhere(['=', 'comunicacaointerna_com.com_codsituacao', $this->situacao])
             ->andFilterWhere(['comunicacaointerna_com.com_codsituacao' => 4])
             ->andFilterWhere(['dest_codunidadedest' => $session['sess_codunidade']])
-            ->andFilterWhere(['dest_codtipo' => [2,3]])
+            ->andFilterWhere(['dest_codtipo' => [2,3,4]])
             ->andFilterWhere(['dest_codsituacao' => 2]);
 
         return $dataProvider;

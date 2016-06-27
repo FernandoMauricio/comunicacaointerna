@@ -74,6 +74,16 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
                         ],
                     ]);   
 
+                    $rows = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomecompleto')->all();
+                    $data_unidades = ArrayHelper::map($rows, 'uni_nomecompleto', 'uni_nomecompleto');
+                    echo $form->field($destinocomunicacao, 'dest_nomeunidadedestCopia')->widget(Select2::classname(), [
+                        'data' => $data_unidades,
+                        'options' => ['placeholder' => 'Selecione uma Unidade...', 'multiple'=>true],
+                        'pluginOptions' => [
+                            'allowClear' => true
+                        ],
+                    ]);   
+                    
                 $rows = TipodocumentacaoTipdo::find()->all();
                 $data = ArrayHelper::map($rows, 'tipdo_codtipo', 'tipdo_tipo');
                 echo $form->field($model, 'com_codtipo')->radiolist($data);

@@ -31,7 +31,6 @@ public $tipo;
 public $data_solicitacao;
 public $situacao;
 
-
     /**
      * @inheritdoc
      */
@@ -48,7 +47,7 @@ public $situacao;
         return [
             // [['dest_codcomunicacao', 'dest_codsituacao', 'dest_nomeunidadedest','dest_coddespacho'], 'unique', 'targetAttribute' => ['dest_codcomunicacao',  'dest_codsituacao', 'dest_nomeunidadedest','dest_coddespacho']],
             //[['dest_codcomunicacao',  'dest_nomeunidadedest','dest_coddespacho'], 'unique', 'targetAttribute' => ['dest_codcomunicacao', 'dest_nomeunidadedest','dest_coddespacho'], 'message' => '"{value}" Já está inserido na CI e ainda não realizou o despacho!'],
-            [['titulo', 'tipo', 'data_solicitacao', 'situacao', 'dest_nomeunidadedest'], 'safe'],
+            [['titulo', 'tipo', 'data_solicitacao', 'situacao', 'dest_nomeunidadedest','dest_nomeunidadedestCopia'], 'safe'],
             [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio','dest_codtipo', 'dest_codsituacao','dest_nomeunidadedest'], 'required'],
             [['dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codunidadedest', 'dest_codtipo', 'dest_codsituacao'], 'integer'],
             [['dest_nomeunidadeenvio', 'dest_anexo'],  'string', 'max' => 100 ],
@@ -76,6 +75,7 @@ public $situacao;
             'dest_codsituacao' => 'Situação',
             'dest_nomeunidadeenvio' => 'Unidade',
             'dest_nomeunidadedest' => 'Destino',
+            'dest_nomeunidadedestCopia' => 'Com Cópia Para',
             'file' => 'Anexos',
         ];
     }

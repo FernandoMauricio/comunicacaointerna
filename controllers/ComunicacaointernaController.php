@@ -154,9 +154,6 @@ class ComunicacaointernaController extends Controller
           
                 $model = $this->findModel($id);
 
-                //Resgatando as sessões da CI
-                 //$session = Yii::$app->session;
-
                 //conexão com os bancos
                  $connection = Yii::$app->db;
                  $connection = Yii::$app->db_base;
@@ -180,7 +177,7 @@ class ComunicacaointernaController extends Controller
                                 $destinocomunicacao->dest_codcolaborador=$model->com_codcolaborador;
                                 $destinocomunicacao->dest_codunidadeenvio=$model->com_codunidade;
                                 $destinocomunicacao->dest_nomeunidadeenvio=$session['sess_unidade'];
-                                $destinocomunicacao->dest_codtipo = 2; //TIPO = COM CÓPIA
+                                $destinocomunicacao->dest_codtipo = 2; //TIPO = DIRETAMENTE PARA
                                 $destinocomunicacao->dest_codsituacao = 1; // AGUARDANDO ABERTURA
                                 $destinocomunicacao->dest_coddespacho = 0; // AGUARDANDO DESPACHO
                                 $destinocomunicacao->dest_data = date('Y-m-d H:i:s');
@@ -193,18 +190,12 @@ class ComunicacaointernaController extends Controller
         return $this->redirect(['index']);
 
                 }else 
-                if ($destinocomunicacao->load(Yii::$app->request->post()) && $model->save())
+                if ($destinocomunicacao->load(Yii::$app->request->post())  &&  $model->save())
 
-                                    {   //REALIZA O LOOP DE 1 OU MAIS INSERÇÕES
-                                        $destinocomunicacao = new Destinocomunicacao(); //reset model
-                                        //Coletar id, nome e unidade da CI
-                                        $destinocomunicacao->dest_codcomunicacao=$model->com_codcomunicacao;
-                                        $destinocomunicacao->dest_codcolaborador=$model->com_codcolaborador;
-                                        $destinocomunicacao->dest_codunidadeenvio=$model->com_codunidade;
-                                        $destinocomunicacao->dest_nomeunidadeenvio=$session['sess_unidade'];
-                                        $destinocomunicacao->dest_data = date('Y-m-d H:i:s');
+                                    {   
+        //REALIZA O LOOP DE 1 OU MAIS INSERÇÕES
 
-
+        //-------------------DESTINOS QUE PODERÃO REALIZAR DESPACHOS
         //pega os destinos que foram escolhidos
         $request = Yii::$app->request;
         $Destinocomunicacao = Yii::$app->request->post('Destinocomunicacao');
@@ -222,12 +213,37 @@ class ComunicacaointernaController extends Controller
         //seleciona somente as unidades escolhidas pelo usuário
         $sql_unidades = "SELECT * FROM `db_base`.`unidade_uni` INNER JOIN `db_ci`.`destinocomunicacao_dest` ON `db_base`.`unidade_uni`.`uni_codunidade` = `db_ci`.`destinocomunicacao_dest`.`dest_codunidadedest` WHERE `db_ci`.`destinocomunicacao_dest`.`dest_codcomunicacao` ='".$destinocomunicacao->dest_codcomunicacao."' AND `db_ci`.`destinocomunicacao_dest`.`dest_nomeunidadedest` ='".$nomeUnidade."'";
 
-
                     //insert no banco das unidades da qual o usuário selecionou
                         $command = $connection->createCommand();
                         $command->insert('db_ci.destinocomunicacao_dest', array('dest_codcomunicacao'=>$destinocomunicacao->dest_codcomunicacao, 'dest_codcolaborador'=>$destinocomunicacao->dest_codcolaborador, 'dest_codunidadeenvio'=>$destinocomunicacao->dest_codunidadeenvio, 'dest_codunidadedest'=>$cod_unidade, 'dest_data'=>date('Y-m-d H:i:s'), 'dest_codtipo'=>2, 'dest_codsituacao'=>1, 'dest_coddespacho'=>0, 'dest_nomeunidadeenvio'=>$session['sess_unidade'],'dest_nomeunidadedest'=>$nomeUnidade ));
                         $command->execute();
+
                 }
+
+        //------------------DESTINOS QUE APENAS PODERÃO DÁ CIÊNCIA NA CI
+        //pega os destinos que foram escolhidos
+        $request = Yii::$app->request;
+        $Destinocomunicacao = Yii::$app->request->post('Destinocomunicacao');
+
+        //realiza a filtragem com o formato de array
+        $listagemUnidades = "SELECT * FROM `unidade_uni` WHERE `uni_nomeabreviado` IN('".implode("','",$Destinocomunicacao['dest_nomeunidadedestCopia'])."')";
+
+                 $destinos = Unidades::findBySql($listagemUnidades)->all(); 
+
+                foreach ($destinos as $destino) {
+
+                    $cod_unidade = $destino['uni_codunidade'];
+                    $nomeUnidade = $destino['uni_nomeabreviado'];
+
+        //seleciona somente as unidades escolhidas pelo usuário
+        $sql_unidades = "SELECT * FROM `db_base`.`unidade_uni` INNER JOIN `db_ci`.`destinocomunicacao_dest` ON `db_base`.`unidade_uni`.`uni_codunidade` = `db_ci`.`destinocomunicacao_dest`.`dest_codunidadedest` WHERE `db_ci`.`destinocomunicacao_dest`.`dest_codcomunicacao` ='".$destinocomunicacao->dest_codcomunicacao."' AND `db_ci`.`destinocomunicacao_dest`.`dest_nomeunidadedestCopia` ='".$nomeUnidade."'";
+
+                    //insert no banco das unidades da qual o usuário selecionou
+                        $command = $connection->createCommand();
+                        $command->insert('db_ci.destinocomunicacao_dest', array('dest_codcomunicacao'=>$destinocomunicacao->dest_codcomunicacao, 'dest_codcolaborador'=>$destinocomunicacao->dest_codcolaborador, 'dest_codunidadeenvio'=>$destinocomunicacao->dest_codunidadeenvio, 'dest_codunidadedest'=>$cod_unidade, 'dest_data'=>date('Y-m-d H:i:s'), 'dest_codtipo'=>4, 'dest_codsituacao'=>1, 'dest_coddespacho'=>0, 'dest_nomeunidadeenvio'=>$session['sess_unidade'],'dest_nomeunidadedestCopia'=>$nomeUnidade ));
+                        $command->execute();
+                }
+
             }
 
             $searchModel = new DestinocomunicacaoSearch();
