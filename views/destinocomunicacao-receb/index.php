@@ -35,10 +35,11 @@ $gridColumns = [
             'width'=>'100px',
             ],
         
-             [
-              'attribute'=>'dest_nomeunidadeenvio',
-              'width'=>'30%',
-             ],
+            [
+            'attribute' => 'dest_codunidadeenvio',
+            'value' => 'comunicacaointerna.unidades.uni_nomeabreviado',
+            'width'=>'30%',
+            ],
 
             [
                 'attribute'=>'tipo', 
@@ -152,3 +153,4 @@ $gridColumns = [
 
 </div>
 
+</div>

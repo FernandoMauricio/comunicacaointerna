@@ -66,7 +66,7 @@ public $situacao;
             'dest_coddestino' => 'Código Destino',
             'dest_codcomunicacao' => 'Cód.',
             'dest_codcolaborador' => 'Código Colaborador',
-            'dest_codunidadeenvio' => 'Código da Unidade',
+            'dest_codunidadeenvio' => 'Unidade',
             'dest_data' => 'Data',
             'data_solicitacao' => 'Data da Solicitação',
             'titulo' => 'Título',

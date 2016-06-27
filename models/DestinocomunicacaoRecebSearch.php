@@ -45,13 +45,8 @@ class DestinocomunicacaoRecebSearch extends Destinocomunicacao
     {
         //VERIFICAR O USO DO DISTINCT PARA TRAZER APENAS UM RESULTADO DE CI
 
-        // $sql = 'SELECT DISTINCT * FROM destinocomunicacao_dest, comunicacaointerna_com ORDER BY dest_coddestino DESC';
-        // $query = Destinocomunicacao::findBySql($sql)->all();  
-
-        $query = Destinocomunicacao::find()
-        ->distinct('dest_codcomunicacao')
-        ->joinWith('comunicacaointerna')
-        ->orderBy(['dest_codcomunicacao' => SORT_DESC]);
+        $query = Destinocomunicacao::find()->select(['dest_codcomunicacao', 'dest_codunidadedest'])->distinct()
+        ->orderBy(['dest_coddestino' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
