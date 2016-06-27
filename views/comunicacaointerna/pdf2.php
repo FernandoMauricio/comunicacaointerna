@@ -28,6 +28,7 @@ $com_codtipo = $model->comunicacaointerna->com_codtipo;
 $cod_situacao = $model->comunicacaointerna->com_codsituacao;
 $com_usuarioEncerramento = $model->comunicacaointerna->com_usuarioEncerramento;
 $com_dataEncerramento = $model->comunicacaointerna->com_dataEncerramento;
+$dest_coddespacho = $model->dest_coddespacho;
 
 $session = Yii::$app->session;
 
@@ -157,8 +158,8 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   </tr>
   <?php
   $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$dest_codcomunicacao."' AND deco_codsituacao = 2 order by deco_coddespacho";
-  $modelDespacho = Despachos::findBySql($sql6)->all(); 
-  foreach ($modelDespacho as $models) {
+  $model = Despachos::findBySql($sql6)->all(); 
+  foreach ($model as $models) {
      
 
      $unidade_despachante = "";
@@ -223,13 +224,6 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <p>&nbsp;</p>
     <p class="anexos">ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
       <?php
-           $sql_destino = "SELECT DISTINCT dest_coddespacho FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 3";
-
-      $destino = Destinocomunicacao::findBySql($sql_destino)->all(); 
-
-      foreach ($destino as $destinos) {
-
-        $dest_coddespacho = $destinos["dest_coddespacho"];
 
 //GET ANEXOS
       if($deco_coddespacho == $dest_coddespacho){
@@ -247,7 +241,6 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
         }
        }
        }
-     }
     ?>
     </p>
         <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
