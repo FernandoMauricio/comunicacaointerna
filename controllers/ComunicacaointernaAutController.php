@@ -70,7 +70,7 @@ class ComunicacaointernaAutController extends Controller
                 //Atualiza a situação do destino para "ABERTO"(cód 2) para poder realizar a filtragem e enviar o e-mail"
                 $connection = Yii::$app->db;
                 $command = $connection->createCommand(
-                 "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = 2 WHERE `destinocomunicacao_dest`.`dest_codcomunicacao` =" . $_POST['editableKey']);
+                 "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = '2' WHERE `destinocomunicacao_dest`.`dest_codcomunicacao` =" . $_POST['editableKey']);
                 $command->execute();
                 //$output =  'Aprovado'; // process as you need
                 Yii::$app->getSession()->setFlash('success', [
@@ -89,7 +89,6 @@ class ComunicacaointernaAutController extends Controller
                 $command = $connection->createCommand(
                  "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = 1 WHERE `destinocomunicacao_dest`.`dest_codcomunicacao` =" . $_POST['editableKey']);
                 $command->execute();
-                //$output =  'Reprovado';
                     Yii::$app->getSession()->setFlash('danger', [
                          'type' => 'danger',
                          'duration' => 5000,

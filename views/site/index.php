@@ -12,8 +12,8 @@ use yii\helpers\ArrayHelper;
 
 $this->title = 'Documentação Eletrônica';
 
-            //BUSCA NO BANCO SE EXISTE CI PENDENTE DE DESPACHO RETIRANDO AS DUPLICIDADES
-            $sql = "SELECT COUNT(DISTINCT `dest_codcomunicacao`,`dest_codunidadedest`) FROM `destinocomunicacao_dest` LEFT JOIN `comunicacaointerna_com` ON `destinocomunicacao_dest`.`dest_codcomunicacao` = `comunicacaointerna_com`.`com_codcomunicacao` WHERE (((`comunicacaointerna_com`.`com_codsituacao`=4) AND (`dest_codunidadedest`='$unidade_user')) AND (`dest_codtipo` IN (2, 3))) AND (`dest_codsituacao`=2)";
+            //BUSCA NO BANCO SE EXISTE CI PENDENTE DE DESPACHO
+            $sql = "SELECT COUNT(*) FROM `destinocomunicacao_dest` LEFT JOIN `comunicacaointerna_com` ON `destinocomunicacao_dest`.`dest_codcomunicacao` = `comunicacaointerna_com`.`com_codcomunicacao` WHERE (((`comunicacaointerna_com`.`com_codsituacao`=4) AND (`dest_codunidadedest`='$unidade_user')) AND (`dest_codtipo` IN (2, 3))) AND (`dest_codsituacao`=2)";
             $checar_ci = Destinocomunicacao::findBySql($sql)->count(); 
 
             //BUSCA NO BANCO SE EXISTE CI PENDENTE DE AUTORIZAÇÃO

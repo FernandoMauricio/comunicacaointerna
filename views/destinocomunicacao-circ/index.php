@@ -72,8 +72,7 @@ $gridColumns = [
                                 ],                                
 
                                 [
-                                'attribute' => 'dest_codunidadeenvio',
-                                'value' => 'comunicacaointerna.unidades.uni_nomeabreviado',
+                                'attribute' => 'dest_nomeunidadeenvio',
                                 'options' => ['width' => '5000'],
                                 ],
 

@@ -240,7 +240,7 @@ class ComunicacaointernaController extends Controller
 
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-                            Yii::$app->session->setFlash('success', 'Comunicação Interna de código: <strong>'.$id. ' </strong>criada com sucesso!');
+                            Yii::$app->session->setFlash('success', 'Comunicacação Interna de código: <strong>'.$id. ' </strong>criada com sucesso!');
 
                             //VAI SER VERIFICADO SE EXISTE DESTINO PARA A CI
                             if($checar_destino == 0 ){
