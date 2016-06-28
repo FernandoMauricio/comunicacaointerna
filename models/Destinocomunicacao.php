@@ -74,7 +74,7 @@ public $situacao;
             'dest_codtipo' => 'Tipo',
             'dest_codsituacao' => 'Situação',
             'dest_nomeunidadeenvio' => 'Unidade',
-            'dest_nomeunidadedest' => 'Destino',
+            'dest_nomeunidadedest' => 'Diretamente Para',
             'dest_nomeunidadedestCopia' => 'Com Cópia Para',
             'file' => 'Anexos',
         ];

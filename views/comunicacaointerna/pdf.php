@@ -33,7 +33,7 @@ $com_dataEncerramento = $model->com_dataEncerramento;
      $destinatarios = "";
      $contador = 0;
      $unidade_copia = "";
-     $sql2 = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 2 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 3";
+     $sql2 = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 2 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 3 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 1";
 
       $model = Destinocomunicacao::findBySql($sql2)->all(); 
 
@@ -49,7 +49,7 @@ $com_dataEncerramento = $model->com_dataEncerramento;
 
     $contador = 0;
 
-     $sql3 = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 3 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 2 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 3";
+     $sql3 = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 3 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 2 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 3 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 1";
 
       $modelCopia = Destinocomunicacao::findBySql($sql3)->all(); 
 
@@ -195,20 +195,36 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 
      //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
      $nome_unidade_encaminhar = "";
-     $checa_espaco = 0;
+     $contador = 0;
      $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
 
       $unidade = Destinocomunicacao::findBySql($sql)->all(); 
 
       foreach ($unidade as $unidades) {
-         if($checa_espaco == 0)
+         if($contador == 0)
               $nome_unidade_encaminhar = $unidades['dest_nomeunidadedest']; 
        else
             $nome_unidade_encaminhar = $nome_unidade_encaminhar."<br>".$unidades['dest_nomeunidadedest'];
           
-       $checa_espaco ++; 
+       $contador ++; 
      }
 
+
+     //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS COMO CÓPIA NESSE DESPACHO
+     $nome_unidade_encaminharCopia = "";
+     $contador = 0;
+     $sql2 = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_coddespacho = '".$deco_coddespacho."'";
+
+      $unidade2 = Destinocomunicacao::findBySql($sql2)->all(); 
+
+      foreach ($unidade2 as $unidades2) {
+         if($contador == 0)
+              $nome_unidade_encaminharCopia = $unidades2['dest_nomeunidadedestCopia']; 
+       else
+            $nome_unidade_encaminharCopia = $nome_unidade_encaminharCopia."<br>".$unidades2['dest_nomeunidadedestCopia'];
+          
+       $contador ++; 
+     }
 
 
   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
@@ -236,8 +252,14 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   <tr>
     <td scope="row"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?></div></td>
     <td><div align="center"><?php echo $unidade_despachante ?></div></td>
-    <td><p align="center"><?php echo $nome_unidade_encaminhar ?></p>
-  </tr>
+    <td><div align="center"><?php echo $nome_unidade_encaminhar ?><br><br>
+     <?php if($contador != 0)
+         {
+       ?>
+      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Cópia Para:</strong><br>
+      <?php echo $nome_unidade_encaminharCopia; ?></em> 
+      <?php } ?>
+      </font></div></td>
   <tr>
     <!-- <th height="305" scope="row">DESPACHO</th> -->
     <td colspan="3"><p>&nbsp;</p><p><?php echo $deco_despacho ?></p>

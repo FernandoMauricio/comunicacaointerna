@@ -8,6 +8,7 @@ use app\models\ComunicacaointernaSearch;
 use app\models\Destinocomunicacao;
 use app\models\Emailusuario;
 use app\models\DestinocomunicacaoSearch;
+use app\models\DestinocomunicacaoPendenteEnvioSearch;
 use app\models\UploadForm;
 use app\models\Unidades;
 use app\models\Model;
@@ -125,8 +126,6 @@ class ComunicacaointernaController extends Controller
                     $model->com_datasolicitacao = date('Y-m-d H:i:s');
 
                     $model->save();
-                    //setando a session da comunicação
-                    //$session->set('comunicacao', $model);
 
             return $this->redirect(['update', 'id' => $model->com_codcomunicacao]);
             
@@ -245,9 +244,6 @@ class ComunicacaointernaController extends Controller
                 }
 
             }
-
-            $searchModel = new DestinocomunicacaoSearch();
-            $dataProvider = $searchModel->search(Yii::$app->request->queryParams); 
                                     
             //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
              $checar_destino = Destinocomunicacao::find()
@@ -273,8 +269,6 @@ class ComunicacaointernaController extends Controller
                                             return $this->render('update', [
                                             'model' => $model,
                                             'destinocomunicacao' => $destinocomunicacao,
-                                            'searchModel' => $searchModel,
-                                            'dataProvider' => $dataProvider,
                                         ]);
 
                             }
@@ -382,7 +376,6 @@ class ComunicacaointernaController extends Controller
             }
 
 
-
                         }
                              return $this->redirect(['index']);
 
@@ -390,8 +383,6 @@ class ComunicacaointernaController extends Controller
                                         return $this->render('update', [
                                             'model' => $model,
                                             'destinocomunicacao' => $destinocomunicacao,
-                                            'searchModel' => $searchModel,
-                                            'dataProvider' => $dataProvider,
                                         ]);
                             }
      }

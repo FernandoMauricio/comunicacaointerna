@@ -60,10 +60,8 @@ class DestinocomunicacaoPendenteCircSearch extends Destinocomunicacao
 
         $query->andFilterWhere([
             'dest_coddestino' => $this->dest_coddestino,
-            //'dest_codcomunicacao' => $this->dest_codcomunicacao,
             'dest_codcolaborador' => $this->dest_codcolaborador,
             'dest_codunidadeenvio' => $this->dest_codunidadeenvio,
-            //'dest_codunidadedest' => $this->dest_codunidadedest,
             'dest_data' => $this->dest_data,
             'dest_codtipo' => $this->dest_codtipo,
             'dest_codsituacao' => $this->dest_codsituacao,

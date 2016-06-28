@@ -175,6 +175,34 @@ if($DestinocomunicacaoEnc['dest_nomeunidadedest'] > 0) {
         $command->execute();
            }
        }
+
+       //------------------DESTINOS QUE APENAS PODERÃO DÁ CIÊNCIA NA CI -- ENCAMINHAR COM CÓPIA PARA
+
+if($DestinocomunicacaoEnc['dest_nomeunidadedestCopia'] > 0) {
+        //pega os destinos que foram escolhidos
+        $request = Yii::$app->request;
+        $DestinocomunicacaoEnc = Yii::$app->request->post('DestinocomunicacaoEnc');
+        //realiza a filtragem com o formato de array
+        $listagemUnidades = "SELECT * FROM `unidade_uni` WHERE `uni_nomeabreviado` IN('".implode("','",$DestinocomunicacaoEnc['dest_nomeunidadedestCopia'])."')";
+
+                 $destinos = Unidades::findBySql($listagemUnidades)->all(); 
+
+                foreach ($destinos as $destino) {
+
+                    $cod_unidade = $destino['uni_codunidade'];
+                    $nomeUnidade = $destino['uni_nomeabreviado'];
+
+        //seleciona somente as unidades escolhidas pelo usuário
+        $sql_unidades = "SELECT * FROM `db_base`.`unidade_uni` INNER JOIN `db_ci`.`destinocomunicacao_dest` ON `db_base`.`unidade_uni`.`uni_codunidade` = `db_ci`.`destinocomunicacao_dest`.`dest_codunidadedest` WHERE `db_ci`.`destinocomunicacao_dest`.`dest_codcomunicacao` ='".$encaminhamentos->dest_codcomunicacao."' AND `db_ci`.`destinocomunicacao_dest`.`dest_nomeunidadedestCopia` ='".$nomeUnidade."'";
+
+
+         //insert no banco das unidades da qual o usuário selecionou 
+        $command = $connection->createCommand();
+        $command->insert('db_ci.destinocomunicacao_dest', array('dest_codcomunicacao'=>$encaminhamentos->dest_codcomunicacao, 'dest_codcolaborador'=>$encaminhamentos->dest_codcolaborador, 'dest_codunidadeenvio'=>$encaminhamentos->dest_codunidadeenvio, 'dest_codunidadedest'=>$cod_unidade, 'dest_data'=>date('Y-m-d H:i:s'), 'dest_codtipo'=>4, 'dest_codsituacao'=>1, 'dest_coddespacho'=>0, 'dest_nomeunidadeenvio'=>$session['sess_unidade'],'dest_nomeunidadedestCopia'=>$nomeUnidade ));
+        $command->execute();
+           }
+       }
+
 }
             //instacia um novo despacho
             $despachos = new Despachos();

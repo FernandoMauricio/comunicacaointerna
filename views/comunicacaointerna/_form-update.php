@@ -17,15 +17,8 @@ use yii\helpers\Url;
 use kartik\select2\Select2;
 use dosamigos\ckeditor\CKEditor;
 use kartik\widgets\FileInput;
-
-
-
 use yii\grid\GridView;
 use yii\widgets\Pjax;
-
-/* @var $this yii\web\View */
-/* @var $model app\models\Comunicacaointerna */
-/* @var $form yii\widgets\ActiveForm */
 
 $dest_codunidadeenvio =  $_SESSION['sess_codunidade'];
 $dest_codcolaborador = $_SESSION['sess_codcolaborador'];
@@ -61,9 +54,6 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>          
 
     <?php
-                 
-
-
                     $rows = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomecompleto')->all();
                     $data_unidades = ArrayHelper::map($rows, 'uni_nomecompleto', 'uni_nomecompleto');
                     echo $form->field($destinocomunicacao, 'dest_nomeunidadedest')->widget(Select2::classname(), [
@@ -74,8 +64,8 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
                         ],
                     ]);   
 
-                    $rows = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomecompleto')->all();
-                    $data_unidades = ArrayHelper::map($rows, 'uni_nomecompleto', 'uni_nomecompleto');
+                    $rowsUnidadesCopias = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomecompleto')->all();
+                    $data_unidades = ArrayHelper::map($rowsUnidadesCopias, 'uni_nomecompleto', 'uni_nomecompleto');
                     echo $form->field($destinocomunicacao, 'dest_nomeunidadedestCopia')->widget(Select2::classname(), [
                         'data' => $data_unidades,
                         'options' => ['placeholder' => 'Selecione uma Unidade...', 'multiple'=>true],
@@ -84,8 +74,8 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
                         ],
                     ]);   
                     
-                $rows = TipodocumentacaoTipdo::find()->all();
-                $data = ArrayHelper::map($rows, 'tipdo_codtipo', 'tipdo_tipo');
+                $rowsTipos = TipodocumentacaoTipdo::find()->all();
+                $data = ArrayHelper::map($rowsTipos, 'tipdo_codtipo', 'tipdo_tipo');
                 echo $form->field($model, 'com_codtipo')->radiolist($data);
 
     ?> 
@@ -101,17 +91,15 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
 
     <?= $form->field($model, 'com_codsituacao')->hiddenInput()->label(false) ?>
 
-    <?php // $form->field($model, 'file[]')->fileInput(['multiple' => true]) ?>
-
-
     <?php
 echo '<label class="control-label">Anexos</label>  <strong style="color: #E61238""><small>extensões permitidas: .pdf / .zip / .rar / .doc / .docx</small></strong>';
 echo FileInput::widget([
     'model' => $model,
+    'language' => 'pt',
     'attribute' => 'file[]',
-    'options' => ['multiple' => true, 'accept'=>'.pdf, .zip, .rar, .doc, .docx',
-    ],
-     'pluginOptions' => [
+    'options' => ['multiple' => true, 'accept'=>'.pdf, .zip, .rar, .doc, .docx'],
+    'pluginOptions' => [
+    'language' => 'pt',
     'showRemove'=> false,
     'showUpload'=> false,
     ],

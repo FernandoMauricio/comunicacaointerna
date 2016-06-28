@@ -38,7 +38,6 @@ echo Html::a('<i class="fa glyphicon glyphicon-print"></i> Imprimir', ['/comunic
 
         <?= $this->render('/comunicacaointerna/pdf', [
         'model' => $model,
-        //'destinocomunicacao' => $destinocomunicacao,
         ]) ?>
 
 

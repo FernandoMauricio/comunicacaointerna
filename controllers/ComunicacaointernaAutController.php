@@ -99,10 +99,7 @@ class ComunicacaointernaAutController extends Controller
                          'positonX' => 'right'
                      ]);
             }
-                //            //VERIFICAR COMO MUDAR A SITUAÇÃO PARA CÓDIGO 2.....
-                // $destinocomunicacao = Destinocomunicacao::find($model['com_codcomunicacao']);
-                // $destinocomunicacao->dest_codsituacao = 2;
-                // $destinocomunicacao->save(); 
+
         return $this->redirect(['index']);
         } 
          
@@ -110,7 +107,6 @@ class ComunicacaointernaAutController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            //'destinocomunicacao'=> $destinocomunicacao,
         ]);
     }
 

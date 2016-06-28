@@ -44,7 +44,8 @@ class ComunicacaointernaAutSearch extends ComunicacaoInternaAut
 
 
 
-        $query = ComunicacaoInternaAut::find();
+        $query = ComunicacaoInternaAut::find()
+        ->orderBy(['com_codcomunicacao' => SORT_DESC]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

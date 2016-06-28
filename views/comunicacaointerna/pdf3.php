@@ -28,9 +28,9 @@ $com_anexo = $model->com_anexo;
 //PEGANDO OS DESTINATÁIOS NESSE DESPACHO
      $destinatarios = "";
      $contador = 0;
-     $sql2 = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 1";
+     $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 1";
 
-      $model = Destinocomunicacao::findBySql($sql2)->all(); 
+      $model = Destinocomunicacao::findBySql($sql)->all(); 
 
       foreach ($model as $models) {
          if($contador == 0){
@@ -41,6 +41,19 @@ $com_anexo = $model->com_anexo;
        $contador ++; 
      }  
 
+     $contador = 0;
+     $sql2 = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 1";
+
+      $model2 = Destinocomunicacao::findBySql($sql2)->all(); 
+
+      foreach ($model2 as $models2) {
+         if($contador == 0){
+              $destinatariosCopia = $models2['dest_nomeunidadedestCopia']; 
+       }else
+            $destinatariosCopia = $destinatariosCopia."<br>".$models2['dest_nomeunidadedestCopia'];
+          
+       $contador ++; 
+     }  
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -74,7 +87,14 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   <tr>
     <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)) ?></div></td>
     <td width="41%" scope="col"><div align="center"><?php echo $unidade_solicitante ?></div></td>
-    <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?></div></td>
+    <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?><br><br>
+     <?php if($contador != 0)
+         {
+       ?>
+      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Cópia Para:</strong><br>
+      <?php echo $destinatariosCopia; ?></em> 
+      <?php } ?>
+      </font></div></td>
   </tr>
     <tr>
     <th height="122" scope="row">DISCRIMINAÇÃO</th>
@@ -82,20 +102,17 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <p>&nbsp;</p>
     <p class="anexos">ANEXOS - - - - - - - - - - - - - - -  - - -<br />
       <?php
-       $files = 0;
-      if($files > 0) {
-//GET ANEXOS
-    $files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao);
-    if (isset($files[0])) {
-        foreach ($files as $index => $file) {
-            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'.$com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']). "<br/>" ; // render do ficheiro no browser
+    //GET ANEXOS
+        if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
+        if (isset($files[0])) {
+            foreach ($files as $index => $file) {
+                $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+                echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ;
+          } 
         }
-    } 
-  }else {
-        echo "Não existem arquivos disponíveis para download.";
-    }
-?>
+      }
+
+    ?>
     </p>
 </table>
 

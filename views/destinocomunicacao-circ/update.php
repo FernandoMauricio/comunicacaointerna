@@ -32,15 +32,4 @@ $this->params['breadcrumbs'][] = 'Área de Despacho';
         'despachos' => $despachos,
     ]) ?>
 
-
-   <?php 
-
-   //index dos destinos inseridos um a um - obsoleto
-   // $this->render('/destinocomunicacao-enc/index', [
-   //      'searchEncModel' => $searchEncModel,
-   //      'dataProvider2' => $dataProvider2,
-   //  ]) 
-
-    ?>
-
 </div>

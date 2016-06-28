@@ -187,20 +187,34 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
 
      //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
      $nome_unidade_encaminhar = "";
-     $checa_espaco = 0;
+     $contador = 0;
      $sql_encaminhar = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$id."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
 
       $unidade = Destinocomunicacao::findBySql($sql_encaminhar)->all(); 
 
       foreach ($unidade as $unidades) {
-         if($checa_espaco == 0)
+         if($contador == 0)
               $nome_unidade_encaminhar = $unidades['dest_nomeunidadedest']; 
        else
             $nome_unidade_encaminhar = $nome_unidade_encaminhar."<br>".$unidades['dest_nomeunidadedest'];
           
-       $checa_espaco ++; 
+       $contador ++; 
      }
 
+
+     $contador = 0;
+     $sql_encaminhar = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$id."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
+
+      $unidade = Destinocomunicacao::findBySql($sql_encaminhar)->all(); 
+
+      foreach ($unidade as $unidades) {
+         if($contador == 0)
+              $nome_unidade_encaminhar = $unidades['dest_nomeunidadedest']; 
+       else
+            $nome_unidade_encaminhar = $nome_unidade_encaminhar."<br>".$unidades['dest_nomeunidadedest'];
+          
+       $contador ++; 
+     }
 
 
   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
