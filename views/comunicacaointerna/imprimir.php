@@ -95,7 +95,23 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
             $destinatarios = $destinatarios."<br>".$models['dest_nomeunidadedest'];
           
        $contador ++; 
-     }  
+     } 
+
+//PEGANDO OS DESTINATÁIOS COMO CÓPIA NESSE DESPACHO
+     $destinatariosCopia = "";
+     $contador = 0;
+     $sqlCopia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 2 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 3";
+
+      $modelCopia = Destinocomunicacao::findBySql($sqlCopia)->all(); 
+
+      foreach ($modelCopia as $modelsCopia) {
+         if($contador == 0){
+              $destinatariosCopia = $modelsCopia['dest_nomeunidadedestCopia']; 
+       }else
+            $destinatariosCopia = $destinatariosCopia."<br>".$modelsCopia['dest_nomeunidadedestCopia'];
+          
+       $contador ++; 
+     } 
 
 ?>
 
@@ -148,7 +164,15 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
   <tr>
     <td width="19%" height="44" scope="col"><div align="center"  style="font-size: 12px;"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
     <td width="41%" scope="col"><div align="center"  style="font-size: 12px;"><?php echo $unidade_solicitante ?></div></td>
-    <td width="40%" scope="col"><div align="center"  style="font-size: 12px;"><?php echo $destinatarios ?></div></td>
+    <td width="40%" scope="col"><div align="center"  style="font-size: 12px;"><?php echo $destinatarios ?></div><br>
+     <?php if($contador != 0)
+         {
+       ?>
+      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Cópia Para:</strong><br>
+      <?php echo $destinatariosCopia ?></em> 
+      <?php } ?>
+      </font></div></td>
+  </tr>
   </tr>
     <tr>
     <!-- <th height="122" scope="row">DISCRIMINAÇÃO</th> -->
@@ -201,17 +225,18 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
        $contador ++; 
      }
 
-
+     //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS COMO CÓPIA NESSE DESPACHO
+     $nome_unidade_encaminharCopia = "";
      $contador = 0;
-     $sql_encaminhar = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$id."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
+     $sql_encaminharCopia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$id."' AND dest_codtipo = 4 AND dest_coddespacho = '".$deco_coddespacho."'";
 
-      $unidade = Destinocomunicacao::findBySql($sql_encaminhar)->all(); 
+      $unidadeCopia = Destinocomunicacao::findBySql($sql_encaminharCopia)->all(); 
 
-      foreach ($unidade as $unidades) {
+      foreach ($unidadeCopia as $unidadesCopia) {
          if($contador == 0)
-              $nome_unidade_encaminhar = $unidades['dest_nomeunidadedest']; 
+              $nome_unidade_encaminharCopia = $unidadesCopia['dest_nomeunidadedestCopia']; 
        else
-            $nome_unidade_encaminhar = $nome_unidade_encaminhar."<br>".$unidades['dest_nomeunidadedest'];
+            $nome_unidade_encaminharCopia = $nome_unidade_encaminharCopia."<br>".$unidadesCopia['dest_nomeunidadedestCopia'];
           
        $contador ++; 
      }
@@ -242,7 +267,14 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
   <tr>
     <td scope="row"><div align="center"  style="font-size: 12px;"><?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?></div></td>
     <td><div align="center"  style="font-size: 12px;"><?php echo $unidade_despachante ?></div></td>
-    <td><p align="center"  style="font-size: 12px;"><?php echo $nome_unidade_encaminhar ?></p>
+    <td><div align="center"  style="font-size: 12px;"><?php echo $nome_unidade_encaminhar ?><br><br>
+     <?php if($contador != 0)
+         {
+       ?>
+      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Cópia Para:</strong><br>
+      <?php echo $nome_unidade_encaminharCopia ?></em> 
+      <?php } ?>
+      </font></div></td>
   </tr>
   <tr>
     <!-- <th height="305" scope="row">DESPACHO</th> -->

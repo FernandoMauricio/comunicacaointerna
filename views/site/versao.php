@@ -27,10 +27,32 @@ $this->title = 'Documentação Eletrônica';
         <h1 class="text-center"> Histórico de Versões</h1>
             <div class="body-content">
                 <div class="container">
-                    
+
                 <div class="panel panel-primary">
                 <div class="panel-heading">
-                            <i class="glyphicon glyphicon-star-empty"></i> Versão 1.3 - (ATUALMENTE) - Publicado em 04/05/2016
+                            <i class="glyphicon glyphicon-star-empty"></i> Versão 1.4 - (ATUALMENTE) - Publicado em 30/06/2016
+                </div>
+                  <div class="panel-body">
+              <h4><strong style="color: #337ab7;">Implementações</strong></h4>
+                        <h5><i class="glyphicon glyphicon-tag"></i><strong> Destinos com cópia</strong></h5>
+                            <h5>- Incluído um novo campo de destino chamado de "Com cópia para" onde poderão ser inclusos unidades/setores que apenas irão inserir a ciência na CI e <strong style="color: red;">NÃO poderão realizar o DESPACHO</strong>.</h5>
+                            <h5>- Comunicações internas que tiverem sido realizados algum tipo de despacho aparecerão por primeiro na listagem de despachos pendentes.</h5><br>
+
+              <h4><strong style="color: #337ab7;">Ações Corretivas</strong></h4>
+                       <h5><i class="glyphicon glyphicon-tag"></i><strong> Autorização de CI </strong></h5>
+                            <h5>- Corrigido o problema na visualização de anexos de Comunicações Internas pendentes de aprovação onde não estava sendo possível visualizá-las.</h5><br>
+
+              <h4><strong style="color: #337ab7;">Ações Preventivas</strong></h4>
+                       <h5><i class="glyphicon glyphicon-tag"></i><strong> Autorização de CI </strong></h5>
+                            <h5>- Alterado a caixa de autorização/reprovação de CI para dois novos botões "Aprovar" ou "Reprovar". Melhorando assim, a usabilidade do sistema.</h5>
+                            <h5>- Foi incluido uma ação de exclusão de destinos da CI quando a mesma for reprovada pelo gerente, resolvendo assim o problema de duplicidade em alguns casos.</h5>
+                            <h5>- Incluído a notificação por e-mail para os destinos da CI quando a mesma for feita por um colaborador e autorizada pelo gerente.</h5><br>
+                     </div>
+                </div>
+
+                <div class="panel panel-danger">
+                <div class="panel-heading">
+                            <i class="glyphicon glyphicon-folder-close"></i> Versão 1.3 - Publicado em 04/05/2016
                 </div>
                   <div class="panel-body">
                             <h4><strong>Destinos / Encaminhamentos</strong></h4>

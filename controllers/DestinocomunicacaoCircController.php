@@ -140,7 +140,24 @@ class DestinocomunicacaoCircController extends Controller
             $encaminhamentos->dest_data = date('Y-m-d H:i:s');
 
 
-         if ($encaminhamentos->load(Yii::$app->request->post()) && $model->save())
+        
+            //instacia um novo despacho
+            $despachos = new Despachos();
+            $despachos->deco_codcomunicacao = $model->dest_codcomunicacao;
+            $despachos->deco_codcolaborador = $session['sess_codcolaborador'];
+            $despachos->deco_codunidade = $session['sess_codunidade'];
+            $despachos->deco_codcargo = $session['sess_codcargo'];
+            $despachos->deco_data = date('Y-m-d H:i:s');
+            $despachos->deco_codsituacao = $model->dest_codsituacao;
+            $despachos->deco_nomeunidade = $session['sess_unidade'];
+            $despachos->deco_nomeusuario = $session['sess_nomeusuario'];
+            $despachos->deco_cargo = $session['sess_cargo'];
+
+                                                                                
+         if ($despachos->load(Yii::$app->request->post()) && $despachos->save()) 
+        {  
+          
+           if ($encaminhamentos->load(Yii::$app->request->post()) && $model->save())
          {
             //REALIZA O LOOP DE 1 OU MAIS INSERÇÕES
             $encaminhamentos = new DestinocomunicacaoEnc();
@@ -204,22 +221,7 @@ if($DestinocomunicacaoEnc['dest_nomeunidadedestCopia'] > 0) {
        }
 
 }
-            //instacia um novo despacho
-            $despachos = new Despachos();
-            $despachos->deco_codcomunicacao = $model->dest_codcomunicacao;
-            $despachos->deco_codcolaborador = $session['sess_codcolaborador'];
-            $despachos->deco_codunidade = $session['sess_codunidade'];
-            $despachos->deco_codcargo = $session['sess_codcargo'];
-            $despachos->deco_data = date('Y-m-d H:i:s');
-            $despachos->deco_codsituacao = $model->dest_codsituacao;
-            $despachos->deco_nomeunidade = $session['sess_unidade'];
-            $despachos->deco_nomeusuario = $session['sess_nomeusuario'];
-            $despachos->deco_cargo = $session['sess_cargo'];
-
-                                                                                
-         if ($despachos->load(Yii::$app->request->post()) && $despachos->save()) 
-        {  
-                //GRAVAR ANEXOS
+                          //GRAVAR ANEXOS
                            
                             if (!empty($_POST)) {
 
@@ -248,17 +250,23 @@ if($DestinocomunicacaoEnc['dest_nomeunidadedestCopia'] > 0) {
                     //Atualiza a situação do DESTINO para "ABERTO"(cód 3) e insere o código de despacho para poder realizar a filtragem e enviar o e-mail"
                     $connection = Yii::$app->db;
                     $command = $connection->createCommand(
-                    "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = '3' WHERE `dest_coddestino` = '".$model->dest_coddestino."' AND `dest_codcomunicacao` =" . $session['sess_comunicacao']);
+                    "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = 3 WHERE `dest_coddestino` = '".$model->dest_coddestino."' AND `dest_codcomunicacao` =" . $session['sess_comunicacao']);
                     $command->execute();
 
                     //Atualiza a situação do ENCAMINHAMENTO para "ABERTO"(cód 2), CASO HAJA ALGUM ENCAMINHAMENTO"
                     $command = $connection->createCommand(
-                    "UPDATE destinocomunicacao_dest SET dest_codsituacao = '2', `dest_coddespacho` = '".$model->dest_coddespacho."' WHERE dest_codcomunicacao = '".$session['sess_comunicacao']."' AND dest_nomeunidadeenvio = '".$session['sess_unidade']."' AND dest_codsituacao = 1");  
+                    "UPDATE destinocomunicacao_dest SET dest_codsituacao = 2, `dest_coddespacho` = '".$model->dest_coddespacho."' WHERE dest_codcomunicacao = '".$session['sess_comunicacao']."' AND dest_nomeunidadeenvio = '".$session['sess_unidade']."' AND dest_codsituacao = 1");  
                     $command->execute();
+
+                    //Atualiza a situação do ENCAMINHAMENTO COM CÓPIA para "ABERTO"(cód 4), CASO HAJA ALGUM ENCAMINHAMENTO"
+                    $command = $connection->createCommand(
+                    "UPDATE destinocomunicacao_dest SET dest_codsituacao = 4, `dest_coddespacho` = '".$model->dest_coddespacho."' WHERE dest_codcomunicacao = '".$session['sess_comunicacao']."' AND dest_nomeunidadeenvio = '".$session['sess_unidade']."' AND dest_codsituacao = 1");  
+                    $command->execute();
+
 
                     //Atualiza os destinos que estão duplicados e encerra os mesmos
                     $command = $connection->createCommand(
-                    "UPDATE destinocomunicacao_dest SET dest_codsituacao = '3' WHERE dest_codcomunicacao = '".$session['sess_comunicacao']."' AND dest_codunidadedest = '".$model->dest_codunidadedest."' AND dest_codsituacao = 2");  
+                    "UPDATE destinocomunicacao_dest SET dest_codsituacao = 3 WHERE dest_codcomunicacao = '".$session['sess_comunicacao']."' AND dest_codunidadedest = '".$model->dest_codunidadedest."' AND dest_codsituacao = 2");  
                     $command->execute();
 
          //ENVIA EMAIL PARA TODAS AS UNIDADES QUE FORAM INSERIDAS NO DESTINO DA CI
