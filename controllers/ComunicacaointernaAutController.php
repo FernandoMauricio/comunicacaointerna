@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Emailusuario;
 use app\models\Destinocomunicacao;
 use app\models\ComunicacaointernaAut;
 use app\models\ComunicacaointernaAutSearch;
@@ -39,144 +40,105 @@ class ComunicacaointernaAutController extends Controller
            return $this->redirect('http://portalsenac.am.senac.br');
         }
 
-
-        $destinocomunicacao = new Destinocomunicacao();
         $searchModel = new ComunicacaointernaAutSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-
-        if (Yii::$app->request->post('hasEditable')) {
-
-        // instantiate your ComunicacaointernaAut model for saving
-        $comunicacaointernaAut = Yii::$app->request->post('editableKey');
-        $model = ComunicacaointernaAut::findOne($comunicacaointernaAut);
- 
-        $post = [];
-        $posted = current($_POST['ComunicacaointernaAut']);
-        $post['ComunicacaointernaAut'] = $posted;
- 
-        // load model like any single model validation
-        if ($model->load($post)) {
-            $session = Yii::$app->session;
-            $model->com_dataautorizacao = date('Y-m-d H:i:s');
-            $model->com_codcolaboradorautorizacao = $session['sess_codcolaborador'];
-            $model->com_codcargoautorizacao = $session['sess_codcargo'];
-            // can save model or do something before saving model
-            $model->save();              
-
-            // similarly you can check if the name attribute was posted as well
-             if($posted['com_codsituacao'] == 4)
-              {
-                //Atualiza a situação do destino para "ABERTO"(cód 2) para poder realizar a filtragem e enviar o e-mail"
-                $connection = Yii::$app->db;
-                $command = $connection->createCommand(
-                 "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = '2' WHERE `destinocomunicacao_dest`.`dest_codcomunicacao` =" . $_POST['editableKey']);
-                $command->execute();
-                //$output =  'Aprovado'; // process as you need
-                Yii::$app->getSession()->setFlash('success', [
-                         'type' => 'success',
-                         'duration' => 5000,
-                         'icon' => 'glyphicon glyphicon-ok',
-                         'message' => 'Comunicação interna aprovada com sucesso!',
-                         'title' => 'Aprovação',
-                         'positonY' => 'top',
-                         'positonX' => 'right'
-                     ]);
-              
-             }else
-                if($posted['com_codsituacao'] == 1)
-              {
-                $command = $connection->createCommand(
-                 "UPDATE `db_ci`.`destinocomunicacao_dest` SET `dest_codsituacao` = 1 WHERE `destinocomunicacao_dest`.`dest_codcomunicacao` =" . $_POST['editableKey']);
-                $command->execute();
-                    Yii::$app->getSession()->setFlash('danger', [
-                         'type' => 'danger',
-                         'duration' => 5000,
-                         'icon' => 'glyphicon glyphicon-remove',
-                         'message' => 'Comunicação interna reprovada com sucesso!',
-                         'title' => 'Reprovação',
-                         'positonY' => 'top',
-                         'positonX' => 'right'
-                     ]);
-            }
-
-        return $this->redirect(['index']);
-        } 
-         
-    }
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
 
-    /**
-     * Displays a single ComunicacaointernaAut model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
+    public function actionAprovar($id)
     {
-                        $session = Yii::$app->session;
-        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
-        {
-           return $this->redirect('http://portalsenac.am.senac.br');
-        }
-
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new ComunicacaointernaAut model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-                        $session = Yii::$app->session;
-        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
-        {
-           return $this->redirect('http://portalsenac.am.senac.br');
-        }
-
-        $model = new ComunicacaointernaAut();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->com_codcomunicacao]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing ComunicacaointernaAut model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-                        $session = Yii::$app->session;
-        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
-        {
-           return $this->redirect('http://portalsenac.am.senac.br');
-        }
-        
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->com_codcomunicacao]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+            $session = Yii::$app->session;
+            $model->com_dataautorizacao = date('Y-m-d H:i:s');
+            $model->com_codcolaboradorautorizacao = $session['sess_codcolaborador'];
+            $model->com_codcargoautorizacao = $session['sess_codcargo'];
+
+            //-------altera a CI para EM CIRULAÇÃO (cód 4) / atualizando data da autorização / colaborador que autorizou / cargo de quem autorizou
+            Yii::$app->db->createCommand('UPDATE `comunicacaointerna_com` SET `com_codsituacao` = 4, `com_dataautorizacao`= "'. $model->com_dataautorizacao.'", `com_codcolaboradorautorizacao` = '.$model->com_codcolaboradorautorizacao.', `com_codcargoautorizacao` = '.$model->com_codcargoautorizacao.' WHERE `com_codcomunicacao` = '.$model->com_codcomunicacao.'')
+            ->execute();
+
+            //-------altera os destino da CI para realizar a fitlragem por e-mail e liberar o despacho (cód 2)
+            Yii::$app->db->createCommand('UPDATE `destinocomunicacao_dest` SET `dest_codsituacao` = 2 WHERE `dest_codcomunicacao` = '.$model->com_codcomunicacao.'')
+            ->execute();
+
+         //ENVIA EMAIL PARA TODAS AS UNIDADES QUE FORAM INSERIDAS NO DESTINO DA CI
+         //CRIANDO ARRAY COM SETORES PARTICIPANTES DA CI....
+         //
+         //
+
+         $model->com_codsituacao = 4;
+         if($model->com_codsituacao == 4){
+
+          $manda_email = 0;
+          $unidade_destino = "";
+          $sql_unidade_destino = "SELECT dest_codunidadedest,dest_nomeunidadedest,dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = ".$model->com_codcomunicacao;
+
+          $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
+                 foreach ($unidades as $unidade)
+                    {
+                     $unidade_destino  = $unidade["dest_codunidadedest"];
+                     $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
+                     $nomeunidade_destinoCopia  = $unidade["dest_nomeunidadedestCopia"];
+                   
+
+          $sql_email_unidade = "SELECT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
+      
+                          $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all(); 
+                          foreach ($email_unidades as $email_unidade)
+                                       {
+                                         $email_unidade_gerente  = $email_unidade["emus_email"];
+
+                                                Yii::$app->mailer->compose()
+                                                ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
+                                                ->setTo($email_unidade_gerente)
+                                                ->setSubject('CI '.$id. ' Aguardando Despacho - ' .$nomeunidade_destino .$nomeunidade_destinoCopia)
+                                                ->setTextBody('Existe uma CI de código: '.$id.' aguardando seu despacho')
+                                                ->setHtmlBody('<p>Prezado(a)&nbsp;Gerente,</p>
+
+                                                <p>Existe uma Comunica&ccedil;&atilde;o Interna <span style="color:#337AB7">'.$id.' </span>aguardando seu despacho. Abaixo, segue algumas informa&ccedil;&otilde;es; :</p>
+
+                                                <p><strong>T&iacute;tulo: </strong><span style="color:#337AB7">'. $model->com_titulo .'</span></p>
+
+                                                <p><strong>Autorizado Por: </strong><span style="color:#337AB7">'. $model->colaborador->usuario->usu_nomeusuario .'</span></p>
+
+                                                <p><strong>Data/Hora</strong>:&nbsp;<span style="color:#337AB7">'. date('d/m/Y H:i', strtotime($model->com_dataautorizacao)) .'</span></p>
+
+                                                ')
+                                                ->send();
+
+                                       }
+                $manda_email++;
+            }
         }
+
+            //mensagem de confirmação
+            Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Comunicação interna aprovada com sucesso!');
+     
+             return $this->redirect(['index']);
     }
 
+    public function actionReprovar($id)
+    {
+        $model = $this->findModel($id);
+
+            //-------altera a CI para EM ELABORAÇÃO (cód 1)
+            Yii::$app->db->createCommand('UPDATE `comunicacaointerna_com` SET `com_codsituacao`= 1 WHERE `com_codcomunicacao` = '.$model->com_codcomunicacao.'')
+            ->execute();
+            //-------exclui os destinos da CI 
+            Yii::$app->db->createCommand('DELETE FROM `destinocomunicacao_dest` WHERE `dest_codcomunicacao` = '.$model->com_codcomunicacao.'')
+            ->execute();
+
+            Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Comunicação interna reprovada com sucesso!');
+     
+             return $this->redirect(['index']);
+    }
+
+   
     /**
      * Deletes an existing ComunicacaointernaAut model.
      * If deletion is successful, the browser will be redirected to the 'index' page.

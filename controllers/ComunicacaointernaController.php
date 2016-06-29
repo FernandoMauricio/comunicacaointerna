@@ -334,7 +334,6 @@ class ComunicacaointernaController extends Controller
          //CRIANDO ARRAY COM SETORES PARTICIPANTES DA CI....
          //
          //
-          $contador = 0;
           $manda_email = 0;
           $unidade_destino = "";
           $sql_unidade_destino = "SELECT dest_codunidadedest,dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = ".$model->com_codcomunicacao;

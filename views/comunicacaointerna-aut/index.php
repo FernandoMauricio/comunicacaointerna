@@ -15,32 +15,19 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comunicacaointerna-com-index">
 
-    <h1><?= Html::encode($this->title).'<small>'.$unidade.'</small>' ?></h1>
-
-<br>
 
 <?php 
 
-//Get all flash messages and loop through them
-foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
-            <?php
-            echo \kartik\widgets\Growl::widget([
-                'type' => (!empty($message['type'])) ? $message['type'] : 'danger',
-                'title' => (!empty($message['title'])) ? Html::encode($message['title']) : '',
-                'icon' => (!empty($message['icon'])) ? $message['icon'] : 'fa fa-info',
-                'body' => (!empty($message['message'])) ? Html::encode($message['message']) : '',
-                'showSeparator' => true,
-                'delay' => 1, //This delay is how long before the message shows
-                'pluginOptions' => [
-                    'delay' => (!empty($message['duration'])) ? $message['duration'] : 3000, //This delay is how long the message shows for
-                    'placement' => [
-                        'from' => (!empty($message['positonY'])) ? $message['positonY'] : '',
-                        'align' => (!empty($message['positonX'])) ? $message['positonX'] : '',
-                    ]
-                ]
-            ]);
-            ?>
-        <?php endforeach; ?>
+//Pega as mensagens
+foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
+echo '<div class="alert alert-'.$key.'">'.$message.'</div>';
+}; 
+
+?>
+
+    <h1><?= Html::encode($this->title).'<small>'.$unidade.'</small>' ?></h1>
+
+<br>
     
 <?php
 
@@ -76,22 +63,36 @@ $gridColumns = [
                         ],
 
 
-                      [
-                            'class' => 'kartik\grid\EditableColumn',
-                            'attribute' => 'com_codsituacao',
-                            'value' => 'situacao.sitco_situacao1',  
-                            'readonly'=>function($model, $key, $index, $widget) {
-                                return (!$model->com_codsituacao); // do not allow editing of inactive records
-                            },
-                            //CAIXA DE AUTORIZAÇÕES
-                            'editableOptions' => [
-                                'header' => 'Autorizações',
-                                'data'=>[4 => 'Sim', 1 => 'Não' ],
-                                'options' => [
-                                'class'=>'form-control', 'prompt'=>'Autorizar?',
+                        ['class' => 'yii\grid\ActionColumn',
+                            'template' => '{aprovar} {reprovar}',
+                            'options' => ['width' => '15%'],
+                            'buttons' => [
+
+                            //----APROVAR COMUNICAÇÃO INTERNA
+                            'aprovar' => function ($url, $model) {
+                                return Html::a('<span class="glyphicon glyphicon-ok"></span> Aprovar', $url, [
+                                            'class' => 'btn btn-success btn-xs',
+                                            'title' => Yii::t('app', 'Aprovar CI'),
+                                            'data'  => [
+                                                'confirm' => 'Você tem CERTEZA que deseja APROVAR a CI?',
+                                                'method' => 'post',
+                                                 ],
+                                            ]);
+                                        },
+
+                            //----REPROVAR COMUNICAÇÃO INTERNA
+                            'reprovar' => function ($url, $model) {
+                                return Html::a('<span class="glyphicon glyphicon-remove"></span> Reprovar', $url, [
+                                            'class' => 'btn btn-danger btn-xs',
+                                            'title' => Yii::t('app', 'Reprovar CI'),
+                                            'data'  => [
+                                                'confirm' => 'Você tem CERTEZA que deseja REPROVAR a CI?',
+                                                'method' => 'post',
+                                                 ],
+                                            ]);
+                                        },
+
                                 ],
-                                'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
-                            ],          
                         ],
                      ];
 
@@ -117,17 +118,6 @@ echo GridView::widget([
         'type'=>GridView::TYPE_PRIMARY,
         'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem das Autorizações Pendentes</h3>',
     ],
-    //'persistResize'=>false,
-
-    // parameters from the demo form
-    // 'bordered'=>$bordered,
-    // 'striped'=>$striped,
-    // 'condensed'=>$condensed,
-    // 'responsive'=>$responsive,
-    // 'hover'=>$hover,
-    // 'showPageSummary'=>$pageSummary,        
-    //  'heading'=>$heading,
-    //'exportConfig'=>$exportConfig,
 ]);
 
  ?>
