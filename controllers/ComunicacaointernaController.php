@@ -217,6 +217,7 @@ class ComunicacaointernaController extends Controller
                 }
 
         //------------------DESTINOS QUE APENAS PODERÃO DÁ CIÊNCIA NA CI
+if($Destinocomunicacao['dest_nomeunidadedestCopia'] > 0) {
         //pega os destinos que foram escolhidos
         $request = Yii::$app->request;
         $Destinocomunicacao = Yii::$app->request->post('Destinocomunicacao');
@@ -239,8 +240,8 @@ class ComunicacaointernaController extends Controller
                         $command->insert('db_ci.destinocomunicacao_dest', array('dest_codcomunicacao'=>$destinocomunicacao->dest_codcomunicacao, 'dest_codcolaborador'=>$destinocomunicacao->dest_codcolaborador, 'dest_codunidadeenvio'=>$destinocomunicacao->dest_codunidadeenvio, 'dest_codunidadedest'=>$cod_unidade, 'dest_data'=>date('Y-m-d H:i:s'), 'dest_codtipo'=>4, 'dest_codsituacao'=>1, 'dest_coddespacho'=>0, 'dest_nomeunidadeenvio'=>$session['sess_unidade'],'dest_nomeunidadedestCopia'=>$nomeUnidade ));
                         $command->execute();
                 }
-
-            }
+              }
+          }
                                     
             //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
              $checar_destino = Destinocomunicacao::find()
