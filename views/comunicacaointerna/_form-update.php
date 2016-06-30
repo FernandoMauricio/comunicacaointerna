@@ -53,6 +53,8 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
 <div class="comunicacao-interna-form">
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>          
 
+        <?php echo $form->errorSummary($model); ?>  
+        
     <?php
                     $rows = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomecompleto')->all();
                     $data_unidades = ArrayHelper::map($rows, 'uni_nomecompleto', 'uni_nomecompleto');

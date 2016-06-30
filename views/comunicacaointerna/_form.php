@@ -42,6 +42,8 @@ $dest_codcolaborador = $_SESSION['sess_codcolaborador'];
 <br>
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>          
 
+        <?php echo $form->errorSummary($model); ?>  
+
 
     <?php // $form->field($model, 'com_codcolaborador')->textInput(['readonly'=>true]) ?>
 

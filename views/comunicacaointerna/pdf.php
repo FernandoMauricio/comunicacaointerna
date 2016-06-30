@@ -49,7 +49,9 @@ $com_dataEncerramento = $model->com_dataEncerramento;
     
     $destinatariosCopia = "";
     $contador = 0;
-     $sql3 = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 3 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 2 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 3 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 1";
+     $sql3 = "SELECT * FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 3 AND dest_nomeunidadedestCopia IS NOT NULL OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 2 AND dest_nomeunidadedestCopia IS NOT NULL OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 3 AND dest_nomeunidadedestCopia IS NOT NULL OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 1 AND dest_nomeunidadedestCopia IS NOT NULL";
+
+     
 
       $modelCopia = Destinocomunicacao::findBySql($sql3)->all(); 
 

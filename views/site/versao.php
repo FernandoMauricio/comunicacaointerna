@@ -45,8 +45,9 @@ $this->title = 'Documentação Eletrônica';
               <h4><strong style="color: #337ab7;">Ações Preventivas</strong></h4>
                        <h5><i class="glyphicon glyphicon-tag"></i><strong> Autorização de CI </strong></h5>
                             <h5>- Alterado a caixa de autorização/reprovação de CI para dois novos botões "Aprovar" ou "Reprovar". Melhorando assim, a usabilidade do sistema.</h5>
-                            <h5>- Foi incluido uma ação de exclusão de destinos da CI quando a mesma for reprovada pelo gerente, resolvendo assim o problema de duplicidade em alguns casos.</h5>
-                            <h5>- Incluído a notificação por e-mail para os destinos da CI quando a mesma for feita por um colaborador e autorizada pelo gerente.</h5><br>
+                            <h5>- Incluído uma ação de exclusão de destinos da CI quando a mesma for reprovada pelo gerente, resolvendo assim o problema de duplicidade em alguns casos.</h5>
+                            <h5>- Incluído a notificação por e-mail para os destinos da CI quando a mesma for feita por um colaborador e autorizada pelo gerente.</h5></h5>
+                            <h5>- Incluído mensagens de validações de campos obrigatórios e/ou outras validações a cima do formulário de despacho. Facilitando assim a visualização da mensagem de erro.</h5><br>
                      </div>
                 </div>
 
