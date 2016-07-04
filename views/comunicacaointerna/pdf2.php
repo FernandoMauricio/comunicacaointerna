@@ -49,7 +49,7 @@ $session = Yii::$app->session;
 
      $contador = 0;
      $destinatariosCopia = "";
-     $sqlCopia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 4";
+     $sqlCopia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 4 AND dest_coddespacho = 0";
 
        $modelCopia = Destinocomunicacao::findBySql($sqlCopia)->all(); 
 
