@@ -532,14 +532,12 @@ return $this->redirect(['index']);
             $com_titulo = $model->com_titulo;
             $com_texto = $model->com_texto;
             $com_codcolaboradorautorizacao = $model->colaborador->usuario->usu_nomeusuario;
-            //$com_codcargoautorizacao = $model->cargo->car_cargo;
             $com_dataautorizacao = $model->com_dataautorizacao;
             $com_codtipo = $model->com_codtipo;
 
             //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
-             $destinocomunicacao = Destinocomunicacao::find()
-                ->where(['dest_codcomunicacao' => $_GET])
-                ->all();
+             $destinocomunicacao = Destinocomunicacao::find()->where(['dest_codcomunicacao' => $_GET])->all();
+             $dest_codunidadedest = Destinocomunicacao::find()->where(['dest_codcomunicacao' => $_GET, 'dest_codunidadedest' => $session['sess_codunidade']])->all();
 
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
@@ -555,7 +553,7 @@ return $this->redirect(['index']);
             ]);
 
                 //Verifica se a unidade tem acesso a CI criada
-            if($session['sess_codunidade'] == $model->com_codunidade){
+            if($session['sess_codunidade'] == $model->com_codunidade || $session['sess_codunidade'] == $dest_codunidadedest){
 
                     return $pdf->render('imprimir', [
                         'model' => $this->findModel($id),
