@@ -517,13 +517,13 @@ return $this->redirect(['index']);
                              return $this->redirect(['update', 'id' => $model->dest_codcomunicacao]);       
                         }                          
                 }
-                    
     }
 
 
             // Privacy statement output demo
         public function actionImprimir($id) {
-
+          
+            $session = Yii::$app->session;
             $model = $this->findModel($id);
 
             $com_codcomunicacao = $model->com_codcomunicacao;
@@ -541,8 +541,6 @@ return $this->redirect(['index']);
                 ->where(['dest_codcomunicacao' => $_GET])
                 ->all();
 
-
-
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
                 'content' => $this->renderPartial('imprimir'),
@@ -556,10 +554,19 @@ return $this->redirect(['index']);
                 ]
             ]);
 
-        return $pdf->render('imprimir', [
-            'model' => $this->findModel($id),
-            'destinocomunicacao' => $destinocomunicacao,
-        ]);
+                //Verifica se a unidade tem acesso a CI criada
+            if($session['sess_codunidade'] == $model->com_codunidade){
+
+                    return $pdf->render('imprimir', [
+                        'model' => $this->findModel($id),
+                        'destinocomunicacao' => $destinocomunicacao,
+                    ]);
+
+                  }else{
+
+                throw new NotFoundHttpException('Você não tem acesso a essa Comunicação Interna.');
+
+                  }
         }
 
 

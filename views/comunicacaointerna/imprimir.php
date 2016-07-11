@@ -100,7 +100,7 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
 //PEGANDO OS DESTINATÁIOS COMO CÓPIA NESSE DESPACHO
      $destinatariosCopia = "";
      $contador = 0;
-     $sqlCopia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 2 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 3";
+     $sqlCopia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$com_codcomunicacao. "' AND dest_codtipo = 4 AND dest_coddespacho = 0";
 
       $modelCopia = Destinocomunicacao::findBySql($sqlCopia)->all(); 
 
