@@ -18,17 +18,8 @@ use yii\helpers\Url;
 $session = Yii::$app->session;
 
 //RESGATANDO AS INFORMAÇÕES DA CI
-// $com_codcomunicacao = $model->com_codcomunicacao;
-// $com_codsituacao = $model->situacao->sitco_situacao1;
-// $datasolicitacao = $model->com_datasolicitacao;
-// $com_titulo = $model->com_titulo;
-// $com_texto = $model->com_texto;
-// $com_codcolaboradorautorizacao = $model->colaborador->usuario->usu_nomeusuario;
-// //$com_codcargoautorizacao = $model->cargo->car_cargo;
-// $com_dataautorizacao = $model->com_dataautorizacao;
-// $com_codtipo = $model->com_codtipo;
+
 $id = $_GET['id'];
-//$datasolicitacao = $id['com_datasolicitacao'];
 
 $sql_comunicacao = "SELECT * FROM comunicacaointerna_com WHERE com_codcomunicacao = ".$id."";
   $comunicacoes = Comunicacaointerna::findBySql($sql_comunicacao)->all(); 

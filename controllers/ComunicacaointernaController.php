@@ -526,18 +526,17 @@ return $this->redirect(['index']);
             $session = Yii::$app->session;
             $model = $this->findModel($id);
 
-            $com_codcomunicacao = $model->com_codcomunicacao;
-            $com_codsituacao = $model->situacao->sitco_situacao1;
-            $datasolicitacao = $model->com_datasolicitacao;
-            $com_titulo = $model->com_titulo;
-            $com_texto = $model->com_texto;
-            $com_codcolaboradorautorizacao = $model->colaborador->usuario->usu_nomeusuario;
-            $com_dataautorizacao = $model->com_dataautorizacao;
-            $com_codtipo = $model->com_codtipo;
-
             //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
-             $destinocomunicacao = Destinocomunicacao::find()->where(['dest_codcomunicacao' => $_GET])->all();
-             $dest_codunidadedest = Destinocomunicacao::find()->where(['dest_codcomunicacao' => $_GET, 'dest_codunidadedest' => $session['sess_codunidade']])->all();
+            $destinocomunicacao = Destinocomunicacao::find()->where(['dest_codcomunicacao' => $_GET])->all();
+
+            $unidades = Destinocomunicacao::find()->select('dest_codcomunicacao')->where(['dest_codcomunicacao' => $_GET, 'dest_codunidadedest' => $session['sess_codunidade']])->all();
+                           foreach ($unidades as $unidade)
+                              {
+                               $dest_codcomunicacao  = $unidade["dest_codcomunicacao"];
+                              }
+            //setando sessão para verificar se a unidade poderá imprimir a CI solicitada
+            $session->set('sess_comunicacao1', $dest_codcomunicacao);
+            $session->close();
 
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
@@ -553,7 +552,7 @@ return $this->redirect(['index']);
             ]);
 
                 //Verifica se a unidade tem acesso a CI criada
-            if($session['sess_codunidade'] == $model->com_codunidade || $session['sess_codunidade'] == $dest_codunidadedest){
+            if($session['sess_comunicacao1'] == $dest_codcomunicacao){
 
                     return $pdf->render('imprimir', [
                         'model' => $this->findModel($id),
@@ -584,7 +583,6 @@ return $this->redirect(['index']);
         }
 
     }
-
 }
 
 
