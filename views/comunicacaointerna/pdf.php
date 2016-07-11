@@ -27,6 +27,7 @@ $com_codtipo = $model->com_codtipo;
 $cod_situacao = $model->com_codsituacao;
 $com_usuarioEncerramento = $model->com_usuarioEncerramento;
 $com_dataEncerramento = $model->com_dataEncerramento;
+$com_codunidade = $model->unidades->uni_nomeabreviado;
 
 
 //PEGANDO OS DESTINATÁIOS NESSE DESPACHO
@@ -134,7 +135,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   </tr>
   <tr>
     <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
-    <td width="41%" scope="col"><div align="center"><?php echo utf8_encode($session['sess_unidade']) ?></div></td>
+    <td width="41%" scope="col"><div align="center"><?php echo $com_codunidade ?></div></td>
     <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?> <br><br>
      <?php if($contador != 0)
          {

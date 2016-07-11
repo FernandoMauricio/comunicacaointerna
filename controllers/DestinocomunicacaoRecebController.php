@@ -32,7 +32,7 @@ class DestinocomunicacaoRecebController extends Controller
      */
     public function actionIndex()
     {
-                $session = Yii::$app->session;
+        $session = Yii::$app->session;
         if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
         {
            return $this->redirect('http://portalsenac.am.senac.br');
@@ -53,14 +53,26 @@ class DestinocomunicacaoRecebController extends Controller
      */
     public function actionView($id)
     {
-                $session = Yii::$app->session;
+        $session = Yii::$app->session;
         if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
         {
            return $this->redirect('http://portalsenac.am.senac.br');
         }
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+
+        $model = $this->findModel($id);
+
+                //Verifica se a unidade tem acesso a CI criada
+        if($session['sess_codunidade'] == $model->dest_codunidadedest){
+
+                return $this->render('view', [
+                    'model' => $this->findModel($id),
+                ]);
+
+              }else{
+
+            throw new NotFoundHttpException('Você não tem acesso a essa Comunicação Interna.');
+
+              }
     }
 
     /**
@@ -70,7 +82,7 @@ class DestinocomunicacaoRecebController extends Controller
      */
     public function actionCreate()
     {
-                $session = Yii::$app->session;
+        $session = Yii::$app->session;
         if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
         {
            return $this->redirect('http://portalsenac.am.senac.br');
