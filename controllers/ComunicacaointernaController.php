@@ -85,7 +85,7 @@ class ComunicacaointernaController extends Controller
                 ->all();
 
                 //Verifica se a unidade tem acesso a CI criada
-if($session['sess_codunidade'] == $model->com_codunidade){
+      if($session['sess_codunidade'] == $model->com_codunidade){
 
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -94,7 +94,7 @@ if($session['sess_codunidade'] == $model->com_codunidade){
 
       }else{
 
-    throw new NotFoundHttpException('Você não tem acesso a essa Comunicação Interna.');
+        throw new NotFoundHttpException('Você não tem acesso a essa Comunicação Interna.');
 
       }
 
@@ -534,9 +534,6 @@ return $this->redirect(['index']);
                               {
                                $dest_codcomunicacao  = $unidade["dest_codcomunicacao"];
                               }
-            //setando sessão para verificar se a unidade poderá imprimir a CI solicitada
-            $session->set('sess_comunicacao1', $dest_codcomunicacao);
-            $session->close();
 
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
@@ -551,8 +548,8 @@ return $this->redirect(['index']);
                 ]
             ]);
 
-                //Verifica se a unidade tem acesso a CI criada
-            if($session['sess_comunicacao1'] == $dest_codcomunicacao){
+            //Verifica se a unidade tem acesso a CI criada
+            if(isset($dest_codcomunicacao)){
 
                     return $pdf->render('imprimir', [
                         'model' => $this->findModel($id),
