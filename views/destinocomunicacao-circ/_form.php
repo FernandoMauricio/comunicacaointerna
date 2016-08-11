@@ -49,7 +49,7 @@ echo FileInput::widget([
     'model' => $model,
     'language' => 'pt',
     'attribute' => 'file[]',
-    'options' => ['multiple' => true, 'accept'=>'.pdf, .zip, .rar, .doc, .docx'],
+    'options' => ['multiple' => true, 'accept'=>'.pdf', '.zip', '.rar', '.doc', '.docx'],
     'pluginOptions' => [
     'language' => 'pt',
     'showRemove'=> false,
