@@ -56,6 +56,7 @@ $gridColumns = [
                             [
                                 'class'=>'kartik\grid\ExpandRowColumn',
                                 'format' => 'raw',
+                                'options' => ['width' => '2%'],
                                 'value'=>function ($model, $key, $index, $column) {
                                     return GridView::ROW_COLLAPSED;
                                 },
@@ -68,17 +69,18 @@ $gridColumns = [
 
                                 [
                                 'attribute' => 'dest_codcomunicacao',
-                                'options' => ['width' => '3000'],
+                                'options' => ['width' => '5%'],
                                 ],                                
 
                                 [
                                 'attribute' => 'dest_nomeunidadeenvio',
-                                'options' => ['width' => '5000'],
+                                'options' => ['width' => '5%'],
                                 ],
 
                                 [
                                     'attribute'=>'tipo', 
                                     'vAlign'=>'middle',
+                                    'options' => ['width' => '10%'],
                                     'value'=>function ($model, $key, $index, $widget) { 
                                         return Html::a($model->comunicacaointerna->comCodtipo->tipdo_tipo);
                                     },
@@ -95,6 +97,7 @@ $gridColumns = [
                                     'attribute' => 'data_solicitacao',
                                     'value' => 'comunicacaointerna.com_datasolicitacao',
                                     'format' => ['datetime', 'php:d/m/Y'],
+                                    'options' => ['width' => '10%'],
                                     'hAlign' => 'center',
                                     'filter'=> DatePicker::widget([
                                     'model' => $searchModel, 
@@ -109,12 +112,12 @@ $gridColumns = [
                                 [
                                 'attribute' => 'titulo',
                                 'value' => 'comunicacaointerna.com_titulo',
-                                'options' => ['width' => '10000'],
+                                'options' => ['width' => '20%'],
                                 ],
 
                                 ['class' => 'yii\grid\ActionColumn',
-                                'template' => '{update} {autoresp}',
-                                'options' => ['width' => '15000'],
+                                'template' => '{update} {autoresp} {notificar}',
+                                'options' => ['width' => '25%'],
                                 'buttons' => [
 
                                 //DESPACHAR BUTTON
@@ -137,6 +140,19 @@ $gridColumns = [
                                                             ],
 
                                     ]);
+                                },
+
+                                //NOTIFICAR EQUIPE
+                                'notificar' => function ($url, $model) {
+                                    return $model->comunicacaointerna->com_codtipo != 2 ?  Html::a('<span class="glyphicon glyphicon-envelope"></span> Notificar', $url, [
+                                                'class'=>'btn btn-warning btn-xs',
+                                                'title' => Yii::t('app', 'Notificar equipe'),
+                                                'data' => [
+                                                                'confirm' => 'Você tem CERTEZA que deseja NOTIFICAR a equipe com os novos despachos?',
+                                                                'method' => 'post',
+                                                            ],
+
+                                    ]): '';
                                 },
 
                             ],

@@ -62,7 +62,6 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
         /*Rules Personalizadas para a criação de CI relacionadas ao Tipo
         */
 
-
     public function validarTipo($com_codtipo, $params){
 
         //Coletar a sessão do usuário

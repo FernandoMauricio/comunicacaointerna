@@ -479,6 +479,57 @@ if($DestinocomunicacaoEnc['dest_nomeunidadedestCopia'] > 0) {
       
     }
 
+
+
+public function actionNotificar($id)
+    {
+                $session = Yii::$app->session;
+        if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
+        {
+           return $this->redirect('http://portalsenac.am.senac.br');
+        }
+        $model = $this->findModel($id);
+
+                //conexão com os bancos
+                 $connection = Yii::$app->db;
+                 $connection = Yii::$app->db_base;
+
+         //ENVIA EMAIL PARA A EQUIPE NOTIFICANDO DAS ATUALZIAÇÕES QUE OCORRERAM NA CI RETIRANDO O EMAIL DO GERENTE - CODIGO CARGO = 5
+            $sql_email_equipe = 'SELECT DISTINCT
+                                  emus_email
+                                FROM
+                                  `db_base`.emailusuario_emus,
+                                  `db_base`.colaborador_col,
+                                  `db_base`.usuario_usu
+                                WHERE
+                                 `colaborador_col`.`col_codusuario` = `emailusuario_emus`.`emus_codusuario` AND `colaborador_col`.`col_codusuario` = `usuario_usu`.`usu_codusuario` AND `colaborador_col`.`col_codunidade` = "'.$session['sess_codunidade'].'" AND `usuario_usu`.`usu_codsituacao` = 1 AND `colaborador_col`.`col_codcargo` NOT LIKE 5';
+      
+                          $emails_equipe = Emailusuario::findBySql($sql_email_equipe)->all();
+                          foreach ($emails_equipe as $email_equipe)
+                                       {
+                                         $email_unidade_equipe  = $email_equipe["emus_email"];
+
+                                                Yii::$app->mailer->compose()
+                                                ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
+                                                ->setTo($email_unidade_equipe)
+                                                ->setSubject('CI '.$model->dest_codcomunicacao. ' Atualizada - ' .$session['sess_nomeunidade'])
+                                                ->setTextBody('Existe uma CI de código: '.$model->dest_codcomunicacao.' atualizada')
+                                                ->setHtmlBody('<p>Prezado(a)&nbsp;Colaborador,</p>
+
+                                                <p>Existe uma Comunica&ccedil;&atilde;o Interna <span style="color:#337AB7">'.$model->dest_codcomunicacao.' </span>aguardando seu despacho. Abaixo, segue o respons&aacute;vel que realizou o o&nbsp;&uacute;ltimo despacho:</p>
+
+                                                ')
+                                                ->send();
+            
+                                  }
+
+                Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Foi realizado a <strong>NOTIFICAÇÃO POR E-MAIL</strong> à sua equipe das atualizações na CI <strong>'.$model->dest_codcomunicacao.'</strong>!');
+             
+             return $this->redirect(['index']);
+      
+    }
+
+
     /**
      * Finds the Destinocomunicacao model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
