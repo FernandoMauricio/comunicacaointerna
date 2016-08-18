@@ -512,7 +512,7 @@ public function actionNotificar($id)
                                                 Yii::$app->mailer->compose()
                                                 ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
                                                 ->setTo($email_unidade_equipe)
-                                                ->setSubject('CI '.$model->dest_codcomunicacao. ' Atualizada - ' .$session['sess_nomeunidade'])
+                                                ->setSubject('CI '.$model->dest_codcomunicacao. ' Atualizada - ' . $session['sess_unidade'])
                                                 ->setTextBody('Existe uma CI de código: '.$model->dest_codcomunicacao.' atualizada')
                                                 ->setHtmlBody('<p>Prezado(a)&nbsp;Colaborador,</p>
 

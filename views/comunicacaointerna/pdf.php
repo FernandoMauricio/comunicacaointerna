@@ -176,7 +176,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <th height="51" colspan="3" scope="col">DESPACHOS E ENCAMINHAMENTOS</th>
   </tr>
   <?php
-  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$com_codcomunicacao."' AND deco_codsituacao = 2 order by deco_coddespacho";
+  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$com_codcomunicacao."' AND deco_codsituacao = 2 order by deco_coddespacho desc";
   $model = Despachos::findBySql($sql6)->all(); 
   foreach ($model as $models) {
      

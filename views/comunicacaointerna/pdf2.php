@@ -175,7 +175,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <th height="51" colspan="3" scope="col">DESPACHOS E ENCAMINHAMENTOS</th>
   </tr>
   <?php
-  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$dest_codcomunicacao."' AND deco_codsituacao = 2 order by deco_coddespacho";
+  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$dest_codcomunicacao."' AND deco_codsituacao = 2 order by deco_coddespacho desc";
   $modelDespacho = Despachos::findBySql($sql6)->all(); 
   foreach ($modelDespacho as $models) {
      
@@ -260,9 +260,26 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 
 
   <tr>
+
     <td colspan="3"><p>&nbsp;</p><p><?php echo $deco_despacho ?></p>
     <p>&nbsp;</p>
-    <p class="anexos">ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
+    <p class="anexos"><i class="glyphicon glyphicon-remove"></i> UNIDADES PENDENTES - CIÊNCIAS DO DESPACHO:</p>
+
+    <?php
+
+      $query_pendentesCiencia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$dest_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 2 AND dest_coddespacho = '".$deco_coddespacho."'";
+      $pendenteCiencia = Destinocomunicacao::findBySql($query_pendentesCiencia)->all(); 
+      foreach ($pendenteCiencia as $pendentesCiencia) {
+
+       $PendentesCiencia = $pendentesCiencia["dest_nomeunidadedestCopia"];
+    ?>
+
+     <p><?php echo $PendentesCiencia ?></p>
+     <?php } ?>
+     <p>&nbsp;</p>
+    
+
+    <p class="anexos"><i class="glyphicon glyphicon-file"></i> ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
       <?php
            $sql_destino = "SELECT DISTINCT dest_coddespacho FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 3";
 

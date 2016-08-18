@@ -182,7 +182,7 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
     <th height="51" align="center" style="font-size: 12px;" colspan="3" scope="col">DESPACHOS E ENCAMINHAMENTOS</th>
   </tr>
   <?php
-  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$id."' AND deco_codsituacao = 2 order by deco_coddespacho";
+  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$id."' AND deco_codsituacao = 2 order by deco_coddespacho desc";
   $model = Despachos::findBySql($sql6)->all(); 
   foreach ($model as $models) {
      
