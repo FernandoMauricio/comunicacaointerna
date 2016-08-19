@@ -514,11 +514,18 @@ public function actionNotificar($id)
                                                 ->setTo($email_unidade_equipe)
                                                 ->setSubject('CI '.$model->dest_codcomunicacao. ' Atualizada - ' . $session['sess_unidade'])
                                                 ->setTextBody('Existe uma CI de código: '.$model->dest_codcomunicacao.' atualizada')
-                                                ->setHtmlBody('<p>Prezado(a)&nbsp;Colaborador,</p>
+                                                ->setHtmlBody('<p>Prezado(a) Senhor(a),</p>
 
-                                                <p>Existe uma Comunica&ccedil;&atilde;o Interna <span style="color:#337AB7">'.$model->dest_codcomunicacao.' </span>aguardando seu despacho. Abaixo, segue o respons&aacute;vel que realizou o o&nbsp;&uacute;ltimo despacho:</p>
+                                    <p>Existe uma Comunica&ccedil;&atilde;o Interna de c&oacute;digo: <strong><span style="color:#F7941D">'.$model->dest_codcomunicacao.' </span></strong>- <strong><span style="color:#F7941D"> atualizada</span></strong></p>
 
-                                                ')
+                                    <p><strong>Título</strong>: '.$model->comunicacaointerna->com_titulo.'</p>
+
+                                    <p>Por favor, n&atilde;o responda esse e-mail. Acesse http://portalsenac.am.senac.br para ANALISAR a Comunica&ccedil;&atilde;o Interna.</p>
+
+                                    <p>Atenciosamente,</p>
+
+                                    <p>Sistema Gerenciador de Documentação Eletrônica.</p>
+                                    ')
                                                 ->send();
             
                                   }
