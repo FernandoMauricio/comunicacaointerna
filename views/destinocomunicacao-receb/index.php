@@ -73,21 +73,27 @@ $gridColumns = [
             ])
             ],
 
-             [
-                'attribute' => 'titulo',
-                'width'=>'50%',
-                'value' => function ($data) {
+            [
+               'attribute' => 'titulo',
+               'width'=>'50%',
+               'value' => function ($data) {
 
-                    $session = Yii::$app->session;      
+                   $session = Yii::$app->session;      
 
-                    if($data->comunicacaointerna->com_codtipo == '1'  )
-                {
-                return $data->comunicacaointerna->com_titulo;
-                }else{
-                    return '****CONFIDENCIAL****';
-                }
-                },
-             ],
+                   if($data->comunicacaointerna->com_codtipo == '1'  )
+               {
+               return $data->comunicacaointerna->com_titulo;
+               }else{
+                   return '****CONFIDENCIAL****';
+               }
+               },
+            ],
+
+            [
+                'attribute' => 'tag',
+                'value' => 'comunicacaointerna.com_tag',
+                'options' => ['width' => '10%'],
+            ],
 
             [
                 'attribute'=>'situacao', 

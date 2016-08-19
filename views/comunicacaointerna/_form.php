@@ -27,6 +27,7 @@ use yii\helpers\Url;
 use kartik\widgets\FileInput;
 use kartik\select2\Select2;
 use dosamigos\ckeditor\CKEditor;
+use faryshta\widgets\JqueryTagsInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Comunicacaointerna */
@@ -44,11 +45,6 @@ $dest_codcolaborador = $_SESSION['sess_codcolaborador'];
 
         <?php echo $form->errorSummary($model); ?>  
 
-
-    <?php // $form->field($model, 'com_codcolaborador')->textInput(['readonly'=>true]) ?>
-
-    <?php // $form->field($model, 'com_codunidade')->textInput(['readonly' => true]) ?>
-
     <?php
                  
                 $rows = TipodocumentacaoTipdo::find()->all();
@@ -57,7 +53,27 @@ $dest_codcolaborador = $_SESSION['sess_codcolaborador'];
 
     ?> 
 
-    <?= $form->field($model, 'com_titulo')->textInput(['maxlength' => 100, 'placeholder' => 'Insira o Título...'])?>
+    <div class="row">
+
+        <div class="col-md-8">
+
+        <?= $form->field($model, 'com_titulo')->textInput(['maxlength' => 100, 'placeholder' => 'Insira o Título...'])?>
+
+        </div>
+
+        <div class="col-md-4">
+
+        <?= $form->field($model, 'com_tag')->widget(JqueryTagsInput::classname(), [
+             'clientOptions' => [
+                 'defaultText' => '',
+                 'width' => '100%',
+                 'height' => '100%',
+                 'interactive' => true,
+             ],
+         ]) ?>
+
+        </div>
+    </div>
 
     <?= $form->field($model, 'com_texto')->widget(CKEditor::className(), [
         'options' => ['rows' => 6, 'placeholder' => 'Insira seu Despacho...'],
@@ -68,22 +84,9 @@ $dest_codcolaborador = $_SESSION['sess_codcolaborador'];
 
     <?= $form->field($model, 'com_codsituacao')->hiddenInput()->label(false); ?>
 
-    <?php 
-
-/*                // Usage with ActiveForm and model
-            echo $form->field($model, 'file')->widget(FileInput::classname(), [
-                //'options' => ['accept' => 'image/*'],
-            ]);
-*/
-
-           // echo $form->field($model, 'file')->fileInput() 
-
-            ?>
-
 
     <div class="form-group">
         
-        <?php //Html::button('Criar Comunicação Interna', ['value'=>Url::to('index.php?r=destinocomunicacao%2Fcreate'), 'class' => 'btn btn-success', 'id'=>'modalButton']) ?>
         <?= Html::submitButton($model->isNewRecord ? 'Criar Comunicação Interna' : 'Enviar Comunicação Interna', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 

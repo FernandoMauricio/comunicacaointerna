@@ -20,7 +20,7 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
     {
         return [
             [['dest_coddestino', 'dest_codcomunicacao', 'dest_codcolaborador', 'dest_codunidadeenvio', 'dest_codtipo', 'dest_codsituacao', 'dest_coddespacho'], 'integer'],
-            [['dest_data', 'dest_nomeunidadeenvio', 'dest_nomeunidadedest', 'titulo', 'tipo', 'data_solicitacao', 'situacao'], 'safe'],
+            [['dest_data', 'dest_nomeunidadeenvio', 'dest_nomeunidadedest', 'titulo', 'tipo', 'data_solicitacao', 'situacao', 'tag'], 'safe'],
         ];
     }
 
@@ -52,6 +52,11 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
         $dataProvider->sort->attributes['titulo'] = [
         'asc' => ['comunicacaointerna_com.com_titulo' => SORT_ASC],
         'desc' => ['comunicacaointerna_com.com_titulo' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['tag'] = [
+        'asc' => ['comunicacaointerna_com.com_tag' => SORT_ASC],
+        'desc' => ['comunicacaointerna_com.com_tag' => SORT_DESC],
         ];
 
         $dataProvider->sort->attributes['tipo'] = [
@@ -86,7 +91,6 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
             'dest_codcomunicacao' => $this->dest_codcomunicacao,
             'dest_codcolaborador' => $this->dest_codcolaborador,
             'dest_codunidadeenvio' => $this->dest_codunidadeenvio,
-            //'dest_codunidadedest' => $this->dest_codunidadedest,
             'dest_data' => $this->dest_data,
             'dest_codtipo' => $this->dest_codtipo,
             'dest_codsituacao' => $this->dest_codsituacao,
@@ -100,6 +104,7 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
         $query->andFilterWhere(['like', 'dest_codunidadeenvio', $this->dest_codunidadeenvio])
             ->andFilterWhere(['like', 'dest_nomeunidadeenvio', $this->dest_nomeunidadeenvio])
             ->andFilterWhere(['like', 'comunicacaointerna_com.com_titulo', $this->titulo])
+            ->andFilterWhere(['like', 'comunicacaointerna_com.com_tag', $this->tag])
             ->andFilterWhere(['=', 'tipodocumentacao_tipdo.tipdo_tipo', $this->tipo])
             ->andFilterWhere(['like', 'comunicacaointerna_com.com_datasolicitacao', $this->data_solicitacao])
             ->andFilterWhere(['=', 'comunicacaointerna_com.com_codsituacao', $this->situacao])

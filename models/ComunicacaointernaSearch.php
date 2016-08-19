@@ -19,7 +19,7 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
     {
         return [
             [['com_codcomunicacao', 'com_codunidade', 'com_codcolaboradorautorizacao', 'com_codcargoautorizacao'], 'integer'],
-            [['com_datasolicitacao', 'com_codtipo', 'com_codsituacao', 'com_titulo', 'com_texto', 'com_dataautorizacao', 'com_codcolaborador', 'data_solicitacao', 'situacaocomunicacao'], 'safe'],
+            [['com_datasolicitacao', 'com_codtipo', 'com_codsituacao', 'com_titulo', 'com_texto', 'com_dataautorizacao', 'com_codcolaborador', 'data_solicitacao', 'situacaocomunicacao', 'com_tag'], 'safe'],
         ];
     }
 
@@ -92,7 +92,8 @@ class ComunicacaointernaSearch extends ComunicacaoInterna
             ->andFilterWhere(['=', 'tipodocumentacao_tipdo.tipdo_tipo', $this->com_codtipo])
             ->andFilterWhere(['like', 'comunicacaointerna_com.com_datasolicitacao', $this->data_solicitacao])
             ->andFilterWhere(['=', 'situacaocomunicacao_sitco.sitco_situacao1', $this->situacaocomunicacao])
-            ->andFilterWhere(['like', 'com_texto', $this->com_texto]);
+            ->andFilterWhere(['like', 'com_texto', $this->com_texto])
+            ->andFilterWhere(['like', 'com_tag', $this->com_tag]);
 
         return $dataProvider;
     }

@@ -115,6 +115,12 @@ $gridColumns = [
                                 'options' => ['width' => '20%'],
                                 ],
 
+                                [
+                                'attribute' => 'tag',
+                                'value' => 'comunicacaointerna.com_tag',
+                                'options' => ['width' => '10%'],
+                                ],
+
                                 ['class' => 'yii\grid\ActionColumn',
                                 'template' => '{update} {autoresp} {notificar}',
                                 'options' => ['width' => '25%'],

@@ -61,7 +61,7 @@ $gridColumns = [
                                             'format'=>'raw'
                                         ],
 
-                                         [
+                                        [
                                             'attribute' => 'com_titulo',
                                             'width' => '50%',
                                             'value' => function ($data) {
@@ -75,7 +75,13 @@ $gridColumns = [
                                                 return '****CONFIDENCIAL****';
                                             }
                                             },
-                                         ],
+                                        ],
+
+                                        [
+                                        'attribute'=>'com_tag',
+                                        'width'=>'5px'
+                                        ],
+                                        
                                         [
                                             'attribute' => 'data_solicitacao',
                                             'value' => 'com_datasolicitacao',

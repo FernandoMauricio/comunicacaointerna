@@ -20,6 +20,8 @@ use kartik\widgets\FileInput;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 
+use faryshta\widgets\JqueryTagsInput;
+
 $dest_codunidadeenvio =  $_SESSION['sess_codunidade'];
 $dest_codcolaborador = $_SESSION['sess_codcolaborador'];
 
@@ -82,7 +84,27 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
 
     ?> 
 
-    <?= $form->field($model, 'com_titulo')->textInput(['maxlength' => 100, 'placeholder' => 'Insira o Título...'])?>
+    <div class="row">
+
+        <div class="col-md-8">
+
+        <?= $form->field($model, 'com_titulo')->textInput(['maxlength' => 100, 'placeholder' => 'Insira o Título...'])?>
+
+        </div>
+
+        <div class="col-md-4">
+
+        <?= $form->field($model, 'com_tag')->widget(JqueryTagsInput::classname(), [
+             'clientOptions' => [
+                 'defaultText' => '',
+                 'width' => '100%',
+                 'height' => '100%',
+                 'interactive' => true,
+             ],
+         ]) ?>
+
+        </div>
+    </div>
 
         <?= $form->field($model, 'com_texto')->widget(CKEditor::className(), [
         'options' => ['rows' => 6, 'placeholder' => 'Insira seu Despacho...'],

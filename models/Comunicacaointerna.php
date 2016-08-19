@@ -56,6 +56,7 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
             [['file'], 'file', 'maxFiles' => 10,'checkExtensionByMimeType'=>false, 'extensions' => 'pdf, zip, rar, doc, docx'],
             [['com_texto'], 'string'],
             [['com_titulo', 'com_anexo'], 'string', 'max' => 100],
+            [['com_tag'], 'string', 'max' => 255],
 
         ];
     }
@@ -85,6 +86,7 @@ class Comunicacaointerna extends \yii\db\ActiveRecord
             'com_codunidade' => 'Unidade',
             'com_datasolicitacao' => 'Data da Solicitação',
             'com_titulo' => 'Título',
+            'com_tag' => 'Palavra-Chave',
             'com_texto' => 'Texto',
             'com_codtipo' => 'Tipo',
             'nomesituacao' => 'Situação',
