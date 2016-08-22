@@ -7,13 +7,12 @@ use app\models\Destinocomunicacao;
 use yii\helpers\ArrayHelper;
 
                    $nome_user    = $_SESSION['sess_nomeusuario'];
-                   $unidade_user = $_SESSION['sess_codunidade'];
                    $cod_unidade  = $_SESSION['sess_codunidade'];    
 
 $this->title = 'Documentação Eletrônica';
 
             //BUSCA NO BANCO SE EXISTE CI PENDENTE DE DESPACHO
-            $sql = "SELECT COUNT(*) FROM `destinocomunicacao_dest` LEFT JOIN `comunicacaointerna_com` ON `destinocomunicacao_dest`.`dest_codcomunicacao` = `comunicacaointerna_com`.`com_codcomunicacao` WHERE (((`comunicacaointerna_com`.`com_codsituacao`=4) AND (`dest_codunidadedest`='$unidade_user')) AND (`dest_codtipo` IN (2, 3))) AND (`dest_codsituacao`=2)";
+            $sql = "SELECT * FROM `destinocomunicacao_dest` LEFT JOIN `comunicacaointerna_com` ON `destinocomunicacao_dest`.`dest_codcomunicacao` = `comunicacaointerna_com`.`com_codcomunicacao` WHERE (((`comunicacaointerna_com`.`com_codsituacao`=4) AND (`dest_codunidadedest`='".$cod_unidade."')) AND (`dest_codtipo` IN (2, 3,4))) AND (`dest_codsituacao`=2)";
             $checar_ci = Destinocomunicacao::findBySql($sql)->count(); 
 
             //BUSCA NO BANCO SE EXISTE CI PENDENTE DE AUTORIZAÇÃO
@@ -54,27 +53,19 @@ $this->title = 'Documentação Eletrônica';
 
             <div class="panel panel-primary">
             <div class="panel-heading">
-                        <i class="glyphicon glyphicon-star-empty"></i>O que há de novo? - Versão 1.4 - Publicado em 30/06/2016
+                        <i class="glyphicon glyphicon-star-empty"></i>O que há de novo? - Versão 1.5 - Publicado em 22/08/2016
             </div>
-              <div class="panel-body">
+
+                <div class="panel-body">
               <h4><strong style="color: #337ab7;">Implementações</strong></h4>
-                        <h5><i class="glyphicon glyphicon-tag"></i><strong> Destinos com cópia</strong></h5>
-                            <h5>- Incluído um novo campo de destino chamado de "Com cópia para" onde poderão ser inclusos unidades/setores que apenas irão inserir a ciência na CI e <strong style="color: red;">NÃO poderão realizar o DESPACHO</strong>.</h5>
-                            <h5>- Comunicações internas que tiverem sido realizados algum tipo de despacho aparecerão por primeiro na listagem de despachos pendentes.</h5><br>
-
-              <h4><strong style="color: #337ab7;">Ações Corretivas</strong></h4>
-                       <h5><i class="glyphicon glyphicon-tag"></i><strong> Autorização de CI </strong></h5>
-                            <h5>- Corrigido o problema na visualização de anexos de Comunicações Internas pendentes de aprovação onde não estava sendo possível visualizá-las.</h5><br>
-
-              <h4><strong style="color: #337ab7;">Ações Preventivas</strong></h4>
-                       <h5><i class="glyphicon glyphicon-tag"></i><strong> Autorização de CI </strong></h5>
-                            <h5>- Alterado a caixa de autorização/reprovação de CI para dois novos botões "Aprovar" ou "Reprovar". Melhorando assim, a usabilidade do sistema.</h5>
-                            <h5>- Incluído uma ação de exclusão de destinos da CI quando a mesma for reprovada pelo gerente, resolvendo assim o problema de duplicidade em alguns casos.</h5>
-                            <h5>- Incluído a notificação por e-mail para os destinos da CI quando a mesma for feita por um colaborador e autorizada pelo gerente.</h5>
-                            <h5>- Incluído mensagens de validações de campos obrigatórios e/ou outras validações a cima do formulário de despacho. Facilitando assim a visualização da mensagem de erro.</h5><br>
-                        <h4 style="color: #d35400;"><i>Para visualizar detalhes de Versões Anteriores, clique abaixo:</i></h4>
-                        <p><a href="index.php?r=site/versao" class="btn btn-warning" role="button">Histórico de Versões</a></p>
-                 </div>
+                        <h5><i class="glyphicon glyphicon-tag"></i><strong> Área Gerencial / Listagem de Despachos</strong></h5>
+                            <h5>- Inclusão do botão <span class="label label-warning">Notificar</span> na área de despacho. Ao acionar esse botão, será enviado um e-mail a toda equipe do setor informando sobre a atualização na CI.</h5>
+                            <h5>- Alteração na ordem de despachos/encaminhamentos. Os últimos despachos aparecerão por primeiro assim como já ocorre na listagem das Comunicações Internas.</h5>
+                            <h5>- Cada Despacho mostrará as ciências dos destinatários que estão pendentes.</h5>
+                            <h5>- Inclusão do campo TAG para ser utilizado por palavras-chave inseridas na criação da CI para uma melhor busca por determinados assuntos na Comunicação Interna.</h5><br>
+                            <h4 style="color: #d35400;"><i>Para visualizar detalhes de Versões Anteriores, clique abaixo:</i></h4>
+                            <p><a href="index.php?r=site/versao" class="btn btn-warning" role="button">Histórico de Versões</a></p>
+                </div>
             </div>
         </div>
     </div>   

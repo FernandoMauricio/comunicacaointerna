@@ -30,7 +30,21 @@ $this->title = 'Documentação Eletrônica';
 
                 <div class="panel panel-primary">
                 <div class="panel-heading">
-                            <i class="glyphicon glyphicon-star-empty"></i> Versão 1.4 - (ATUALMENTE) - Publicado em 30/06/2016
+                            <i class="glyphicon glyphicon-star-empty"></i> Versão 1.5 - (ATUALMENTE) - Publicado em 22/08/2016
+                </div>
+                  <div class="panel-body">
+              <h4><strong style="color: #337ab7;">Implementações</strong></h4>
+                        <h5><i class="glyphicon glyphicon-tag"></i><strong> Área Gerencial / Listagem de Despachos</strong></h5>
+                            <h5>- Inclusão do botão <span class="label label-warning">Notificar</span> na área de despacho. Ao acionar esse botão, será enviado um e-mail a toda equipe do setor informando sobre a atualização na CI.</h5>
+                            <h5>- Alteração na ordem de despachos/encaminhamentos. Os últimos despachos aparecerão por primeiro assim como já ocorre na listagem das Comunicações Internas.</h5>
+                            <h5>- Cada Despacho mostrará as ciências dos destinatários que estão pendentes.</h5>
+                            <h5>- Inclusão do campo TAG para ser utilizado por palavras-chave inseridas na criação da CI para uma melhor busca por determinados assuntos na Comunicação Interna.</h5>
+                  </div>
+                </div>
+
+                <div class="panel panel-danger">
+                <div class="panel-heading">
+                            <i class="glyphicon glyphicon-folder-close"></i> Versão 1.4 - Publicado em 30/06/2016
                 </div>
                   <div class="panel-body">
               <h4><strong style="color: #337ab7;">Implementações</strong></h4>

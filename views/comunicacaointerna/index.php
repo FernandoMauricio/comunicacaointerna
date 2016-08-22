@@ -63,7 +63,7 @@ $gridColumns = [
 
                                         [
                                             'attribute' => 'com_titulo',
-                                            'width' => '50%',
+                                            'width' => '45%',
                                             'value' => function ($data) {
 
                                                 $session = Yii::$app->session;      
@@ -163,7 +163,7 @@ $gridColumns = [
     'beforeHeader'=>[
         [
             'columns'=>[
-                ['content'=>'Detalhes da Comunicação Interna - Criadas pelo Setor', 'options'=>['colspan'=>5, 'class'=>'text-center warning']], 
+                ['content'=>'Detalhes da Comunicação Interna - Criadas pelo Setor', 'options'=>['colspan'=>6, 'class'=>'text-center warning']], 
                 ['content'=>'Ações', 'options'=>['colspan'=>2, 'class'=>'text-center warning']], 
             ],
         ]
