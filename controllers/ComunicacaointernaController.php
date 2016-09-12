@@ -526,15 +526,6 @@ return $this->redirect(['index']);
             $session = Yii::$app->session;
             $model = $this->findModel($id);
 
-            //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
-            $destinocomunicacao = Destinocomunicacao::find()->where(['dest_codcomunicacao' => $_GET])->all();
-
-            $unidades = Destinocomunicacao::find()->select('dest_codcomunicacao')->where(['dest_codcomunicacao' => $_GET, 'dest_codunidadedest' => $session['sess_codunidade']])->all();
-                           foreach ($unidades as $unidade)
-                              {
-                               $dest_codcomunicacao  = $unidade["dest_codcomunicacao"];
-                              }
-
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_CORE, // leaner size using standard fonts
                 'content' => $this->renderPartial('imprimir'),
@@ -548,8 +539,18 @@ return $this->redirect(['index']);
                 ]
             ]);
 
+            //BUSCA NO BANCO SE EXISTE DESTINOS PARA A CI
+            $destinocomunicacao = Destinocomunicacao::find()->where(['dest_codcomunicacao' => $_GET])->all();
+
+            $unidades = Destinocomunicacao::find()->select('dest_codcomunicacao')->where(['dest_codcomunicacao' => $_GET, 'dest_codunidadedest' => $session['sess_codunidade']])->all();
+                           foreach ($unidades as $unidade)
+                              {
+                               $dest_codcomunicacao  = $unidade["dest_codcomunicacao"];
+                              }
+
+
             //Verifica se a unidade tem acesso a CI criada
-            if(isset($dest_codcomunicacao)){
+            if(isset($dest_codcomunicacao) || $model->com_codunidade == $session['sess_codunidade']){
 
                     return $pdf->render('imprimir', [
                         'model' => $this->findModel($id),
