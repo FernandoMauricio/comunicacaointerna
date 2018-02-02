@@ -139,8 +139,6 @@ class DestinocomunicacaoCircController extends Controller
             $encaminhamentos->dest_coddespacho = 0; // AGUARDANDO DESPACHO
             $encaminhamentos->dest_data = date('Y-m-d H:i:s');
 
-
-        
             //instacia um novo despacho
             $despachos = new Despachos();
             $despachos->deco_codcomunicacao = $model->dest_codcomunicacao;
@@ -153,7 +151,15 @@ class DestinocomunicacaoCircController extends Controller
             $despachos->deco_nomeusuario = $session['sess_nomeusuario'];
             $despachos->deco_cargo = $session['sess_cargo'];
 
-                                                                                
+$destinosNaCi="";
+
+        $unidadesJaInseridas = "SELECT * FROM `db_ci`.`destinocomunicacao_dest` WHERE `dest_codcomunicacao` = '".$model->dest_codcomunicacao."' ";
+        $destinosJaInseridos = DestinocomunicacaoEnc::findBySql($unidadesJaInseridas)->all();
+         foreach ($destinosJaInseridos as $destino) {
+            $destinosNaCi .= implode(", ",[$destino['dest_nomeunidadedest']]);
+            $destinosNaCi .= "', '";
+         }
+
          if ($despachos->load(Yii::$app->request->post()) && $despachos->save()) 
         {  
           
@@ -173,14 +179,16 @@ class DestinocomunicacaoCircController extends Controller
 
 if($DestinocomunicacaoEnc['dest_nomeunidadedest'] > 0) {
         //realiza a filtragem com o formato de array
-        $listagemUnidades = "SELECT * FROM `unidade_uni` WHERE `uni_nomeabreviado` IN('".implode("','",$DestinocomunicacaoEnc['dest_nomeunidadedest'])."')";
 
+        $listagemUnidades = "SELECT * FROM `unidade_uni` WHERE `uni_nomeabreviado` IN('".implode("','",$DestinocomunicacaoEnc['dest_nomeunidadedest'])."') OR `uni_nomeabreviado` IN('".$destinosNaCi."')  AND `uni_nomeabreviado` NOT LIKE '".$encaminhamentos->dest_nomeunidadeenvio."' ";
+       
                  $destinos = Unidades::findBySql($listagemUnidades)->all(); 
 
                 foreach ($destinos as $destino) {
 
                     $cod_unidade = $destino['uni_codunidade'];
                     $nomeUnidade = $destino['uni_nomeabreviado'];
+
 
         //seleciona somente as unidades escolhidas pelo usuário
         $sql_unidades = "SELECT * FROM `db_base`.`unidade_uni` INNER JOIN `db_ci`.`destinocomunicacao_dest` ON `db_base`.`unidade_uni`.`uni_codunidade` = `db_ci`.`destinocomunicacao_dest`.`dest_codunidadedest` WHERE `db_ci`.`destinocomunicacao_dest`.`dest_codcomunicacao` ='".$encaminhamentos->dest_codcomunicacao."' AND `db_ci`.`destinocomunicacao_dest`.`dest_nomeunidadedest` ='".$nomeUnidade."'";
@@ -190,8 +198,32 @@ if($DestinocomunicacaoEnc['dest_nomeunidadedest'] > 0) {
         $command = $connection->createCommand();
         $command->insert('db_ci.destinocomunicacao_dest', array('dest_codcomunicacao'=>$encaminhamentos->dest_codcomunicacao, 'dest_codcolaborador'=>$encaminhamentos->dest_codcolaborador, 'dest_codunidadeenvio'=>$encaminhamentos->dest_codunidadeenvio, 'dest_codunidadedest'=>$cod_unidade, 'dest_data'=>date('Y-m-d H:i:s'), 'dest_codtipo'=>3, 'dest_codsituacao'=>1, 'dest_coddespacho'=>0, 'dest_nomeunidadeenvio'=>$session['sess_unidade'],'dest_nomeunidadedest'=>$nomeUnidade ));
         $command->execute();
-           }
-       }
+        }
+    }
+
+if($DestinocomunicacaoEnc['dest_nomeunidadedest'] == 0) {
+        //realiza a filtragem com o formato de array
+
+        $listagemUnidades = "SELECT * FROM `unidade_uni` WHERE `uni_nomeabreviado` IN('".$destinosNaCi."')  AND `uni_nomeabreviado` NOT LIKE '".$encaminhamentos->dest_nomeunidadeenvio."' ";
+       
+                 $destinos = Unidades::findBySql($listagemUnidades)->all(); 
+
+                foreach ($destinos as $destino) {
+
+                    $cod_unidade = $destino['uni_codunidade'];
+                    $nomeUnidade = $destino['uni_nomeabreviado'];
+
+
+        //seleciona somente as unidades escolhidas pelo usuário
+        $sql_unidades = "SELECT * FROM `db_base`.`unidade_uni` INNER JOIN `db_ci`.`destinocomunicacao_dest` ON `db_base`.`unidade_uni`.`uni_codunidade` = `db_ci`.`destinocomunicacao_dest`.`dest_codunidadedest` WHERE `db_ci`.`destinocomunicacao_dest`.`dest_codcomunicacao` ='".$encaminhamentos->dest_codcomunicacao."' AND `db_ci`.`destinocomunicacao_dest`.`dest_nomeunidadedest` ='".$nomeUnidade."'";
+
+
+         //insert no banco das unidades da qual o usuário selecionou
+        $command = $connection->createCommand();
+        $command->insert('db_ci.destinocomunicacao_dest', array('dest_codcomunicacao'=>$encaminhamentos->dest_codcomunicacao, 'dest_codcolaborador'=>$encaminhamentos->dest_codcolaborador, 'dest_codunidadeenvio'=>$encaminhamentos->dest_codunidadeenvio, 'dest_codunidadedest'=>$cod_unidade, 'dest_data'=>date('Y-m-d H:i:s'), 'dest_codtipo'=>3, 'dest_codsituacao'=>1, 'dest_coddespacho'=>0, 'dest_nomeunidadeenvio'=>$session['sess_unidade'],'dest_nomeunidadedest'=>$nomeUnidade ));
+        $command->execute();
+        }
+    }
 
        //------------------DESTINOS QUE APENAS PODERÃO DÁ CIÊNCIA NA CI -- ENCAMINHAR COM CÓPIA PARA
 
