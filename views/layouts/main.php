@@ -72,7 +72,7 @@ AppAsset::register($this);
                     ['label' => 'Home', 'url' => 'index.php'],
                     ['label' => 'Criadas pelo Setor', 'url' => ['/comunicacaointerna/index']],
                     ['label' => 'Recebidas pelo Setor', 'url' => ['/destinocomunicacao-receb/index']],
-                    ['label' => 'Usuário (' . ucwords(strtolower($session['sess_nomeusuario'])) . ')',
+                    ['label' => 'Usuário (' . utf8_encode(ucwords(strtolower($session['sess_nomeusuario']))) . ')',
                 'items' => [
                  '<li class="dropdown-header">Área Usuário</li>',
                     ['label' => 'Alterar Senha', 'url' => ['usuario-usu/update', 'id' => $sess_codusuario]],

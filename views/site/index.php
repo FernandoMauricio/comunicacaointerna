@@ -27,14 +27,14 @@ $this->title = 'Documentação Eletrônica';
             <div class="body-content">
                 <div class="container">
                     
-                            <h3>Bem vindo(a), <?php echo $nome_user = ucwords(strtolower($nome_user))?>!</h3>
+                            <h3>Bem vindo(a), <?php echo $nome_user = utf8_encode(ucwords(strtolower($nome_user)))?>!</h3>
 
                             <?php
 
                             if($_SESSION['sess_responsavelsetor'] == 1 AND $checar_ci > 0){
 
                             ?>
-                            <div class="alert alert-danger" role="alert"><strong><?php echo $nome_user = ucwords(strtolower($nome_user)) . ",</strong>"?> você tem <?php echo $checar_ci ?> despacho(os) pendente(es). Para visualizar, <a href="http://portalsenac.am.senac.br/comunicacaointerna/web/index.php?r=destinocomunicacao-circ%2Findex" class="alert-link">clique aqui.</a></div>
+                            <div class="alert alert-danger" role="alert"><strong><?php echo $nome_user = utf8_encode(ucwords(strtolower($nome_user))) . ",</strong>"?> você tem <?php echo $checar_ci ?> despacho(os) pendente(es). Para visualizar, <a href="http://portalsenac.am.senac.br/comunicacaointerna/web/index.php?r=destinocomunicacao-circ%2Findex" class="alert-link">clique aqui.</a></div>
                             
                             <?php
                                  }       

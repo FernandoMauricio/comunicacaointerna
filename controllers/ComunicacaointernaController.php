@@ -119,6 +119,7 @@ class ComunicacaointernaController extends Controller
                 //$session = Yii::$app->session;
                 $model->com_codcolaborador= $session['sess_codcolaborador'];
                 $model->com_codunidade= $session['sess_codunidade'];
+                $model->com_datasolicitacao = date('Y-m-d H:i:s');
 
                 if ($session['sess_responsavelsetor'] == 0){
 
@@ -134,7 +135,6 @@ class ComunicacaointernaController extends Controller
 
                 if ($model->load(Yii::$app->request->post()) && $model->save())
                 {
-                    $model->com_datasolicitacao = date('Y-m-d H:i:s');
 
                     $model->save();
 
@@ -291,7 +291,7 @@ if($Destinocomunicacao['dest_nomeunidadedestCopia'] > 0) {
 
                                         if(!file_exists($subdiretorio))
                                                 {
-                                                  if(!mkdir($subdiretorio));
+                                                  if(!mkdir($subdiretorio, 0777, true));
                                                 }
                                                         if ($model->file && $model->validate()) {
                                                             foreach ($model->file as $file)
@@ -310,21 +310,21 @@ if($Destinocomunicacao['dest_nomeunidadedestCopia'] > 0) {
                             $model->save();
 
          //ENVIANDO EMAIL PARA O GERENTE INFORMANDO SOBRE A CI PENDENTE DE AUTORIZAÇÃO
-          $sql_email = "SELECT emus_email FROM emailusuario_emus, colaborador_col, responsavelambiente_ream WHERE ream_codunidade = '".$model->com_codunidade."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = emus_codusuario";
+      //     $sql_email = "SELECT emus_email FROM emailusuario_emus, colaborador_col, responsavelambiente_ream WHERE ream_codunidade = '".$model->com_codunidade."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = emus_codusuario";
       
-      $email_autorizacao = Emailusuario::findBySql($sql_email)->all(); 
-      foreach ($email_autorizacao as $email)
-          {
-            $email_gerente  = $email["emus_email"];
+      // $email_autorizacao = Emailusuario::findBySql($sql_email)->all(); 
+      // foreach ($email_autorizacao as $email)
+      //     {
+      //       $email_gerente  = $email["emus_email"];
 
-                            Yii::$app->mailer->compose()
-                            ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
-                            ->setTo($email_gerente)
-                            ->setSubject('CI Aguardando Autorização')
-                            ->setTextBody('Existe uma CI de código: '.$id.' aguardando sua autorização')
-                            ->setHtmlBody('<h4>Prezado(a) Gerente, <br><br>Existe uma Comunicação Interna de <strong style="color: #337ab7"">código: '.$id.'</strong> aguardando sua autorização. <br> Por favor, não responda esse e-mail. Acesse http://portalsenac.am.senac.br para AUTORIZAR a CI. <br><br> Atenciosamente, <br> Sistema Gerenciador de Documentação Eletrônica.</h4>')
-                            ->send();
-                        }        
+      //                       Yii::$app->mailer->compose()
+      //                       ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
+      //                       ->setTo($email_gerente)
+      //                       ->setSubject('CI Aguardando Autorização')
+      //                       ->setTextBody('Existe uma CI de código: '.$id.' aguardando sua autorização')
+      //                       ->setHtmlBody('<h4>Prezado(a) Gerente, <br><br>Existe uma Comunicação Interna de <strong style="color: #337ab7"">código: '.$id.'</strong> aguardando sua autorização. <br> Por favor, não responda esse e-mail. Acesse http://portalsenac.am.senac.br para AUTORIZAR a CI. <br><br> Atenciosamente, <br> Sistema Gerenciador de Documentação Eletrônica.</h4>')
+      //                       ->send();
+      //                   }        
                         }else{
 
                             $model->com_codsituacao = 4;
@@ -343,46 +343,46 @@ if($Destinocomunicacao['dest_nomeunidadedestCopia'] > 0) {
          //CRIANDO ARRAY COM SETORES PARTICIPANTES DA CI....
          //
          //
-          $manda_email = 0;
-          $unidade_destino = "";
-          $sql_unidade_destino = "SELECT dest_codunidadedest,dest_nomeunidadedest,dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = ".$model->com_codcomunicacao;
+          // $manda_email = 0;
+          // $unidade_destino = "";
+          // $sql_unidade_destino = "SELECT dest_codunidadedest,dest_nomeunidadedest,dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = ".$model->com_codcomunicacao;
 
-          $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
-                 foreach ($unidades as $unidade)
-                    {
-                     $unidade_destino  = $unidade["dest_codunidadedest"];
-                     $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
-                     $nomeunidade_destinoCopia  = $unidade["dest_nomeunidadedestCopia"];
+          // $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
+          //        foreach ($unidades as $unidade)
+          //           {
+          //            $unidade_destino  = $unidade["dest_codunidadedest"];
+          //            $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
+          //            $nomeunidade_destinoCopia  = $unidade["dest_nomeunidadedestCopia"];
                    
 
-          $sql_email_unidade = "SELECT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
+          // $sql_email_unidade = "SELECT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
       
-                          $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all(); 
-                          foreach ($email_unidades as $email_unidade)
-                                       {
-                                         $email_unidade_gerente  = $email_unidade["emus_email"];
+          //                 $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all(); 
+          //                 foreach ($email_unidades as $email_unidade)
+          //                              {
+          //                                $email_unidade_gerente  = $email_unidade["emus_email"];
 
-                                                Yii::$app->mailer->compose()
-                                                ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
-                                                ->setTo($email_unidade_gerente)
-                                                ->setSubject('CI '.$id. ' Aguardando Despacho - ' .$nomeunidade_destino .$nomeunidade_destinoCopia)
-                                                ->setTextBody('Existe uma CI de código: '.$id.' aguardando seu despacho')
-                                                ->setHtmlBody('<p>Prezado(a)&nbsp;Gerente,</p>
+          //                                       Yii::$app->mailer->compose()
+          //                                       ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
+          //                                       ->setTo($email_unidade_gerente)
+          //                                       ->setSubject('CI '.$id. ' Aguardando Despacho - ' .$nomeunidade_destino .$nomeunidade_destinoCopia)
+          //                                       ->setTextBody('Existe uma CI de código: '.$id.' aguardando seu despacho')
+          //                                       ->setHtmlBody('<p>Prezado(a)&nbsp;Gerente,</p>
 
-                                                <p>Existe uma Comunica&ccedil;&atilde;o Interna <span style="color:#337AB7">'.$id.' </span>aguardando seu despacho. Abaixo, segue algumas informa&ccedil;&otilde;es; :</p>
+          //                                       <p>Existe uma Comunica&ccedil;&atilde;o Interna <span style="color:#337AB7">'.$id.' </span>aguardando seu despacho. Abaixo, segue algumas informa&ccedil;&otilde;es; :</p>
 
-                                                <p><strong>T&iacute;tulo: </strong><span style="color:#337AB7">'. $model->com_titulo .'</span></p>
+          //                                       <p><strong>T&iacute;tulo: </strong><span style="color:#337AB7">'. $model->com_titulo .'</span></p>
 
-                                                <p><strong>Autorizado Por: </strong><span style="color:#337AB7">'. $model->colaborador->usuario->usu_nomeusuario .'</span></p>
+          //                                       <p><strong>Autorizado Por: </strong><span style="color:#337AB7">'. $model->colaborador->usuario->usu_nomeusuario .'</span></p>
 
-                                                <p><strong>Data/Hora</strong>:&nbsp;<span style="color:#337AB7">'. date('d/m/Y H:i', strtotime($model->com_dataautorizacao)) .'</span></p>
+          //                                       <p><strong>Data/Hora</strong>:&nbsp;<span style="color:#337AB7">'. date('d/m/Y H:i', strtotime($model->com_dataautorizacao)) .'</span></p>
 
-                                                ')
-                                                ->send();
+          //                                       ')
+          //                                       ->send();
 
-                                       }
-                $manda_email++;
-            }
+          //                              }
+          //       $manda_email++;
+          //   }
 
 
                         }
@@ -433,47 +433,47 @@ if($Destinocomunicacao['dest_nomeunidadedestCopia'] > 0) {
     $command->execute();
 
          //ENVIO DE E-MAIL PARA OS GERENTES RETIRANDO A DUPLICIDADE DO ENVIO INFORMANDO SOBRE O ENCERRAMENTO
-          $sql_unidade_destino = "SELECT DISTINCT dest_nomeunidadedest,dest_codcomunicacao,dest_codunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = ".$model->com_codcomunicacao;
+          // $sql_unidade_destino = "SELECT DISTINCT dest_nomeunidadedest,dest_codcomunicacao,dest_codunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = ".$model->com_codcomunicacao;
 
-                 $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
-                 foreach ($unidades as $unidade)
-                    {
-                     $id_ci  = $unidade["dest_codcomunicacao"];
-                     $unidade_destino  = $unidade["dest_codunidadedest"];
-                     $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
-                     $id_usuarioEncerramento = $unidade["dest_codcolaborador"];
+          //        $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
+          //        foreach ($unidades as $unidade)
+          //           {
+          //            $id_ci  = $unidade["dest_codcomunicacao"];
+          //            $unidade_destino  = $unidade["dest_codunidadedest"];
+          //            $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
+          //            $id_usuarioEncerramento = $unidade["dest_codcolaborador"];
 
 
-                $sql_email_unidade = "SELECT DISTINCT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
+          //       $sql_email_unidade = "SELECT DISTINCT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
       
-                          $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all();
-                          foreach ($email_unidades as $email_unidade)
-                                       {
-                                         $email_unidade_gerente  = $email_unidade["emus_email"];
+          //                 $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all();
+          //                 foreach ($email_unidades as $email_unidade)
+          //                              {
+          //                                $email_unidade_gerente  = $email_unidade["emus_email"];
 
-                                                Yii::$app->mailer->compose()
-                                                ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
-                                                ->setTo($email_unidade_gerente)
-                                                ->setSubject('CI '.$id_ci. ' ENCERRADA - ' .$nomeunidade_destino)
-                                                ->setTextBody('A Comunicação Interna de código: '.$id_ci.' foi ENCERRADA!')
-                                                ->setHtmlBody('<p>Prezado(a), Gerente</p>
+          //                                       Yii::$app->mailer->compose()
+          //                                       ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
+          //                                       ->setTo($email_unidade_gerente)
+          //                                       ->setSubject('CI '.$id_ci. ' ENCERRADA - ' .$nomeunidade_destino)
+          //                                       ->setTextBody('A Comunicação Interna de código: '.$id_ci.' foi ENCERRADA!')
+          //                                       ->setHtmlBody('<p>Prezado(a), Gerente</p>
 
-                                                <p>A Comunica&ccedil;&atilde;o Interna de c&oacute;digo <span style="color:#337AB7"><strong>'.$id_ci.'</strong></span> foi ENCERRADA:</p>
+          //                                       <p>A Comunica&ccedil;&atilde;o Interna de c&oacute;digo <span style="color:#337AB7"><strong>'.$id_ci.'</strong></span> foi ENCERRADA:</p>
 
-                                                <p><strong>Respons&aacute;vel pelo Encerramento</strong>:<span style="color:#337AB7"><strong> '.$model->com_usuarioEncerramento.'</strong></span></p>
+          //                                       <p><strong>Respons&aacute;vel pelo Encerramento</strong>:<span style="color:#337AB7"><strong> '.$model->com_usuarioEncerramento.'</strong></span></p>
 
-                                                <p><strong>Data do Encerramento</strong>: <span style="color:#337AB7"><strong> '.date('d/m/Y H:i', strtotime($model->com_dataEncerramento)).'</strong></span></p>
+          //                                       <p><strong>Data do Encerramento</strong>: <span style="color:#337AB7"><strong> '.date('d/m/Y H:i', strtotime($model->com_dataEncerramento)).'</strong></span></p>
 
-                                                <p><i><strong>Por favor, n&atilde;o responda esse e-mail. Acesse http://portalsenac.am.senac.br</strong></i></p>
+          //                                       <p><i><strong>Por favor, n&atilde;o responda esse e-mail. Acesse http://portalsenac.am.senac.br</strong></i></p>
 
-                                                <p>Atenciosamente,&nbsp;</p>
+          //                                       <p>Atenciosamente,&nbsp;</p>
 
-                                                <p>Sistema Gerenciador de Documentação Eletrônica</p>')
-                                                ->send();
+          //                                       <p>Sistema Gerenciador de Documentação Eletrônica</p>')
+          //                                       ->send();
             
-                      }
+          //             }
 
-           }
+          //  }
 
     Yii::$app->session->setFlash('success', '<strong>SUCESSO! </strong> Comunicação Interna de código: ' . '<strong>' .$model->com_codcomunicacao. '</strong> foi <strong>ENCERRADA!</strong>');
      

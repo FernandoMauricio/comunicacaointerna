@@ -274,42 +274,42 @@ if($DestinocomunicacaoEnc['dest_nomeunidadedestCopia'] > 0) {
          //
          //
          //ENVIO DE E-MAIL PARA OS GERENTES RETIRANDO A DUPLICIDADE DO ENVIO NO ENVIO CASO ALGUM GERENTE NÃO TENHA DESPACHADO
-          $sql_unidade_destino = "SELECT DISTINCT dest_nomeunidadedest,dest_codcomunicacao,dest_codunidadedest FROM destinocomunicacao_dest WHERE dest_codtipo = '3' AND dest_codsituacao = '2' AND dest_codcomunicacao = ".$model->dest_codcomunicacao;
+          // $sql_unidade_destino = "SELECT DISTINCT dest_nomeunidadedest,dest_codcomunicacao,dest_codunidadedest FROM destinocomunicacao_dest WHERE dest_codtipo = '3' AND dest_codsituacao = '2' AND dest_codcomunicacao = ".$model->dest_codcomunicacao;
 
-                 $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
-                 foreach ($unidades as $unidade)
-                    {
-                     $id_ci  = $unidade["dest_codcomunicacao"];
-                     $unidade_destino  = $unidade["dest_codunidadedest"];
-                     $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
+          //        $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
+          //        foreach ($unidades as $unidade)
+          //           {
+          //            $id_ci  = $unidade["dest_codcomunicacao"];
+          //            $unidade_destino  = $unidade["dest_codunidadedest"];
+          //            $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
                    
                   
-                $sql_email_unidade = "SELECT DISTINCT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
+          //       $sql_email_unidade = "SELECT DISTINCT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
       
-                          $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all();
-                          foreach ($email_unidades as $email_unidade)
-                                       {
-                                         $email_unidade_gerente  = $email_unidade["emus_email"];
+          //                 $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all();
+          //                 foreach ($email_unidades as $email_unidade)
+          //                              {
+          //                                $email_unidade_gerente  = $email_unidade["emus_email"];
 
-                                                Yii::$app->mailer->compose()
-                                                ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
-                                                ->setTo($email_unidade_gerente)
-                                                ->setSubject('CI '.$id_ci. ' Aguardando Despacho - ' .$nomeunidade_destino)
-                                                ->setTextBody('Existe uma CI de código: '.$id_ci.' aguardando seu despacho')
-                                                ->setHtmlBody('<p>Prezado(a)&nbsp;Gerente,</p>
+          //                                       Yii::$app->mailer->compose()
+          //                                       ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
+          //                                       ->setTo($email_unidade_gerente)
+          //                                       ->setSubject('CI '.$id_ci. ' Aguardando Despacho - ' .$nomeunidade_destino)
+          //                                       ->setTextBody('Existe uma CI de código: '.$id_ci.' aguardando seu despacho')
+          //                                       ->setHtmlBody('<p>Prezado(a)&nbsp;Gerente,</p>
 
-                                                <p>Existe uma Comunica&ccedil;&atilde;o Interna <span style="color:#337AB7">'.$id_ci.' </span>aguardando seu despacho. Abaixo, segue o respons&aacute;vel que realizou o o&nbsp;&uacute;ltimo despacho:</p>
+          //                                       <p>Existe uma Comunica&ccedil;&atilde;o Interna <span style="color:#337AB7">'.$id_ci.' </span>aguardando seu despacho. Abaixo, segue o respons&aacute;vel que realizou o o&nbsp;&uacute;ltimo despacho:</p>
 
-                                                <p><strong>Despachado por: </strong><span style="color:#337AB7">'.$despachos->deco_nomeusuario.'</span></p>
+          //                                       <p><strong>Despachado por: </strong><span style="color:#337AB7">'.$despachos->deco_nomeusuario.'</span></p>
 
-                                                <p><strong>Data/Hora</strong>:&nbsp;<span style="color:#337AB7">'.date('d/m/Y H:i', strtotime($despachos->deco_data)).'</span></p>
+          //                                       <p><strong>Data/Hora</strong>:&nbsp;<span style="color:#337AB7">'.date('d/m/Y H:i', strtotime($despachos->deco_data)).'</span></p>
 
-                                                ')
-                                                ->send();
+          //                                       ')
+          //                                       ->send();
             
-                      }
+          //             }
 
-           }
+          //  }
 
             if($despachos->save()){
 
@@ -434,42 +434,42 @@ if($DestinocomunicacaoEnc['dest_nomeunidadedestCopia'] > 0) {
          //
          //
          //ENVIO DE E-MAIL PARA OS GERENTES RETIRANDO A DUPLICIDADE DO ENVIO NO ENVIO CASO ALGUM GERENTE NÃO TENHA DESPACHADO
-          $sql_unidade_destino = "SELECT DISTINCT dest_nomeunidadedest,dest_codcomunicacao,dest_codunidadedest FROM destinocomunicacao_dest WHERE dest_codtipo = '2' AND dest_codsituacao = '2' AND dest_codcomunicacao = ".$model->dest_codcomunicacao." OR dest_codtipo = '3' AND dest_codsituacao = '2' AND dest_codcomunicacao = ".$model->dest_codcomunicacao;
+          // $sql_unidade_destino = "SELECT DISTINCT dest_nomeunidadedest,dest_codcomunicacao,dest_codunidadedest FROM destinocomunicacao_dest WHERE dest_codtipo = '2' AND dest_codsituacao = '2' AND dest_codcomunicacao = ".$model->dest_codcomunicacao." OR dest_codtipo = '3' AND dest_codsituacao = '2' AND dest_codcomunicacao = ".$model->dest_codcomunicacao;
 
-                 $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
-                 foreach ($unidades as $unidade)
-                    {
-                     $id_ci  = $unidade["dest_codcomunicacao"];
-                     $unidade_destino  = $unidade["dest_codunidadedest"];
-                     $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
+          //        $unidades = Destinocomunicacao::findBySql($sql_unidade_destino)->all();
+          //        foreach ($unidades as $unidade)
+          //           {
+          //            $id_ci  = $unidade["dest_codcomunicacao"];
+          //            $unidade_destino  = $unidade["dest_codunidadedest"];
+          //            $nomeunidade_destino  = $unidade["dest_nomeunidadedest"];
                    
                   
-                $sql_email_unidade = "SELECT DISTINCT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
+          //       $sql_email_unidade = "SELECT DISTINCT `db_base`.`emailusuario_emus`.`emus_email` FROM `db_base`.`usuario_usu`, `db_base`.`emailusuario_emus`, `db_base`.`responsavelambiente_ream`, `db_base`.`colaborador_col` WHERE ream_codunidade = '".$unidade_destino."' AND ream_codcolaborador = col_codcolaborador AND col_codusuario = usu_codusuario and usu_codusuario = emus_codusuario";  
       
-                          $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all();
-                          foreach ($email_unidades as $email_unidade)
-                                       {
-                                         $email_unidade_gerente  = $email_unidade["emus_email"];
+          //                 $email_unidades = Emailusuario::findBySql($sql_email_unidade)->all();
+          //                 foreach ($email_unidades as $email_unidade)
+          //                              {
+          //                                $email_unidade_gerente  = $email_unidade["emus_email"];
 
-                                                Yii::$app->mailer->compose()
-                                                ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
-                                                ->setTo($email_unidade_gerente)
-                                                ->setSubject('CI '.$id_ci. ' Aguardando Despacho - ' .$nomeunidade_destino)
-                                                ->setTextBody('Existe uma CI de código: '.$id_ci.' aguardando seu despacho')
-                                                ->setHtmlBody('<p>Prezado(a)&nbsp;Gerente,</p>
+          //                                       Yii::$app->mailer->compose()
+          //                                       ->setFrom(['gde@am.senac.br' => 'Documentação Eletrônica'])
+          //                                       ->setTo($email_unidade_gerente)
+          //                                       ->setSubject('CI '.$id_ci. ' Aguardando Despacho - ' .$nomeunidade_destino)
+          //                                       ->setTextBody('Existe uma CI de código: '.$id_ci.' aguardando seu despacho')
+          //                                       ->setHtmlBody('<p>Prezado(a)&nbsp;Gerente,</p>
 
-                                                <p>Existe uma Comunica&ccedil;&atilde;o Interna <span style="color:#337AB7">'.$id_ci.' </span>aguardando seu despacho. Abaixo, segue o respons&aacute;vel que realizou o o&nbsp;&uacute;ltimo despacho:</p>
+          //                                       <p>Existe uma Comunica&ccedil;&atilde;o Interna <span style="color:#337AB7">'.$id_ci.' </span>aguardando seu despacho. Abaixo, segue o respons&aacute;vel que realizou o o&nbsp;&uacute;ltimo despacho:</p>
 
-                                                <p><strong>Despachado por: </strong><span style="color:#337AB7">'.$despachos->deco_nomeusuario.'</span></p>
+          //                                       <p><strong>Despachado por: </strong><span style="color:#337AB7">'.$despachos->deco_nomeusuario.'</span></p>
 
-                                                <p><strong>Data/Hora</strong>:&nbsp;<span style="color:#337AB7">'.date('d/m/Y H:i', strtotime($despachos->deco_data)).'</span></p>
+          //                                       <p><strong>Data/Hora</strong>:&nbsp;<span style="color:#337AB7">'.date('d/m/Y H:i', strtotime($despachos->deco_data)).'</span></p>
 
-                                                ')
-                                                ->send();
+          //                                       ')
+          //                                       ->send();
             
-                                  }
+          //                         }
 
-                        }
+          //               }
 
                 $despachos->save();
 
@@ -502,7 +502,7 @@ public function actionNotificar($id)
                                   `db_base`.colaborador_col,
                                   `db_base`.usuario_usu
                                 WHERE
-                                 `colaborador_col`.`col_codusuario` = `emailusuario_emus`.`emus_codusuario` AND `colaborador_col`.`col_codusuario` = `usuario_usu`.`usu_codusuario` AND `colaborador_col`.`col_codunidade` = "'.$session['sess_codunidade'].'" AND `usuario_usu`.`usu_codsituacao` = 1 AND `colaborador_col`.`col_codcargo` NOT LIKE 5';
+                                 `colaborador_col`.`col_codusuario` = `emailusuario_emus`.`emus_codusuario` AND `colaborador_col`.`col_codusuario` = `usuario_usu`.`usu_codusuario` AND `colaborador_col`.`col_codunidade` = "'.$session['sess_codunidade'].'" AND `usuario_usu`.`usu_codsituacao` = 1 AND  `colaborador_col`.`col_codsituacao` = 1 AND `colaborador_col`.`col_codcargo` NOT LIKE 5';
       
                           $emails_equipe = Emailusuario::findBySql($sql_email_equipe)->all();
                           foreach ($emails_equipe as $email_equipe)
