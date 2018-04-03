@@ -74,6 +74,7 @@ $gridColumns = [
 
                                 [
                                 'attribute' => 'dest_nomeunidadeenvio',
+                                'value' => 'comunicacaointerna.unidades.uni_nomeabreviado',
                                 'options' => ['width' => '5%'],
                                 ],
 

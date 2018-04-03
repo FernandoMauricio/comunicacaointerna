@@ -43,7 +43,8 @@ class DestinocomunicacaoCircSearch extends Destinocomunicacao
     public function search($params)
     {
         $query = Destinocomunicacao::find()
-        ->orderBy(['dest_coddestino' => SORT_DESC]);
+        ->groupBy(['dest_codcomunicacao'])
+        ->orderBy(['dest_coddestino' => SORT_DESC])->distinct();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

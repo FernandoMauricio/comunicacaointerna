@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 $this->title = 'Documentação Eletrônica';
 
             //BUSCA NO BANCO SE EXISTE CI PENDENTE DE DESPACHO
-            $sql = "SELECT * FROM `destinocomunicacao_dest` LEFT JOIN `comunicacaointerna_com` ON `destinocomunicacao_dest`.`dest_codcomunicacao` = `comunicacaointerna_com`.`com_codcomunicacao` WHERE (((`comunicacaointerna_com`.`com_codsituacao`=4) AND (`dest_codunidadedest`='".$cod_unidade."')) AND (`dest_codtipo` IN (2, 3,4))) AND (`dest_codsituacao`=2)";
+            $sql = "SELECT * FROM `destinocomunicacao_dest` LEFT JOIN `comunicacaointerna_com` ON `destinocomunicacao_dest`.`dest_codcomunicacao` = `comunicacaointerna_com`.`com_codcomunicacao` WHERE `comunicacaointerna_com`.`com_codsituacao`=4 AND `dest_codunidadedest`='".$cod_unidade."' AND `dest_codtipo` IN (2,3,4) AND `dest_codsituacao`=2 GROUP BY `dest_codcomunicacao`";
             $checar_ci = Destinocomunicacao::findBySql($sql)->count(); 
 
             //BUSCA NO BANCO SE EXISTE CI PENDENTE DE AUTORIZAÇÃO
