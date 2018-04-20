@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 use app\models\Comunicacaointerna;
 use app\models\Destinocomunicacao;
 use app\models\DestinocomunicacaoEnc;
+use app\models\Unidades;
 use app\models\Despachos;
 use app\models\Cargos_car;
 use app\models\Colaborador;
@@ -13,7 +14,7 @@ use yii\helpers\Url;
 
 //RESGATANDO AS INFORMAÇÕES DA CI
 $dest_coddestino = $model->dest_coddestino;
-$unidade_solicitante =  $model->comunicacaointerna->unidades->uni_nomeabreviado;
+$unidade_solicitante = $model->comunicacaointerna->unidades->uni_nomeabreviado;
 $dest_nomeunidadedest =  $model->dest_nomeunidadedest;
 $dest_codcomunicacao = $model->dest_codcomunicacao;
 $com_codcomunicacao = $model->comunicacaointerna->com_codcomunicacao;
@@ -21,7 +22,7 @@ $com_codsituacao = $model->comunicacaointerna->situacao->sitco_situacao1;
 $datasolicitacao = $model->comunicacaointerna->com_datasolicitacao;
 $com_titulo = $model->comunicacaointerna->com_titulo;
 $com_texto = $model->comunicacaointerna->com_texto;
-$com_codcolaboradorautorizacao = $model->comunicacaointerna->colaboradorAutorizacao->usuario->usu_nomeusuario;
+$com_codcolaboradorautorizacao = isset($model->comunicacaointerna->colaboradorAutorizacao->usuario->usu_nomeusuario);
 $com_codcargoautorizacao = $model->comunicacaointerna->cargo->car_cargo;
 $com_dataautorizacao = $model->comunicacaointerna->com_dataautorizacao;
 $com_codtipo = $model->comunicacaointerna->com_codtipo;
@@ -49,19 +50,10 @@ $session = Yii::$app->session;
 
      $contador = 0;
      $destinatariosCopia = "";
-     $sqlCopia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 4 AND dest_coddespacho = 0";
+     $dest_codsituacao = "";
+     $sqlCopia = "SELECT * FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 4 AND dest_coddespacho = 0";
 
        $modelCopia = Destinocomunicacao::findBySql($sqlCopia)->all(); 
-
-      foreach ($modelCopia as $modelsCopia) {
-         if($contador == 0){
-              $destinatariosCopia = $modelsCopia['dest_nomeunidadedestCopia'];  
-       }else
-            $destinatariosCopia = $destinatariosCopia."<br>".$modelsCopia['dest_nomeunidadedestCopia'];
-          
-       $contador ++; 
-     }  
-
 ?>
 
 <?php
@@ -132,11 +124,17 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
     <td width="41%" scope="col"><div align="center"><?php echo $unidade_solicitante ?></div></td>
     <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?><br><br>
-     <?php if($contador != 0)
-         {
-       ?>
-      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Cópia Para:</strong><br>
-      <?php echo $destinatariosCopia; ?></em> 
+      <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+
+        <em><strong>Cópia Para:</strong><br>
+     <?php foreach ($modelCopia as $modelsCopia) { ?>
+          <?php echo $modelsCopia['dest_nomeunidadedestCopia'].' - ' ?>
+          <?php if($modelsCopia['dest_codsituacao'] == 3): ?> 
+           <span class="badge badge-success" style="background-color:green; font-size:8px">Ciente</span> <br>
+          <?php else: ?> 
+            <span class="badge badge-success" style="background-color:red; font-size:8px">Pendente</span><br>
+        </em> 
+      <?php endif; ?>
       <?php } ?>
       </font></div></td>
   <tr>
@@ -146,19 +144,19 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <p class="anexos">ANEXOS - - - - - - - - - - - - - - -  - - -<br />
       <?php
 //GET ANEXOS
-    if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
-    if (isset($files[0])) {
-        foreach ($files as $index => $file) {
-            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
-  {
-    echo '***************** Arquivos Confidenciais';
-  }else{
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ;
-          }
-      } 
-    }
-  }
+  //   if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
+  //   if (isset($files[0])) {
+  //       foreach ($files as $index => $file) {
+  //           $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+  // if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+  // {
+  //   echo '***************** Arquivos Confidenciais';
+  // }else{
+  //           echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ;
+  //         }
+  //     } 
+  //   }
+  // }
 
 ?>
     </p>
@@ -175,11 +173,10 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <th height="51" colspan="3" scope="col">DESPACHOS E ENCAMINHAMENTOS</th>
   </tr>
   <?php
-  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$dest_codcomunicacao."' AND deco_codsituacao = 2 order by deco_coddespacho desc";
+  $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$dest_codcomunicacao."' AND deco_codsituacao = 2 AND deco_despacho != 'Ciente.' order by deco_coddespacho desc";
   $modelDespacho = Despachos::findBySql($sql6)->all(); 
   foreach ($modelDespacho as $models) {
      
-
      $unidade_despachante = "";
      $nome_despachante = "";
      $deco_coddespacho = $models["deco_coddespacho"];
@@ -257,55 +254,38 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
       <?php echo $nome_unidade_encaminharCopia ?></em> 
       <?php } ?>
       </font></div></td>
-
-
   <tr>
 
     <td colspan="3"><p>&nbsp;</p><p><?php echo $deco_despacho ?></p>
     <p>&nbsp;</p>
-    <p class="anexos"><i class="glyphicon glyphicon-remove"></i> UNIDADES PENDENTES - CIÊNCIAS DO DESPACHO:</p>
-
-    <?php
-
-      $query_pendentesCiencia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$dest_codcomunicacao."' AND dest_codtipo = 4 AND dest_codsituacao = 2 AND dest_coddespacho = '".$deco_coddespacho."'";
-      $pendenteCiencia = Destinocomunicacao::findBySql($query_pendentesCiencia)->all(); 
-      foreach ($pendenteCiencia as $pendentesCiencia) {
-
-       $PendentesCiencia = $pendentesCiencia["dest_nomeunidadedestCopia"];
-    ?>
-
-     <p><?php echo $PendentesCiencia ?></p>
-     <?php } ?>
-     <p>&nbsp;</p>
-    
 
     <p class="anexos"><i class="glyphicon glyphicon-file"></i> ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
       <?php
-           $sql_destino = "SELECT DISTINCT dest_coddespacho FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 3";
+//            $sql_destino = "SELECT DISTINCT dest_coddespacho FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 3";
 
-      $destino = Destinocomunicacao::findBySql($sql_destino)->all(); 
+//       $destino = Destinocomunicacao::findBySql($sql_destino)->all(); 
 
-      foreach ($destino as $destinos) {
+//       foreach ($destino as $destinos) {
 
-        $dest_coddespacho = $destinos["dest_coddespacho"];
+//         $dest_coddespacho = $destinos["dest_coddespacho"];
 
-//GET ANEXOS
-      if($deco_coddespacho == $dest_coddespacho){
-    $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
-    if (isset($files[0])) {
-        foreach ($files as $index => $file) {
-            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+// //GET ANEXOS
+//       if($deco_coddespacho == $dest_coddespacho){
+//     $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
+//     if (isset($files[0])) {
+//         foreach ($files as $index => $file) {
+//             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
             
-  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
-  {
-    echo '***************** Arquivos Confidenciais';
-  }else{
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>";
-          }
-        }
-       }
-       }
-     }
+//   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+//   {
+//     echo '***************** Arquivos Confidenciais';
+//   }else{
+//             echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>";
+//           }
+//         }
+//        }
+//        }
+//      }
     ?>
     </p>
         <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
