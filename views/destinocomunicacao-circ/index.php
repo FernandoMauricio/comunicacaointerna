@@ -75,20 +75,20 @@ $gridColumns = [
                                 [
                                 'attribute' => 'dest_nomeunidadeenvio',
                                 'value' => 'comunicacaointerna.unidades.uni_nomeabreviado',
-                                'options' => ['width' => '5%'],
+                                'options' => ['width' => '15%'],
                                 ],
 
                                 [
                                     'attribute'=>'tipo', 
                                     'vAlign'=>'middle',
-                                    'options' => ['width' => '10%'],
+                                    'options' => ['width' => '7%'],
                                     'value'=>function ($model, $key, $index, $widget) { 
                                         return Html::a($model->comunicacaointerna->comCodtipo->tipdo_tipo);
                                     },
                                     'filterType'=>GridView::FILTER_SELECT2,
                                     'filter'=>ArrayHelper::map(TipodocumentacaoTipdo::find()->orderBy('tipdo_codtipo')->asArray()->all(), 'tipdo_tipo', 'tipdo_tipo'), 
                                     'filterWidgetOptions'=>[
-                                        'pluginOptions'=>['allowClear'=>true, 'width' => '100px'],
+                                        'pluginOptions'=>['allowClear'=>true, 'width' => '120px'],
                                     ],
                                     'filterInputOptions'=>['placeholder'=>'Tipo'],
                                     'format'=>'raw'
@@ -124,7 +124,7 @@ $gridColumns = [
 
                                 ['class' => 'yii\grid\ActionColumn',
                                 'template' => '{update} {autoresp} {notificar}',
-                                'options' => ['width' => '25%'],
+                                'options' => ['width' => '15%'],
                                 'buttons' => [
 
                                 //DESPACHAR BUTTON
@@ -137,8 +137,8 @@ $gridColumns = [
                                 },
 
                                 //RESPONDER "CIENTE" COM UM CLIQUE
-                                'autoresp' => function ($url, $despachos) {
-                                    return Html::a('<span class="glyphicon glyphicon-ok"></span> Ciente', $url, [
+                                'autoresp' => function ($url, $model) {
+                                    return $model->dest_codtipo == 4 ? Html::a('<span class="glyphicon glyphicon-ok"></span> Dar Ciência', $url, [
                                                 'class'=>'btn btn-success btn-xs',
                                                 'title' => Yii::t('app', 'Inserir Resposta Automática'),
                                                 'data' => [
@@ -146,7 +146,7 @@ $gridColumns = [
                                                                 'method' => 'post',
                                                             ],
 
-                                    ]);
+                                    ]): '';
                                 },
 
                                 //NOTIFICAR EQUIPE

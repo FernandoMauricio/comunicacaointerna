@@ -22,11 +22,6 @@ $this->params['breadcrumbs'][] = 'Área de Despacho';
         'despachos' => $despachos,
     ]) ?>
 
-   <?= $this->render('pendentes', [
-        'searchModel' => $searchModel,
-        'dataProvider' => $dataProvider,
-    ]) ?>
-
     <?= $this->render('/comunicacaointerna/pdf2', [
         'model' => $model,
         'despachos' => $despachos,

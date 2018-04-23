@@ -48,12 +48,8 @@ $session = Yii::$app->session;
        $contador ++; 
      }  
 
-     $contador = 0;
-     $destinatariosCopia = "";
-     $dest_codsituacao = "";
      $sqlCopia = "SELECT * FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 4 AND dest_coddespacho = 0";
-
-       $modelCopia = Destinocomunicacao::findBySql($sqlCopia)->all(); 
+     $modelCopia = Destinocomunicacao::findBySql($sqlCopia)->all(); 
 ?>
 
 <?php
@@ -73,10 +69,7 @@ $session = Yii::$app->session;
           "********************************************************************************<br>".
           "********************************************************************************<br>".
           "********************************************************************************<br></div>";
-
   }
-  
-
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -105,7 +98,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 <table width="100%" border="1">
   <tr>
     <td width="10%" rowspan="2"><img src="../views/comunicacaointerna/pdf/logo.jpg" width="115" height="70" /></td> <!-- width="115" height="70" -->
-    <td width="58%" height="43"><div align="center"><strong> FORMULÁRIO DE DESPACHO</strong></div></td>
+    <td width="58%" height="43" style="background-color: #d9edf7;"><div align="center"><strong> FORMULÁRIO DE DESPACHO</strong></div></td>
     <td width="24%"><div align="center"><strong>CÓDIGO: <?php echo $com_codcomunicacao ?></strong></div></td>
   </tr>
   <tr>
@@ -118,7 +111,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   <tr>
     <th height="28" scope="col">DATA/HORA</th>
     <th width="41%" scope="col">DE</th>
-    <th scope="col">PARA</th>
+    <th scope="col">PARA MANIFESTAÇÃO</th>
   </tr>
   <tr>
     <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
@@ -126,7 +119,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?><br><br>
       <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
 
-        <em><strong>Cópia Para:</strong><br>
+        <em><strong>Para Conhecimento:</strong><br>
      <?php foreach ($modelCopia as $modelsCopia) { ?>
           <?php echo $modelsCopia['dest_nomeunidadedestCopia'].' - ' ?>
           <?php if($modelsCopia['dest_codsituacao'] == 3): ?> 
@@ -169,7 +162,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 </table>
 <hr />
 <table width="100%" border="1">
-  <tr>
+  <tr style="background-color: #d9edf7;">
     <th height="51" colspan="3" scope="col">DESPACHOS E ENCAMINHAMENTOS</th>
   </tr>
   <?php
@@ -191,35 +184,11 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 
 
      //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
-     $nome_unidade_encaminhar = "";
-     $contador = 0;
-     $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$dest_codcomunicacao."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
+    $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$dest_codcomunicacao."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
+    $unidade = Destinocomunicacao::findBySql($sql)->all(); 
 
-      $unidade = Destinocomunicacao::findBySql($sql)->all(); 
-
-      foreach ($unidade as $unidades) {
-         if($contador == 0)
-              $nome_unidade_encaminhar = $unidades['dest_nomeunidadedest']; 
-       else
-            $nome_unidade_encaminhar = $nome_unidade_encaminhar."<br>".$unidades['dest_nomeunidadedest'];
-          
-       $contador ++; 
-     }  
-
-     $nome_unidade_encaminharCopia = "";
-     $contador = 0;
-     $sql2 = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$dest_codcomunicacao."' AND dest_codtipo = 4 AND dest_coddespacho = '".$deco_coddespacho."'";
-
-      $unidade2 = Destinocomunicacao::findBySql($sql2)->all(); 
-
-      foreach ($unidade2 as $unidades2) {
-         if($contador == 0)
-              $nome_unidade_encaminharCopia = $unidades2['dest_nomeunidadedestCopia']; 
-       else
-            $nome_unidade_encaminharCopia = $nome_unidade_encaminharCopia."<br>".$unidades2['dest_nomeunidadedestCopia'];
-          
-       $contador ++; 
-     }  
+    $sql2 = "SELECT * FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$dest_codcomunicacao."' AND dest_codtipo = 4 AND dest_coddespacho = '".$deco_coddespacho."'";
+    $unidade2 = Destinocomunicacao::findBySql($sql2)->all(); 
 
   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
   {
@@ -241,17 +210,25 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   <tr>
     <th width="19%" scope="row">DATA/HORA</th>
     <th width="41%">DE</th>
-    <th width="40%">PARA</th>
+    <th width="40%">PARA MANIFESTAÇÃO</th>
   </tr>
   <tr>
     <td scope="row"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?></div></td>
     <td><div align="center"><?php echo $unidade_despachante ?></div></td>
-    <td><div align="center"><?php echo $nome_unidade_encaminhar ?><br><br>
-     <?php if($contador != 0)
-         {
-       ?>
-      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Cópia Para:</strong><br>
-      <?php echo $nome_unidade_encaminharCopia ?></em> 
+    <td><div align="center">
+      <?php foreach ($unidade as $unidades) { ?>
+      <?php echo $unidades['dest_nomeunidadedest']; ?><br>
+      <?php } ?>
+      <br>
+      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Para Conhecimento:</strong><br>
+     <?php foreach ($unidade2 as $unidades2) { ?>
+          <?php echo $unidades2['dest_nomeunidadedestCopia'].' - ' ?>
+          <?php if($unidades2['dest_codsituacao'] == 3): ?> 
+           <span class="badge badge-success" style="background-color:green; font-size:8px">Ciente</span> <br>
+          <?php else: ?> 
+            <span class="badge badge-success" style="background-color:red; font-size:8px">Pendente</span><br>
+        </em> 
+      <?php endif; ?>
       <?php } ?>
       </font></div></td>
   <tr>

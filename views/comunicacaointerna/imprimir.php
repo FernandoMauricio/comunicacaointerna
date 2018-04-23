@@ -37,7 +37,6 @@ $sql_comunicacao = "SELECT * FROM comunicacaointerna_com WHERE com_codcomunicaca
      $com_codunidade = $comunicacao["com_codunidade"];
    }
 
-
    //UNIDADE SOLICITANTE
    $sql_solicitante = "SELECT `db_base`.`unidade_uni`.`uni_nomeabreviado` FROM `db_base`.`unidade_uni` WHERE `uni_codunidade` = '".$com_codunidade."'";
           $solicitantes = Unidades::findBySql($sql_solicitante)->all();
@@ -71,38 +70,13 @@ foreach ($situacao as $nome_situacao) {
 $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
 }
 
-
 //PEGANDO OS DESTINATÁIOS NESSE DESPACHO
-     $destinatarios = "";
-     $contador = 0;
      $sql2 = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 2 OR dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 2 AND dest_codsituacao = 3";
-
       $model = Destinocomunicacao::findBySql($sql2)->all(); 
 
-      foreach ($model as $models) {
-         if($contador == 0){
-              $destinatarios = $models['dest_nomeunidadedest']; 
-       }else
-            $destinatarios = $destinatarios."<br>".$models['dest_nomeunidadedest'];
-          
-       $contador ++; 
-     } 
-
 //PEGANDO OS DESTINATÁIOS COMO CÓPIA NESSE DESPACHO
-     $destinatariosCopia = "";
-     $contador = 0;
      $sqlCopia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$com_codcomunicacao. "' AND dest_codtipo = 4 AND dest_coddespacho = 0";
-
-      $modelCopia = Destinocomunicacao::findBySql($sqlCopia)->all(); 
-
-      foreach ($modelCopia as $modelsCopia) {
-         if($contador == 0){
-              $destinatariosCopia = $modelsCopia['dest_nomeunidadedestCopia']; 
-       }else
-            $destinatariosCopia = $destinatariosCopia."<br>".$modelsCopia['dest_nomeunidadedestCopia'];
-          
-       $contador ++; 
-     } 
+     $modelCopia = Destinocomunicacao::findBySql($sqlCopia)->all(); 
 
 ?>
 
@@ -123,7 +97,6 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
           "********************************************************************************<br>".
           "********************************************************************************<br>".
           "********************************************************************************<br></div>";
-
   }
   
 ?>
@@ -150,19 +123,29 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
   <tr>
     <th height="28" scope="col" style="font-size: 12px;">DATA/HORA</th>
     <th width="41%" scope="col"  style="font-size: 12px;">SOLICITANTE</th>
-    <th scope="col"  style="font-size: 12px;">DESTINATÁRIO</th>
+    <th scope="col"  style="font-size: 12px;">PARA MANIFESTAÇÃO</th>
   </tr>
   <tr>
     <td width="19%" height="44" scope="col"><div align="center"  style="font-size: 12px;"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
     <td width="41%" scope="col"><div align="center"  style="font-size: 12px;"><?php echo $unidade_solicitante ?></div></td>
-    <td width="40%" scope="col"><div align="center"  style="font-size: 12px;"><?php echo $destinatarios ?></div><br>
-     <?php if($contador != 0)
-         {
-       ?>
-      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Cópia Para:</strong><br>
-      <?php echo $destinatariosCopia ?></em> 
+    <td width="40%" scope="col"><div align="center"  style="font-size: 12px;">
+      <?php foreach ($model as $unidades) { 
+          echo $unidades['dest_nomeunidadedest'];
+        } 
+      ?>
+      </font><br><br>
+      <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
+        <em><strong>Para Conhecimento:</strong><br>
+          <?php foreach ($modelCopia as $modelsCopia) { ?>
+          <span style="font-size:8px"><?php echo $modelsCopia['dest_nomeunidadedestCopia'].' - ' ?></span>
+          <?php if($modelsCopia['dest_codsituacao'] == 3): ?> 
+           <span class="badge badge-success" style="background-color:green; font-size:8px">Ciente</span> <br>
+          <?php else: ?> 
+            <span class="badge badge-success" style="background-color:red; font-size:8px">Pendente</span><br>
+        </em></font>
+      <?php endif; ?>
       <?php } ?>
-      </font></div></td>
+    </div></td>
   </tr>
   </tr>
     <tr>
@@ -185,7 +168,6 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
   $sql6 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$id."' AND deco_codsituacao = 2 order by deco_coddespacho desc";
   $model = Despachos::findBySql($sql6)->all(); 
   foreach ($model as $models) {
-     
 
      $unidade_despachante = "";
      $nome_despachante = "";
@@ -200,38 +182,13 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
      $deco_cargo = $models["deco_cargo"];
 
 
-     //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
-     $nome_unidade_encaminhar = "";
-     $contador = 0;
-     $sql_encaminhar = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$id."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
+    //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
+    $sql_encaminhar = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$id."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
+    $unidade = Destinocomunicacao::findBySql($sql_encaminhar)->all(); 
 
-      $unidade = Destinocomunicacao::findBySql($sql_encaminhar)->all(); 
-
-      foreach ($unidade as $unidades) {
-         if($contador == 0)
-              $nome_unidade_encaminhar = $unidades['dest_nomeunidadedest']; 
-       else
-            $nome_unidade_encaminhar = $nome_unidade_encaminhar."<br>".$unidades['dest_nomeunidadedest'];
-          
-       $contador ++; 
-     }
-
-     //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS COMO CÓPIA NESSE DESPACHO
-     $nome_unidade_encaminharCopia = "";
-     $contador = 0;
-     $sql_encaminharCopia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$id."' AND dest_codtipo = 4 AND dest_coddespacho = '".$deco_coddespacho."'";
-
-      $unidadeCopia = Destinocomunicacao::findBySql($sql_encaminharCopia)->all(); 
-
-      foreach ($unidadeCopia as $unidadesCopia) {
-         if($contador == 0)
-              $nome_unidade_encaminharCopia = $unidadesCopia['dest_nomeunidadedestCopia']; 
-       else
-            $nome_unidade_encaminharCopia = $nome_unidade_encaminharCopia."<br>".$unidadesCopia['dest_nomeunidadedestCopia'];
-          
-       $contador ++; 
-     }
-
+    //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS COMO CÓPIA NESSE DESPACHO
+    $sql_encaminharCopia = "SELECT dest_nomeunidadedestCopia FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$id."' AND dest_codtipo = 4 AND dest_coddespacho = '".$deco_coddespacho."'";
+    $unidadeCopia = Destinocomunicacao::findBySql($sql_encaminharCopia)->all(); 
 
   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
   {
@@ -258,12 +215,21 @@ $situacao_comunicacao  = $nome_situacao["sitco_situacao1"];
   <tr>
     <td scope="row"><div align="center"  style="font-size: 12px;"><?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?></div></td>
     <td><div align="center"  style="font-size: 12px;"><?php echo $unidade_despachante ?></div></td>
-    <td><div align="center"  style="font-size: 12px;"><?php echo $nome_unidade_encaminhar ?><br><br>
-     <?php if($contador != 0)
-         {
-       ?>
-      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Cópia Para:</strong><br>
-      <?php echo $nome_unidade_encaminharCopia ?></em> 
+    <td><div align="center"  style="font-size: 12px;">
+      <?php foreach ($unidade as $unidades) { 
+          echo $unidades['dest_nomeunidadedest'];
+        } 
+      ?>
+      </font><br><br>
+      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Para Conhecimento:</strong><br>
+     <?php foreach ($unidadeCopia as $unidadeCopias) { ?>
+          <?php echo $unidadeCopias['dest_nomeunidadedestCopia'].' - ' ?>
+          <?php if($unidadeCopias['dest_codsituacao'] == 3): ?> 
+           <span class="badge badge-success" style="background-color:green; font-size:8px">Ciente</span> <br>
+          <?php else: ?> 
+            <span class="badge badge-success" style="background-color:red; font-size:8px">Pendente</span><br>
+        </em> 
+      <?php endif; ?>
       <?php } ?>
       </font></div></td>
   </tr>
