@@ -63,8 +63,8 @@ class DestinocomunicacaoEnc extends \yii\db\ActiveRecord
             'dest_codsituacao' => 'Dest Codsituacao',
             'dest_coddespacho' => 'Dest Coddespacho',
             'dest_nomeunidadeenvio' => 'Dest Nomeunidadeenvio',
-            'dest_nomeunidadedest' => 'Encaminhar Para',
-            'dest_nomeunidadedestCopia' => 'Encaminhar Com Cópia Para',
+            'dest_nomeunidadedest' => 'Para Manifestação:',
+            'dest_nomeunidadedestCopia' => 'Para Conhecimento:',
         ];
     }
 

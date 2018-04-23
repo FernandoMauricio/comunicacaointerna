@@ -27,7 +27,7 @@ use kartik\select2\Select2;
                     $data_unidades = ArrayHelper::map($rows, 'uni_nomecompleto', 'uni_nomecompleto');
                     echo $form->field($encaminhamentos, 'dest_nomeunidadedest')->widget(Select2::classname(), [
                         'data' => $data_unidades,
-                        'options' => ['placeholder' => 'Selecione uma Unidade...','multiple'=>true],
+                        'options' => ['placeholder' => 'Selecione as Unidades...','multiple'=>true],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
@@ -40,7 +40,7 @@ use kartik\select2\Select2;
                     $data_unidades = ArrayHelper::map($rows2, 'uni_nomecompleto', 'uni_nomecompleto');
                     echo $form->field($encaminhamentos, 'dest_nomeunidadedestCopia')->widget(Select2::classname(), [
                         'data' => $data_unidades,
-                        'options' => ['placeholder' => 'Selecione uma Unidade...','multiple'=>true],
+                        'options' => ['placeholder' => 'Selecione as Unidades...','multiple'=>true],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],

@@ -56,41 +56,46 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>          
 
         <?php echo $form->errorSummary($model); ?>  
-        
-    <?php
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6">
+                <?php
                     $rows = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomecompleto')->all();
                     $data_unidades = ArrayHelper::map($rows, 'uni_nomecompleto', 'uni_nomecompleto');
                     echo $form->field($destinocomunicacao, 'dest_nomeunidadedest')->widget(Select2::classname(), [
                         'data' => $data_unidades,
-                        'options' => ['placeholder' => 'Selecione uma Unidade...', 'multiple'=>true],
+                        'options' => ['placeholder' => 'Selecione as Unidades...', 'multiple'=>true],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
-                    ]);   
+                    ]);
+                ?>
+            </div>
+            <div class="col-md-6">
+                <?php  
 
                     $rowsUnidadesCopias = Unidades::find()->where(['uni_codsituacao'=> 1])->orderBy('uni_nomecompleto')->all();
                     $data_unidades = ArrayHelper::map($rowsUnidadesCopias, 'uni_nomecompleto', 'uni_nomecompleto');
                     echo $form->field($destinocomunicacao, 'dest_nomeunidadedestCopia')->widget(Select2::classname(), [
                         'data' => $data_unidades,
-                        'options' => ['placeholder' => 'Selecione uma Unidade...', 'multiple'=>true],
+                        'options' => ['placeholder' => 'Selecione as Unidades...', 'multiple'=>true],
                         'pluginOptions' => [
                             'allowClear' => true
                         ],
-                    ]);   
-                    
-                $rowsTipos = TipodocumentacaoTipdo::find()->all();
-                $data = ArrayHelper::map($rowsTipos, 'tipdo_codtipo', 'tipdo_tipo');
-                echo $form->field($model, 'com_codtipo')->radiolist($data);
-
-    ?> 
-
-    <div class="row">
-
-        <div class="col-md-8">
-
-        <?= $form->field($model, 'com_titulo')->textInput(['maxlength' => 100, 'placeholder' => 'Insira o Título...'])?>
-
+                    ]);
+                ?>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-md-3">
+                <?php
+                   $rowsTipos = TipodocumentacaoTipdo::find()->all();
+                   $data = ArrayHelper::map($rowsTipos, 'tipdo_codtipo', 'tipdo_tipo');
+                   echo $form->field($model, 'com_codtipo')->radiolist($data);
+                ?> 
+            </div>
+
+        <div class="col-md-5"><?= $form->field($model, 'com_titulo')->textInput(['maxlength' => 100, 'placeholder' => 'Insira o Título...'])?></div>
 
         <div class="col-md-4">
 
@@ -138,4 +143,5 @@ echo FileInput::widget([
 
     <?php ActiveForm::end(); ?>
 
+</div>
 </div>

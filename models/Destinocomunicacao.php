@@ -75,8 +75,8 @@ public $tag;
             'dest_codtipo' => 'Tipo',
             'dest_codsituacao' => 'Situação',
             'dest_nomeunidadeenvio' => 'Unidade',
-            'dest_nomeunidadedest' => 'Diretamente Para',
-            'dest_nomeunidadedestCopia' => 'Com Cópia Para',
+            'dest_nomeunidadedest' => 'Para Manifestação:',
+            'dest_nomeunidadedestCopia' => 'Para Conhecimento:',
             'file' => 'Anexos',
             'tag' => 'Palavra-Chave',
         ];
