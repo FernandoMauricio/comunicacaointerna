@@ -81,3 +81,4 @@ use kartik\select2\Select2;
     <?php ActiveForm::end(); ?>
 
 </div>
+</div>

@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 use app\models\Comunicacaointerna;
 use app\models\Destinocomunicacao;
 use app\models\DestinocomunicacaoEnc;
+use app\models\DespachocomunicacaoDeco;
 use app\models\Unidades;
 use app\models\Despachos;
 use app\models\Cargos_car;
@@ -137,19 +138,19 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     <p class="anexos">ANEXOS - - - - - - - - - - - - - - -  - - -<br />
       <?php
 //GET ANEXOS
-  //   if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
-  //   if (isset($files[0])) {
-  //       foreach ($files as $index => $file) {
-  //           $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-  // if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
-  // {
-  //   echo '***************** Arquivos Confidenciais';
-  // }else{
-  //           echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ;
-  //         }
-  //     } 
-  //   }
-  // }
+    if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
+    if (isset($files[0])) {
+        foreach ($files as $index => $file) {
+            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+  {
+    echo '***************** Arquivos Confidenciais';
+  }else{
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ;
+          }
+      } 
+    }
+  }
 
 ?>
     </p>
@@ -170,30 +171,27 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   $modelDespacho = Despachos::findBySql($sql6)->all(); 
   foreach ($modelDespacho as $models) {
      
-     $unidade_despachante = "";
-     $nome_despachante = "";
-     $deco_coddespacho = $models["deco_coddespacho"];
-     $deco_codcolaborador = $models["deco_codcolaborador"];
-     $deco_codunidade = $models["deco_codunidade"];
-     $deco_codcargo = $models["deco_codcargo"];
-     $deco_data = $models["deco_data"];
-     $deco_despacho = $models["deco_despacho"];
-     $unidade_despachante = $models["deco_nomeunidade"];
-     $nome_despachante = $models["deco_nomeusuario"];
-     $deco_cargo = $models["deco_cargo"];
+    $unidade_despachante = "";
+    $nome_despachante = "";
+    $deco_coddespacho = $models["deco_coddespacho"];
+    $deco_codcolaborador = $models["deco_codcolaborador"];
+    $deco_codunidade = $models["deco_codunidade"];
+    $deco_codcargo = $models["deco_codcargo"];
+    $deco_data = $models["deco_data"];
+    $deco_despacho = $models["deco_despacho"];
+    $unidade_despachante = $models["deco_nomeunidade"];
+    $nome_despachante = $models["deco_nomeusuario"];
+    $deco_cargo = $models["deco_cargo"];
 
-
-     //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
-    $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$dest_codcomunicacao."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
+    //PEGANDO OS DESTINATÁIOS ENCAMINHANDOS NESSE DESPACHO
+    $sql = "SELECT * FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$dest_codcomunicacao."' AND dest_codtipo = 3 AND dest_coddespacho = '".$deco_coddespacho."'";
     $unidade = Destinocomunicacao::findBySql($sql)->all(); 
 
     $sql2 = "SELECT * FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$dest_codcomunicacao."' AND dest_codtipo = 4 AND dest_coddespacho = '".$deco_coddespacho."'";
-    $unidade2 = Destinocomunicacao::findBySql($sql2)->all(); 
+    $unidade2 = Destinocomunicacao::findBySql($sql2)->all();
 
   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
   {
-       
-
      $deco_despacho = "<div align='center'>********************************************************************************<br>".
               "********************************************************************************<br>".
           "********************************************************************************<br>".
@@ -204,9 +202,8 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
           "********************************************************************************<br>".
           "********************************************************************************<br>".
           "********************************************************************************<br></div>";
-            
   }  
-     ?>
+  ?>
   <tr>
     <th width="19%" scope="row">DATA/HORA</th>
     <th width="41%">DE</th>
@@ -215,18 +212,22 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   <tr>
     <td scope="row"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($deco_data)); ?></div></td>
     <td><div align="center"><?php echo $unidade_despachante ?></div></td>
-    <td><div align="center">
+    <td><div>
       <?php foreach ($unidade as $unidades) { ?>
-      <?php echo $unidades['dest_nomeunidadedest']; ?><br>
+      &nbsp;<?php echo $unidades['dest_nomeunidadedest']; ?><br>
       <?php } ?>
       <br>
-      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>Para Conhecimento:</strong><br>
+      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>&nbsp;Para Conhecimento:</strong><br>
      <?php foreach ($unidade2 as $unidades2) { ?>
-          <?php echo $unidades2['dest_nomeunidadedestCopia'].' - ' ?>
+    <?php
+      $sql3 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$dest_codcomunicacao."' AND deco_nomeunidade = '".$unidades2['dest_nomeunidadedestCopia']."'";
+      $unidade3 = DespachocomunicacaoDeco::findBySql($sql3)->one();
+    ?>
+         &nbsp;<?php echo $unidades2['dest_nomeunidadedestCopia'].' - ' ?>
           <?php if($unidades2['dest_codsituacao'] == 3): ?> 
-           <span class="badge badge-success" style="background-color:green; font-size:8px">Ciente</span> <br>
-          <?php else: ?> 
-            <span class="badge badge-success" style="background-color:red; font-size:8px">Pendente</span><br>
+           <span class="badge badge-success" style="background-color:green; font-size:10px">Ciente</span> (<?= date('d/m/Y à\s H:i:s', strtotime($unidade3['deco_data'])); ?>) <br>
+          <?php else: ?>
+            <span class="badge badge-success" style="background-color:red; font-size:10px">Pendente</span><br>
         </em> 
       <?php endif; ?>
       <?php } ?>
@@ -238,31 +239,31 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 
     <p class="anexos"><i class="glyphicon glyphicon-file"></i> ANEXOS DESPACHO- - - - - - - - - - - - - - -<br />
       <?php
-//            $sql_destino = "SELECT DISTINCT dest_coddespacho FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 3";
+           $sql_destino = "SELECT DISTINCT dest_coddespacho FROM destinocomunicacao_dest WHERE dest_codcomunicacao = '".$com_codcomunicacao."' AND dest_codtipo = 3";
 
-//       $destino = Destinocomunicacao::findBySql($sql_destino)->all(); 
+      $destino = Destinocomunicacao::findBySql($sql_destino)->all(); 
 
-//       foreach ($destino as $destinos) {
+      foreach ($destino as $destinos) {
 
-//         $dest_coddespacho = $destinos["dest_coddespacho"];
+        $dest_coddespacho = $destinos["dest_coddespacho"];
 
-// //GET ANEXOS
-//       if($deco_coddespacho == $dest_coddespacho){
-//     $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
-//     if (isset($files[0])) {
-//         foreach ($files as $index => $file) {
-//             $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+//GET ANEXOS
+      if($deco_coddespacho == $dest_coddespacho){
+    $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
+    if (isset($files[0])) {
+        foreach ($files as $index => $file) {
+            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
             
-//   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
-//   {
-//     echo '***************** Arquivos Confidenciais';
-//   }else{
-//             echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>";
-//           }
-//         }
-//        }
-//        }
-//      }
+  if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
+  {
+    echo '***************** Arquivos Confidenciais';
+  }else{
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>";
+          }
+        }
+       }
+       }
+     }
     ?>
     </p>
         <div class="assinatura" align="right">Assinado Eletronicamente Por:&nbsp;&nbsp;&nbsp;<br />
