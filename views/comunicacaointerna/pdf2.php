@@ -121,7 +121,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
             <span class="badge badge-success" style="background-color:#e74c3c; font-size:10px">Pendente</span><br>
         </em> 
       <?php endif; ?>
-      <?php } ?>
+      <?php } ?><br>
       </font></div></td>
   <tr>
     <!-- <th height="122" scope="row">DISCRIMINAÇÃO</th> -->
@@ -138,7 +138,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   {
     echo '***************** Arquivos Confidenciais';
   }else{
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ;
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank', 'data-pjax'=>"0"]) . "<br/>" ;
           }
       } 
     }
@@ -217,12 +217,12 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     ?>
          &nbsp;<?php echo $unidades2['dest_nomeunidadedestCopia'].' - ' ?>
           <?php if($unidades2['dest_codsituacao'] == 3): ?> 
-           <span class="badge badge-success" style="background-color:#27ae60; font-size:10px">Ciente</span> (<?= date('d/m/Y à\s H:i:s', strtotime($unidade3['deco_data'])); ?>) <br>
+           <span class="badge badge-success" style="background-color:#27ae60; font-size:10px">Ciente</span>&nbsp;(<?= date('d/m/Y à\s H:i:s', strtotime($unidade3['deco_data'])); ?>) <br>
           <?php else: ?>
             <span class="badge badge-success" style="background-color:#e74c3c; font-size:10px">Pendente</span><br>
         </em> 
       <?php endif; ?>
-      <?php } ?>
+      <?php } ?><br>
       </font></div></td>
   <tr>
 
@@ -250,7 +250,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   {
     echo '***************** Arquivos Confidenciais';
   }else{
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank"]) . "<br/>";
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank", 'data-pjax'=>"0"]) . "<br/>";
           }
         }
        }
