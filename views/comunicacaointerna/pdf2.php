@@ -34,20 +34,8 @@ $com_dataEncerramento = $model->comunicacaointerna->com_dataEncerramento;
 $session = Yii::$app->session;
 
 //PEGANDO OS DESTINATÁIOS NESSE DESPACHO
-     $destinatarios = "";
-     $contador = 0;
      $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 2";
-
-      $model = Destinocomunicacao::findBySql($sql)->all(); 
-
-      foreach ($model as $models) {
-         if($contador == 0){
-              $destinatarios = $models['dest_nomeunidadedest']; 
-       }else
-            $destinatarios = $destinatarios."<br>".$models['dest_nomeunidadedest'];
-          
-       $contador ++; 
-     }  
+     $model = Destinocomunicacao::findBySql($sql)->all(); 
 
      $sqlCopia = "SELECT * FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 4 AND dest_coddespacho = 0";
      $modelCopia = Destinocomunicacao::findBySql($sqlCopia)->all(); 
@@ -84,26 +72,22 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 
 <body>
 
- <?php
-
- //MENSAGEM INFORMANDO O USUÁRIO E A DATA QUE FINALIZOU A CI
+<?php
+//MENSAGEM INFORMANDO O USUÁRIO E A DATA QUE FINALIZOU A CI
   if($cod_situacao == 5 AND $com_usuarioEncerramento != NULL ){
 
-    echo "<div class='alert alert-danger' align='center' role='alert'><span class='glyphicon glyphicon-alert' aria-hidden='true'></span> Comunicação Interna <strong>Encerrada</strong> por: <strong> ". $com_usuarioEncerramento ."</strong> na data ". date('d/m/Y à\s H:i', strtotime($com_dataEncerramento)) ."</div>";
-
+  echo "<div class='alert alert-danger' align='center' role='alert'><span class='glyphicon glyphicon-alert' aria-hidden='true'></span> Comunicação Interna <b>Encerrada</b> por: <b> ". $com_usuarioEncerramento ."</b> na data ". date('d/m/Y à\s H:i', strtotime($com_dataEncerramento)) ."</div>";
   }
-
-    ?>
-
+?>
 
 <table width="100%" border="1">
   <tr>
     <td width="10%" rowspan="2"><img src="../views/comunicacaointerna/pdf/logo.jpg" width="115" height="70" /></td> <!-- width="115" height="70" -->
-    <td width="58%" height="43" style="background-color: #d9edf7;"><div align="center"><strong> FORMULÁRIO DE DESPACHO</strong></div></td>
-    <td width="24%"><div align="center"><strong>CÓDIGO: <?php echo $com_codcomunicacao ?></strong></div></td>
+    <td width="58%" height="43" style="background-color: #d9edf7;"><div align="center"><b> FORMULÁRIO DE DESPACHO</b></div></td>
+    <td width="24%"><div align="center"><b>CÓDIGO: <?php echo $com_codcomunicacao ?></b></div></td>
   </tr>
   <tr>
-    <td height="39">[<em><strong>ASSUNTO</strong></em>] <?php echo $com_titulo ?></td>
+    <td height="39">[<em><b>ASSUNTO</b></em>] <?php echo $com_titulo ?></td>
     <td><div align="center">SITUAÇÃO: <?php echo $com_codsituacao ?></div></td>
   </tr>
 </table>
@@ -117,10 +101,14 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   <tr>
     <td width="19%" height="44" scope="col"><div align="center"><?php echo date('d/m/Y H:i:s', strtotime($datasolicitacao)); ?></div></td>
     <td width="41%" scope="col"><div align="center"><?php echo $unidade_solicitante ?></div></td>
-    <td width="40%" scope="col"><div align="center"><?php echo $destinatarios ?><br><br>
+    <td width="40%" scope="col"><div>
+      <?php foreach ($model as $models) { ?>
+      &nbsp;<?php echo $models['dest_nomeunidadedest']; ?><br>
+      <?php } ?>
+      <br>
       <font size="1" face="Verdana, Arial, Helvetica, sans-serif">
 
-        <em><strong>Para Conhecimento:</strong><br>
+      &nbsp;<em><b>Para Conhecimento:</b><br>
      <?php foreach ($modelCopia as $modelsCopia) { ?>
           <?php echo $modelsCopia['dest_nomeunidadedestCopia'].' - ' ?>
           <?php if($modelsCopia['dest_codsituacao'] == 3): ?> 
@@ -217,10 +205,10 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
       &nbsp;<?php echo $unidades['dest_nomeunidadedest']; ?><br>
       <?php } ?>
       <br>
-      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><strong>&nbsp;Para Conhecimento:</strong><br>
+      <font size="1" face="Verdana, Arial, Helvetica, sans-serif"><em><b>&nbsp;Para Conhecimento:</b><br>
      <?php foreach ($unidade2 as $unidades2) { ?>
     <?php
-      $sql3 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$dest_codcomunicacao."' AND deco_nomeunidade = '".$unidades2['dest_nomeunidadedestCopia']."'";
+      $sql3 = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$dest_codcomunicacao."' AND deco_nomeunidade = '".$unidades2['dest_nomeunidadedestCopia']."'  AND deco_data >= '".$unidades2['dest_data']."' ";
       $unidade3 = DespachocomunicacaoDeco::findBySql($sql3)->one();
     ?>
          &nbsp;<?php echo $unidades2['dest_nomeunidadedestCopia'].' - ' ?>
@@ -277,9 +265,9 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 
 <br>
 
-  <p style="color:#00337d"><strong>* Só imprima este despacho eletrônico em caso de necessidade. Salve em Formato PDF e armaze-o na Pasta do Setor disponível na Rede.  <p></strong>
+  <p style="color:#00337d"><b>* Só imprima este despacho eletrônico em caso de necessidade. Salve em Formato PDF e armaze-o na Pasta do Setor disponível na Rede.  <p></b>
 
-  <p style="color:#00337d"><strong>** "A responsabilidade social e a preservação ambiental significa um compromisso com a vida."  <p></strong>
+  <p style="color:#00337d"><b>** "A responsabilidade social e a preservação ambiental significa um compromisso com a vida."  <p></b>
   
 </body>
 </html>
