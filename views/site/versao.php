@@ -30,7 +30,28 @@ $this->title = 'Documentação Eletrônica';
 
                 <div class="panel panel-primary">
                 <div class="panel-heading">
-                            <i class="glyphicon glyphicon-star-empty"></i> Versão 1.5 - (ATUALMENTE) - Publicado em 22/08/2016
+                            <i class="glyphicon glyphicon-star-empty"></i> Versão 1.6 - (ATUALMENTE) - Publicado em 24/04/2018
+                </div>
+                <div class="panel-body">
+                <h4><b style="color: #337ab7;">Implementações</b></h4>
+                        <h5><i class="glyphicon glyphicon-tag"></i><b> Área Gerencial / Listagem de Despachos</b></h5>
+                            <h5>- Alteração de nomenclatura do botão "Ciente" -> "Dar Ciência" na listagem de despachos pendentes.</h5>
+                            <h5>- Alteração de nomenclatura do campo "PARA" -> "PARA MANIFESTAÇÃO" na CI.</h5>
+                            <h5>- Alteração de nomenclatura do campo "Com cópia para" -> "Para Conhecimento" na CI.</h5>
+                            <h5>- No histórico da CI, apenas aparecerão despachos de unidades que estão como destino "Para Manifestação". Respostas automáticas acionados pelo botão "Dar Ciência" não aparecerão mais.</h5>
+                            <h5>- Inclusão da informação "Pendente" e "Ciente" com data e hora que foi realizado a ciência ao lado de cada unidade que está como destino "Para Conhecimento".</h5>
+                            <h5>- Alteração no layout na área de despacho.</h5>
+                            <h5>- Retirado a área "Listagem de Unidades/Setores que ainda não despacharam".</h5>
+                            <h5>- Retirado a Inserção automática de destinos já inseridos na CI. Agora, apenas o remetente estará de forma automática no destino. Caso queira incluir mais unidades, deverá fazê-lo manualmente.</h5><br />
+                <h4><b style="color: #337ab7;">Correções</b></h4>
+                        <h5><i class="glyphicon glyphicon-tag"></i><b> Área Gerencial / Listagem de Despachos</b></h5>
+                            <h5>- Corrigido o erro que não estava sendo possível realizar o download de anexos diretamente na listagem de Despachos Pendentes.</h5>
+                </div>
+                </div>
+
+                <div class="panel panel-danger">
+                <div class="panel-heading">
+                            <i class="glyphicon glyphicon-star-close"></i> Versão 1.5 - (ATUALMENTE) - Publicado em 22/08/2016
                 </div>
                   <div class="panel-body">
               <h4><strong style="color: #337ab7;">Implementações</strong></h4>

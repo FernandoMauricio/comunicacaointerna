@@ -39,7 +39,7 @@ AppAsset::register($this);
     <footer class="footer">
         <div class="container">
             <p class="pull-left">&copy;Gerência de Informática Corporativa - GIC <?= date('Y') ?></p>
-            <p class="pull-right">Versão 1.5</p>
+            <p class="pull-right">Versão 1.6</p>
         </div>
     </footer>
 
