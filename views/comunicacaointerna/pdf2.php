@@ -34,7 +34,7 @@ $com_dataEncerramento = $model->comunicacaointerna->com_dataEncerramento;
 $session = Yii::$app->session;
 
 //PEGANDO OS DESTINATÁIOS NESSE DESPACHO
-     $sql = "SELECT dest_nomeunidadedest FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 2";
+     $sql = "SELECT * FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 2";
      $model = Destinocomunicacao::findBySql($sql)->all(); 
 
      $sqlCopia = "SELECT * FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 4 AND dest_coddespacho = 0";
@@ -110,11 +110,15 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
 
       &nbsp;<em><b>Para Conhecimento:</b><br>
      <?php foreach ($modelCopia as $modelsCopia) { ?>
-          <?php echo $modelsCopia['dest_nomeunidadedestCopia'].' - ' ?>
+    <?php
+      $sqlDataUnidadeCopia = "SELECT * FROM despachocomunicacao_deco WHERE deco_codcomunicacao = '".$dest_codcomunicacao."' AND deco_nomeunidade = '".$modelsCopia['dest_nomeunidadedestCopia']."'  AND deco_data >= '".$modelsCopia['dest_data']."' ";
+      $dataUnidadeCopia = DespachocomunicacaoDeco::findBySql($sqlDataUnidadeCopia)->one();
+    ?>
+          &nbsp;<?php echo $modelsCopia['dest_nomeunidadedestCopia'].' - ' ?>
           <?php if($modelsCopia['dest_codsituacao'] == 3): ?> 
-           <span class="badge badge-success" style="background-color:green; font-size:8px">Ciente</span> <br>
+           <span class="badge badge-success" style="background-color:#27ae60; font-size:10px">Ciente</span>(<?= date('d/m/Y à\s H:i:s', strtotime($dataUnidadeCopia['deco_data'])); ?>) <br>
           <?php else: ?> 
-            <span class="badge badge-success" style="background-color:red; font-size:8px">Pendente</span><br>
+            <span class="badge badge-success" style="background-color:#e74c3c; font-size:10px">Pendente</span><br>
         </em> 
       <?php endif; ?>
       <?php } ?>
@@ -213,9 +217,9 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     ?>
          &nbsp;<?php echo $unidades2['dest_nomeunidadedestCopia'].' - ' ?>
           <?php if($unidades2['dest_codsituacao'] == 3): ?> 
-           <span class="badge badge-success" style="background-color:green; font-size:10px">Ciente</span> (<?= date('d/m/Y à\s H:i:s', strtotime($unidade3['deco_data'])); ?>) <br>
+           <span class="badge badge-success" style="background-color:#27ae60; font-size:10px">Ciente</span> (<?= date('d/m/Y à\s H:i:s', strtotime($unidade3['deco_data'])); ?>) <br>
           <?php else: ?>
-            <span class="badge badge-success" style="background-color:red; font-size:10px">Pendente</span><br>
+            <span class="badge badge-success" style="background-color:#e74c3c; font-size:10px">Pendente</span><br>
         </em> 
       <?php endif; ?>
       <?php } ?>
