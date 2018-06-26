@@ -48,8 +48,8 @@ class DestinocomunicacaoRecebSearch extends Destinocomunicacao
         // $sql = 'SELECT DISTINCT * FROM destinocomunicacao_dest, comunicacaointerna_com ORDER BY dest_coddestino DESC';
         // $query = Destinocomunicacao::findBySql($sql)->all();  
 
-        $query = Destinocomunicacao::find()
-        ->distinct('dest_codcomunicacao')
+        $query = Destinocomunicacao::find()->select(['dest_coddestino', 'dest_codcomunicacao', 'dest_nomeunidadeenvio'])
+        ->distinct()
         ->joinWith('comunicacaointerna')
         ->orderBy(['dest_coddestino' => SORT_DESC]);
 
