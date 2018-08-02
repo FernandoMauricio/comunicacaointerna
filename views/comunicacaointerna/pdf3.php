@@ -106,8 +106,8 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
         if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
         if (isset($files[0])) {
             foreach ($files as $index => $file) {
-                $nameFicheiro = substr($file, strrpos($file, '/') + 1);
-                echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']) . "<br/>" ;
+                $nameFicheiro = substr($file, strrpos($file, '/') + 6);
+                echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. '/' . utf8_encode($nameFicheiro), ['target'=>'_blank']) . "<br/>" ;
           } 
         }
       }

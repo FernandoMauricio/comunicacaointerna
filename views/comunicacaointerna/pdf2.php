@@ -40,7 +40,6 @@ $session = Yii::$app->session;
      $sqlCopia = "SELECT * FROM destinocomunicacao_dest WHERE dest_codcomunicacao ='".$dest_codcomunicacao. "' AND dest_codtipo = 4 AND dest_coddespacho = 0";
      $modelCopia = Destinocomunicacao::findBySql($sqlCopia)->all(); 
 ?>
-
 <?php
 
   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
@@ -64,7 +63,7 @@ $session = Yii::$app->session;
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <style>
 th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;} .anexos {font-size: 12px;font-weight: bold;}
 </style>
@@ -133,12 +132,12 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
-            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+            $nameFicheiro = substr($file, strrpos($file, '/') + 6);
   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
   {
     echo '***************** Arquivos Confidenciais';
   }else{
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank', 'data-pjax'=>"0"]) . "<br/>" ;
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . mb_convert_encoding($nameFicheiro, "UTF-8", "Windows-1252"), ['target'=>'_blank', 'data-pjax'=>"0"]) . "<br/>" ;
           }
       } 
     }
@@ -244,13 +243,13 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
-            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+            $nameFicheiro = substr($file, strrpos($file, '/') + 6);
             
   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
   {
     echo '***************** Arquivos Confidenciais';
   }else{
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . $nameFicheiro, ["target"=>"_blank", 'data-pjax'=>"0"]) . "<br/>";
+            echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . utf8_encode($nameFicheiro), ["target"=>"_blank", 'data-pjax'=>"0"]) . "<br/>";
           }
         }
        }

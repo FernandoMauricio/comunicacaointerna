@@ -51,7 +51,7 @@ $this->title = 'Documentação Eletrônica';
 
                 <div class="panel panel-danger">
                 <div class="panel-heading">
-                            <i class="glyphicon glyphicon-star-close"></i> Versão 1.5 - (ATUALMENTE) - Publicado em 22/08/2016
+                            <i class="glyphicon glyphicon-star-close"></i> Versão 1.5 - Publicado em 22/08/2016
                 </div>
                   <div class="panel-body">
               <h4><strong style="color: #337ab7;">Implementações</strong></h4>
