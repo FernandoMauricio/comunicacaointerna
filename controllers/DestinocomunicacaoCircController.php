@@ -261,7 +261,7 @@ if($DestinocomunicacaoEnc['dest_nomeunidadedestCopia'] > 0) {
                                                              if ($model->file){
                                                             foreach ($model->file as $file)
                                                                  {
-                                                                     $file->saveAs($subdiretorio.'/'. $file->baseName . '.' . $file->extension);
+                                                                     $file->saveAs($subdiretorio.'/'. utf8_decode($file->baseName) . '.' . $file->extension);
 
                                                                     $model->dest_anexo = $subdiretorio.'/';
                                                                     $model->save();
@@ -446,7 +446,7 @@ if($DestinocomunicacaoEnc['dest_nomeunidadedestCopia'] > 0) {
                                                              if ($model->file){
                                                             foreach ($model->file as $file)
                                                                  {
-                                                                     $file->saveAs($subdiretorio.'/'. $file->baseName . '.' . $file->extension);
+                                                                     $file->saveAs($subdiretorio.'/'. utf8_decode($file->baseName) . '.' . $file->extension);
 
                                                                     $model->dest_anexo = $subdiretorio.'/';
                                                                     $model->save();

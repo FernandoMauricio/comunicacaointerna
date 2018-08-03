@@ -159,7 +159,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   {
     echo '***************** Arquivos Confidenciais';
   }else{
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . $nameFicheiro, ['target'=>'_blank']). "<br/>"; // render do ficheiro no browser
+            echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. '/' . utf8_encode($nameFicheiro), ['target'=>'_blank']). "<br/>"; // render do ficheiro no browser
        }
     }
   }
@@ -206,7 +206,6 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
               $nome_unidade_encaminhar = $unidades['dest_nomeunidadedest']; 
        else
             $nome_unidade_encaminhar = $nome_unidade_encaminhar."<br>".$unidades['dest_nomeunidadedest'];
-          
        $contador ++; 
      }
 

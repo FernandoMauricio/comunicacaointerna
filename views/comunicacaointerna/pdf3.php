@@ -107,7 +107,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
         if (isset($files[0])) {
             foreach ($files as $index => $file) {
                 $nameFicheiro = substr($file, strrpos($file, '/') + 6);
-                echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. '/' . utf8_encode($nameFicheiro), ['target'=>'_blank']) . "<br/>" ;
+                echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. '/' . mb_convert_encoding($nameFicheiro, "UTF-8", "Windows-1252"), ['target'=>'_blank']) . "<br/>" ;
           } 
         }
       }

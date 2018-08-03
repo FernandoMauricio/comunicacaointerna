@@ -296,7 +296,7 @@ if($Destinocomunicacao['dest_nomeunidadedestCopia'] > 0) {
                                                         if ($model->file && $model->validate()) {
                                                             foreach ($model->file as $file)
                                                                  {
-                                                                     $file->saveAs($subdiretorio.'/'. $file->baseName . '.' . $file->extension);
+                                                                     $file->saveAs($subdiretorio.'/'. utf8_decode($file->baseName) . '.' . $file->extension);
 
                                                                     $model->com_anexo = $subdiretorio.'/';
                                                                     $model->save();

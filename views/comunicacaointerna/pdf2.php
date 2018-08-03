@@ -137,7 +137,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   {
     echo '***************** Arquivos Confidenciais';
   }else{
-            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' . mb_convert_encoding($nameFicheiro, "UTF-8", "Windows-1252"), ['target'=>'_blank', 'data-pjax'=>"0"]) . "<br/>" ;
+            echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. '/' . mb_convert_encoding($nameFicheiro, "UTF-8", "Windows-1252"), ['target'=>'_blank', 'data-pjax'=>"0"]) . "<br/>" ;
           }
       } 
     }
@@ -249,7 +249,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   {
     echo '***************** Arquivos Confidenciais';
   }else{
-            echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . utf8_encode($nameFicheiro), ["target"=>"_blank", 'data-pjax'=>"0"]) . "<br/>";
+          echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . mb_convert_encoding($nameFicheiro, "UTF-8", "Windows-1252"), ["target"=>"_blank", 'data-pjax'=>"0"]) . "<br/>";
           }
         }
        }
