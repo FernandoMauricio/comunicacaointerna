@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="comunicacao-interna-com-index">
 
-    <h1><?= Html::encode($this->title) . '<small>Criadas pelo Setor</small>' ?></h1>
+    <h2><?= Html::encode($this->title) . '<small>Criadas pelo Setor</small>' ?></h2>
 
     <br>
     <p>
@@ -43,7 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
     $gridColumns = [
         [
             'attribute' => 'com_codcomunicacao',
-            'width' => '5px'
         ],
 
         [
@@ -63,11 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         [
             'attribute' => 'com_titulo',
-            'width' => '45%',
             'value' => function ($data) {
-
-                $session = Yii::$app->session;
-
                 if ($data->com_codtipo == '1') {
                     return $data->com_titulo;
                 } else {
@@ -78,31 +73,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
         [
             'attribute' => 'com_tag',
-            'width' => '5px'
         ],
 
         [
             'attribute' => 'data_solicitacao',
             'value' => 'com_datasolicitacao',
             'format' => ['datetime', 'php:d/m/Y'],
-            'width' => '190px',
             'hAlign' => 'center',
-            // 'filter' => DatePicker::widget([
-            //     'model' => $searchModel,
-            //     'attribute' => 'data_solicitacao',
-            //     'pluginOptions' => [
-            //         'autoclose' => true,
-            //         'format' => 'yyyy-mm-dd',
-            //     ]
-            // ])
+            'filter' => DatePicker::widget([
+                'model' => $searchModel,
+                'attribute' => 'data_solicitacao',
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-mm-dd',
+                ]
+            ])
         ],
-
-
 
         [
             'attribute' => 'situacaocomunicacao',
             'vAlign' => 'middle',
-            'width' => '160px',
             'value' => function ($model, $key, $index, $widget) {
                 return Html::a($model->situacao->sitco_situacao1);
             },
@@ -117,7 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'class' => 'yii\grid\ActionColumn',
             'template' => '{view} {update} {encerrar} {delete} ',
-            'options' => ['width' => '40%'],
+            'options' => ['width' => '8%'],
             'buttons' => [
 
                 //FINALIZAR CI
@@ -168,7 +158,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         'panel' => [
             'type' => GridView::TYPE_PRIMARY,
-            'heading' => '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem - ' . utf8_encode($unidade) . '</h3>',
+            'heading' => '<h5 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem - ' . $unidade . '</h5>',
         ],
     ]);
     ?>

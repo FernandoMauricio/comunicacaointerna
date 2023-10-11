@@ -13,7 +13,7 @@ use yii\bootstrap4\NavBar;
         'brandLabel' => 'Senac AM',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar navbar-expand-md navbar-dark bg-primary fixed-top',
+            'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
         ],
     ]);
 
