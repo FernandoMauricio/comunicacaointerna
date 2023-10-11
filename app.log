@@ -1,0 +1,276 @@
+2023-10-08 02:20:56 [179.185.146.179][-][-][warning][yii\debug\Module::checkAccess] Access to debugger is denied due to IP address restriction. The requesting IP address is 179.185.146.179
+    in /var/www/html/portalsenac/comunicacaointerna_new/views/layouts/main.php:78
+    in /var/www/html/portalsenac/comunicacaointerna_new/controllers/SiteController.php:64
+2023-10-08 02:20:56 [179.185.146.179][-][-][warning][yii\debug\Module::checkAccess] Access to debugger is denied due to IP address restriction. The requesting IP address is 179.185.146.179
+2023-10-08 02:20:56 [179.185.146.179][-][-][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'pma_lang' => 'pt'
+    '_gid' => 'GA1.2.1626997487.1696656482'
+    'pmaUser-1' => '{\"iv\":\"Z6iYbRlXj2C\\/fQ59kM2o0A==\",\"mac\":\"c7404b93ee1a95e062b6dd028032a7d836a23c3a\",\"payload\":\"2ACOwkhcmmTgfoZh0JRS1g==\"}'
+    'pmaAuth-1' => '{\"iv\":\"ar38KY7ZnJZ7UxEXknuxzw==\",\"mac\":\"aff72fbfaf78842e63b1af135a83fe727c80989b\",\"payload\":\"7YWOMuEZhjDQVEbfqPafTwXv63LIiPueFM65t+wsuB4=\"}'
+    '_ga_TYDEFJ0H59' => 'GS1.1.1696687068.1.1.1696687553.0.0.0'
+    'phpMyAdmin' => '3mdbnm75065cjj2c5lqt5290ke'
+    '_ga' => 'GA1.2.90807293.1696656481'
+    '_ga_EKN8EFQP7T' => 'GS1.1.1696717658.5.1.1696719479.0.0.0'
+    '_ga_0LQE3BL8RV' => 'GS1.1.1696717658.5.1.1696719479.0.0.0'
+    '_identity' => 'fa8519703496147e414381ea4c0a18353c8fe47f489009d61a27d2b4e53afc6da:2:{i:0;s:9:\"_identity\";i:1;s:19:\"[null,null,2592000]\";}'
+    '_csrf' => '22d4ec36c3c23253e4b3d5d8450056a730ae1d4ede986209380ce10f10de9a85a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"YFspKwyondnrfINVpFhwwj_P7cjNaOu-\";}'
+    'PHPSESSID' => 'b552dm9e0aomhni3s74q13c9f3'
+]
+
+$_SESSION = [
+    '__flash' => []
+    'usu_loginusuario' => 'andrea.lima'
+    'sess_nomeusuario' => 'ANDREA REGINA DE OLIVEIRA LIMA'
+    'sess_responsavelsetor' => '1'
+    'sess_codcolaborador' => '739'
+    'sess_codunidade' => '7'
+    'sess_unidade' => 'GERENCIA DE GESTAO DE PESSOAS - GGP'
+    'sess_setor' => 'GRH'
+    'sess_coddepartamento' => '82'
+    'sess_codcargo' => '5'
+    'sess_cargo' => 'Gerente'
+    'sess_count' => '2'
+    'sess_codtipo' => 2
+    '__id' => null
+    '__authKey' => null
+]
+
+$_SERVER = [
+    'HTTPS' => 'on'
+    'SSL_TLS_SNI' => 'portalsenac.am.senac.br'
+    'HTTP_HOST' => 'portalsenac.am.senac.br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"117\", \"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"117\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7'
+    'HTTP_COOKIE' => 'pma_lang=pt; _gid=GA1.2.1626997487.1696656482; pmaUser-1=%7B%22iv%22%3A%22Z6iYbRlXj2C%5C%2FfQ59kM2o0A%3D%3D%22%2C%22mac%22%3A%22c7404b93ee1a95e062b6dd028032a7d836a23c3a%22%2C%22payload%22%3A%222ACOwkhcmmTgfoZh0JRS1g%3D%3D%22%7D; pmaAuth-1=%7B%22iv%22%3A%22ar38KY7ZnJZ7UxEXknuxzw%3D%3D%22%2C%22mac%22%3A%22aff72fbfaf78842e63b1af135a83fe727c80989b%22%2C%22payload%22%3A%227YWOMuEZhjDQVEbfqPafTwXv63LIiPueFM65t%2BwsuB4%3D%22%7D; _ga_TYDEFJ0H59=GS1.1.1696687068.1.1.1696687553.0.0.0; phpMyAdmin=3mdbnm75065cjj2c5lqt5290ke; _ga=GA1.2.90807293.1696656481; _ga_EKN8EFQP7T=GS1.1.1696717658.5.1.1696719479.0.0.0; _ga_0LQE3BL8RV=GS1.1.1696717658.5.1.1696719479.0.0.0; _identity=fa8519703496147e414381ea4c0a18353c8fe47f489009d61a27d2b4e53afc6da%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A19%3A%22%5Bnull%2Cnull%2C2592000%5D%22%3B%7D; _csrf=22d4ec36c3c23253e4b3d5d8450056a730ae1d4ede986209380ce10f10de9a85a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22YFspKwyondnrfINVpFhwwj_P7cjNaOu-%22%3B%7D; PHPSESSID=b552dm9e0aomhni3s74q13c9f3'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.57 (Ubuntu) Server at portalsenac.am.senac.br Port 443</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.57 (Ubuntu)'
+    'SERVER_NAME' => 'portalsenac.am.senac.br'
+    'SERVER_ADDR' => '10.0.0.4'
+    'SERVER_PORT' => '443'
+    'REMOTE_ADDR' => '179.185.146.179'
+    'DOCUMENT_ROOT' => '/var/www/html/portalsenac'
+    'REQUEST_SCHEME' => 'https'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/var/www/html/portalsenac'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/var/www/html/portalsenac/comunicacaointerna_new/web/index.php'
+    'REMOTE_PORT' => '59280'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/comunicacaointerna_new/web/'
+    'SCRIPT_NAME' => '/comunicacaointerna_new/web/index.php'
+    'PHP_SELF' => '/comunicacaointerna_new/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1696731656.21
+    'REQUEST_TIME' => 1696731656
+]2023-10-08 02:23:59 [179.185.146.179][-][b552dm9e0aomhni3s74q13c9f3][error][yii\base\ErrorException:8] yii\base\ErrorException: session_start(): A session had already been started - ignoring in /var/www/html/portalsenac/comunicacaointerna_new/controllers/SiteController.php:53
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(8, 'session_start()...', '/var/www/html/p...', 53, Array)
+#1 /var/www/html/portalsenac/comunicacaointerna_new/controllers/SiteController.php(53): session_start()
+#2 [internal function]: app\controllers\SiteController->actionIndex()
+#3 /var/www/html/portalsenac/comunicacaointerna_new/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#4 /var/www/html/portalsenac/comunicacaointerna_new/vendor/yiisoft/yii2/base/Controller.php(178): yii\base\InlineAction->runWithParams(Array)
+#5 /var/www/html/portalsenac/comunicacaointerna_new/vendor/yiisoft/yii2/base/Module.php(552): yii\base\Controller->runAction('', Array)
+#6 /var/www/html/portalsenac/comunicacaointerna_new/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('', Array)
+#7 /var/www/html/portalsenac/comunicacaointerna_new/vendor/yiisoft/yii2/base/Application.php(384): yii\web\Application->handleRequest(Object(yii\web\Request))
+#8 /var/www/html/portalsenac/comunicacaointerna_new/web/index.php(12): yii\base\Application->run()
+#9 {main}
+2023-10-08 02:23:59 [179.185.146.179][-][b552dm9e0aomhni3s74q13c9f3][warning][yii\debug\Module::checkAccess] Access to debugger is denied due to IP address restriction. The requesting IP address is 179.185.146.179
+2023-10-08 02:23:59 [179.185.146.179][-][b552dm9e0aomhni3s74q13c9f3][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'pma_lang' => 'pt'
+    '_gid' => 'GA1.2.1626997487.1696656482'
+    'pmaUser-1' => '{\"iv\":\"Z6iYbRlXj2C\\/fQ59kM2o0A==\",\"mac\":\"c7404b93ee1a95e062b6dd028032a7d836a23c3a\",\"payload\":\"2ACOwkhcmmTgfoZh0JRS1g==\"}'
+    'pmaAuth-1' => '{\"iv\":\"ar38KY7ZnJZ7UxEXknuxzw==\",\"mac\":\"aff72fbfaf78842e63b1af135a83fe727c80989b\",\"payload\":\"7YWOMuEZhjDQVEbfqPafTwXv63LIiPueFM65t+wsuB4=\"}'
+    '_ga_TYDEFJ0H59' => 'GS1.1.1696687068.1.1.1696687553.0.0.0'
+    'phpMyAdmin' => '3mdbnm75065cjj2c5lqt5290ke'
+    '_ga' => 'GA1.2.90807293.1696656481'
+    '_ga_EKN8EFQP7T' => 'GS1.1.1696717658.5.1.1696719479.0.0.0'
+    '_ga_0LQE3BL8RV' => 'GS1.1.1696717658.5.1.1696719479.0.0.0'
+    '_identity' => 'fa8519703496147e414381ea4c0a18353c8fe47f489009d61a27d2b4e53afc6da:2:{i:0;s:9:\"_identity\";i:1;s:19:\"[null,null,2592000]\";}'
+    'PHPSESSID' => 'b552dm9e0aomhni3s74q13c9f3'
+    '_csrf' => '8ef2a88f5410724a47dc46736056975f2afff4a5147833488f94a0687790562da:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"HZh2KrIy2X1X2hKCGg-ZQvUMIMuGbgsc\";}'
+]
+
+$_SESSION = [
+    '__flash' => []
+    'usu_loginusuario' => 'andrea.lima'
+    'sess_nomeusuario' => 'ANDREA REGINA DE OLIVEIRA LIMA'
+    'sess_responsavelsetor' => '1'
+    'sess_codcolaborador' => '739'
+    'sess_codunidade' => '7'
+    'sess_unidade' => 'GERENCIA DE GESTAO DE PESSOAS - GGP'
+    'sess_setor' => 'GRH'
+    'sess_coddepartamento' => '82'
+    'sess_codcargo' => '5'
+    'sess_cargo' => 'Gerente'
+    'sess_count' => '2'
+    'sess_codtipo' => 2
+    '__id' => null
+    '__authKey' => null
+]
+
+$_SERVER = [
+    'HTTPS' => 'on'
+    'SSL_TLS_SNI' => 'portalsenac.am.senac.br'
+    'HTTP_HOST' => 'portalsenac.am.senac.br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"117\", \"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"117\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'none'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7'
+    'HTTP_COOKIE' => 'pma_lang=pt; _gid=GA1.2.1626997487.1696656482; pmaUser-1=%7B%22iv%22%3A%22Z6iYbRlXj2C%5C%2FfQ59kM2o0A%3D%3D%22%2C%22mac%22%3A%22c7404b93ee1a95e062b6dd028032a7d836a23c3a%22%2C%22payload%22%3A%222ACOwkhcmmTgfoZh0JRS1g%3D%3D%22%7D; pmaAuth-1=%7B%22iv%22%3A%22ar38KY7ZnJZ7UxEXknuxzw%3D%3D%22%2C%22mac%22%3A%22aff72fbfaf78842e63b1af135a83fe727c80989b%22%2C%22payload%22%3A%227YWOMuEZhjDQVEbfqPafTwXv63LIiPueFM65t%2BwsuB4%3D%22%7D; _ga_TYDEFJ0H59=GS1.1.1696687068.1.1.1696687553.0.0.0; phpMyAdmin=3mdbnm75065cjj2c5lqt5290ke; _ga=GA1.2.90807293.1696656481; _ga_EKN8EFQP7T=GS1.1.1696717658.5.1.1696719479.0.0.0; _ga_0LQE3BL8RV=GS1.1.1696717658.5.1.1696719479.0.0.0; _identity=fa8519703496147e414381ea4c0a18353c8fe47f489009d61a27d2b4e53afc6da%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A19%3A%22%5Bnull%2Cnull%2C2592000%5D%22%3B%7D; PHPSESSID=b552dm9e0aomhni3s74q13c9f3; _csrf=8ef2a88f5410724a47dc46736056975f2afff4a5147833488f94a0687790562da%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22HZh2KrIy2X1X2hKCGg-ZQvUMIMuGbgsc%22%3B%7D'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.57 (Ubuntu) Server at portalsenac.am.senac.br Port 443</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.57 (Ubuntu)'
+    'SERVER_NAME' => 'portalsenac.am.senac.br'
+    'SERVER_ADDR' => '10.0.0.4'
+    'SERVER_PORT' => '443'
+    'REMOTE_ADDR' => '179.185.146.179'
+    'DOCUMENT_ROOT' => '/var/www/html/portalsenac'
+    'REQUEST_SCHEME' => 'https'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/var/www/html/portalsenac'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/var/www/html/portalsenac/comunicacaointerna_new/web/index.php'
+    'REMOTE_PORT' => '59305'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/comunicacaointerna_new/web/'
+    'SCRIPT_NAME' => '/comunicacaointerna_new/web/index.php'
+    'PHP_SELF' => '/comunicacaointerna_new/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1696731839.846
+    'REQUEST_TIME' => 1696731839
+]2023-10-08 02:24:58 [179.185.146.179][-][prk55k3f8lccjbv968vne4urj3][error][yii\base\ErrorException:8] yii\base\ErrorException: session_start(): A session had already been started - ignoring in /var/www/html/portalsenac/comunicacaointerna_new/controllers/SiteController.php:53
+Stack trace:
+#0 [internal function]: yii\base\ErrorHandler->handleError(8, 'session_start()...', '/var/www/html/p...', 53, Array)
+#1 /var/www/html/portalsenac/comunicacaointerna_new/controllers/SiteController.php(53): session_start()
+#2 [internal function]: app\controllers\SiteController->actionIndex()
+#3 /var/www/html/portalsenac/comunicacaointerna_new/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#4 /var/www/html/portalsenac/comunicacaointerna_new/vendor/yiisoft/yii2/base/Controller.php(178): yii\base\InlineAction->runWithParams(Array)
+#5 /var/www/html/portalsenac/comunicacaointerna_new/vendor/yiisoft/yii2/base/Module.php(552): yii\base\Controller->runAction('', Array)
+#6 /var/www/html/portalsenac/comunicacaointerna_new/vendor/yiisoft/yii2/web/Application.php(103): yii\base\Module->runAction('', Array)
+#7 /var/www/html/portalsenac/comunicacaointerna_new/vendor/yiisoft/yii2/base/Application.php(384): yii\web\Application->handleRequest(Object(yii\web\Request))
+#8 /var/www/html/portalsenac/comunicacaointerna_new/web/index.php(12): yii\base\Application->run()
+#9 {main}
+2023-10-08 02:24:58 [179.185.146.179][-][prk55k3f8lccjbv968vne4urj3][warning][yii\debug\Module::checkAccess] Access to debugger is denied due to IP address restriction. The requesting IP address is 179.185.146.179
+2023-10-08 02:24:58 [179.185.146.179][-][prk55k3f8lccjbv968vne4urj3][info][application] $_GET = []
+
+$_POST = []
+
+$_FILES = []
+
+$_COOKIE = [
+    'pma_lang' => 'pt'
+    '_gid' => 'GA1.2.1626997487.1696656482'
+    'pmaUser-1' => '{\"iv\":\"Z6iYbRlXj2C\\/fQ59kM2o0A==\",\"mac\":\"c7404b93ee1a95e062b6dd028032a7d836a23c3a\",\"payload\":\"2ACOwkhcmmTgfoZh0JRS1g==\"}'
+    'pmaAuth-1' => '{\"iv\":\"ar38KY7ZnJZ7UxEXknuxzw==\",\"mac\":\"aff72fbfaf78842e63b1af135a83fe727c80989b\",\"payload\":\"7YWOMuEZhjDQVEbfqPafTwXv63LIiPueFM65t+wsuB4=\"}'
+    '_ga_TYDEFJ0H59' => 'GS1.1.1696687068.1.1.1696687553.0.0.0'
+    'phpMyAdmin' => '3mdbnm75065cjj2c5lqt5290ke'
+    '_ga' => 'GA1.2.90807293.1696656481'
+    '_ga_EKN8EFQP7T' => 'GS1.1.1696717658.5.1.1696719479.0.0.0'
+    '_ga_0LQE3BL8RV' => 'GS1.1.1696717658.5.1.1696719479.0.0.0'
+    '_identity' => 'fa8519703496147e414381ea4c0a18353c8fe47f489009d61a27d2b4e53afc6da:2:{i:0;s:9:\"_identity\";i:1;s:19:\"[null,null,2592000]\";}'
+    '_csrf' => '0e0c7078dcd19a967773e1a0e1fdfe4f0917e7051abb23e5f0753617f5aa3a43a:2:{i:0;s:5:\"_csrf\";i:1;s:32:\"KwUvPEVuRvqZVn2SVMLeCzCl3nICkiRB\";}'
+    'PHPSESSID' => 'prk55k3f8lccjbv968vne4urj3'
+]
+
+$_SESSION = [
+    '__flash' => []
+    'usu_loginusuario' => 'andrea.lima'
+    'sess_nomeusuario' => 'ANDREA REGINA DE OLIVEIRA LIMA'
+    'sess_responsavelsetor' => '1'
+    'sess_codcolaborador' => '739'
+    'sess_codunidade' => '7'
+    'sess_unidade' => 'GERENCIA DE GESTAO DE PESSOAS - GGP'
+    'sess_setor' => 'GRH'
+    'sess_coddepartamento' => '82'
+    'sess_codcargo' => '5'
+    'sess_cargo' => 'Gerente'
+    'sess_count' => '2'
+    'sess_codtipo' => 2
+    '__id' => null
+    '__authKey' => null
+]
+
+$_SERVER = [
+    'HTTPS' => 'on'
+    'SSL_TLS_SNI' => 'portalsenac.am.senac.br'
+    'HTTP_HOST' => 'portalsenac.am.senac.br'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+    'HTTP_SEC_FETCH_SITE' => 'same-origin'
+    'HTTP_SEC_FETCH_MODE' => 'navigate'
+    'HTTP_SEC_FETCH_USER' => '?1'
+    'HTTP_SEC_FETCH_DEST' => 'document'
+    'HTTP_SEC_CH_UA' => '\"Google Chrome\";v=\"117\", \"Not;A=Brand\";v=\"8\", \"Chromium\";v=\"117\"'
+    'HTTP_SEC_CH_UA_MOBILE' => '?0'
+    'HTTP_SEC_CH_UA_PLATFORM' => '\"Windows\"'
+    'HTTP_REFERER' => 'https://portalsenac.am.senac.br/portal_senac/web/index.php'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'pt-PT,pt;q=0.9,en-US;q=0.8,en;q=0.7'
+    'HTTP_COOKIE' => 'pma_lang=pt; _gid=GA1.2.1626997487.1696656482; pmaUser-1=%7B%22iv%22%3A%22Z6iYbRlXj2C%5C%2FfQ59kM2o0A%3D%3D%22%2C%22mac%22%3A%22c7404b93ee1a95e062b6dd028032a7d836a23c3a%22%2C%22payload%22%3A%222ACOwkhcmmTgfoZh0JRS1g%3D%3D%22%7D; pmaAuth-1=%7B%22iv%22%3A%22ar38KY7ZnJZ7UxEXknuxzw%3D%3D%22%2C%22mac%22%3A%22aff72fbfaf78842e63b1af135a83fe727c80989b%22%2C%22payload%22%3A%227YWOMuEZhjDQVEbfqPafTwXv63LIiPueFM65t%2BwsuB4%3D%22%7D; _ga_TYDEFJ0H59=GS1.1.1696687068.1.1.1696687553.0.0.0; phpMyAdmin=3mdbnm75065cjj2c5lqt5290ke; _ga=GA1.2.90807293.1696656481; _ga_EKN8EFQP7T=GS1.1.1696717658.5.1.1696719479.0.0.0; _ga_0LQE3BL8RV=GS1.1.1696717658.5.1.1696719479.0.0.0; _identity=fa8519703496147e414381ea4c0a18353c8fe47f489009d61a27d2b4e53afc6da%3A2%3A%7Bi%3A0%3Bs%3A9%3A%22_identity%22%3Bi%3A1%3Bs%3A19%3A%22%5Bnull%2Cnull%2C2592000%5D%22%3B%7D; _csrf=0e0c7078dcd19a967773e1a0e1fdfe4f0917e7051abb23e5f0753617f5aa3a43a%3A2%3A%7Bi%3A0%3Bs%3A5%3A%22_csrf%22%3Bi%3A1%3Bs%3A32%3A%22KwUvPEVuRvqZVn2SVMLeCzCl3nICkiRB%22%3B%7D; PHPSESSID=prk55k3f8lccjbv968vne4urj3'
+    'PATH' => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.57 (Ubuntu) Server at portalsenac.am.senac.br Port 443</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.57 (Ubuntu)'
+    'SERVER_NAME' => 'portalsenac.am.senac.br'
+    'SERVER_ADDR' => '10.0.0.4'
+    'SERVER_PORT' => '443'
+    'REMOTE_ADDR' => '179.185.146.179'
+    'DOCUMENT_ROOT' => '/var/www/html/portalsenac'
+    'REQUEST_SCHEME' => 'https'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => '/var/www/html/portalsenac'
+    'SERVER_ADMIN' => '[no address given]'
+    'SCRIPT_FILENAME' => '/var/www/html/portalsenac/comunicacaointerna_new/web/index.php'
+    'REMOTE_PORT' => '59317'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/comunicacaointerna_new/web/'
+    'SCRIPT_NAME' => '/comunicacaointerna_new/web/index.php'
+    'PHP_SELF' => '/comunicacaointerna_new/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1696731898.144
+    'REQUEST_TIME' => 1696731898
+]
