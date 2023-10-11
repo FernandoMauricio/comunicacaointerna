@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
+use yii\bootstrap4\Nav;
+use yii\bootstrap4\NavBar;
+use yii\bootstrap4\Breadcrumbs;
 use app\assets\AppAsset;
 
 $session = Yii::$app->session;
@@ -38,7 +38,7 @@ AppAsset::register($this);
 
     <footer class="footer">
         <div class="container">
-            <p class="pull-left">&copy;Gerência de Informática Corporativa - GIC <?= date('Y') ?></p>
+            <p class="pull-left">&copy;Gerência da Tecnologia e Informação - GTI <?= date('Y') ?></p>
             <p class="pull-right">Versão 1.6</p>
         </div>
     </footer>

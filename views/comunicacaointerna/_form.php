@@ -11,8 +11,8 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-use yii\bootstrap\ActiveField;
+use yii\bootstrap4\ActiveForm;
+use yii\bootstrap4\ActiveField;
 use yii\helpers\ArrayHelper;
 use app\models\AnexosModel;
 use app\models\SituacaocomunicacaoSitco;
@@ -22,7 +22,7 @@ use app\models\SituacaodestinoSide;
 use app\models\Destinocomunicacao;
 use app\models\Tipodestino;
 use app\models\Unidades;
-use yii\bootstrap\Modal;
+use yii\bootstrap4\Modal;
 use yii\helpers\Url;
 use kartik\widgets\FileInput;
 use kartik\select2\Select2;

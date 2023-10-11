@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\bootstrap4\DetailView;
 use app\models\Comunicacaointerna;
 use app\models\Destinocomunicacao;
 use app\models\DestinocomunicacaoEnc;
@@ -132,12 +132,12 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
-            $nameFicheiro = substr($file, strrpos($file, '/') + 6);
+            $nameFicheiro = substr($file, strrpos($file, '/')+1);
   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
   {
     echo '***************** Arquivos Confidenciais';
   }else{
-            echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. '/' . mb_convert_encoding($nameFicheiro, "UTF-8", "Windows-1252"), ['target'=>'_blank', 'data-pjax'=>"0"]) . "<br/>" ;
+            echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. '/' .$nameFicheiro, ['target'=>'_blank', 'data-pjax'=>"0"]) . "<br/>" ;
           }
       } 
     }
@@ -243,13 +243,13 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
     $files=\yii\helpers\FileHelper::findFiles('uploads/'. $com_codcomunicacao . '/' . $deco_coddespacho);
     if (isset($files[0])) {
         foreach ($files as $index => $file) {
-            $nameFicheiro = substr($file, strrpos($file, '/') + 6);
+            $nameFicheiro = substr($file, strrpos($file, '/') + 1);
             
   if($com_codtipo == 2 && $session["sess_responsavelsetor"] != 1)
   {
     echo '***************** Arquivos Confidenciais';
   }else{
-          echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . mb_convert_encoding($nameFicheiro, "UTF-8", "Windows-1252"), ["target"=>"_blank", 'data-pjax'=>"0"]) . "<br/>";
+          echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . rawurlencode($nameFicheiro), ["target"=>"_blank", 'data-pjax'=>"0"]) . "<br/>";
           }
         }
        }

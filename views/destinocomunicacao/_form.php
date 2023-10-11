@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use app\models\Unidades;
 use kartik\select2\Select2;
 use nex\chosen\Chosen;

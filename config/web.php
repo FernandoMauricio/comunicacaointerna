@@ -6,12 +6,15 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'language'=>'pt-BR',
-    'basePath' => dirname(__DIR__),
     'timeZone' => 'America/Manaus',
+    'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-
+    'aliases' => [
+        '@bower' => '@vendor/bower-asset',
+        '@npm'   => '@vendor/npm-asset',
+    ],
         'modules' => [
-            'datecontrol' =>  [
+                   'datecontrol' =>  [
                     'class' => 'kartik\datecontrol\Module',
              
                     // format settings for displaying each date attribute (ICU format example)
@@ -52,8 +55,7 @@ $config = [
                                     ]
                                 ]
                             ],
-                            ],
-
+                    ],
                 'gridview' =>  [
                 'class' => '\kartik\grid\Module'
                                ],
@@ -71,18 +73,15 @@ $config = [
         /*'urlManager' =>[
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-        ],*/
+        ],
 
-       /* 'view' => [
+         'view' => [
          'theme' => [
              'pathMap' => [
                '@app/views' => '@vendor/dmstr/yii2-adminlte-asset/example-views/yiisoft/yii2-basic-app'
              ],
-         ],*/
-        // 'formatter' => [
-        //        'defaultTimeZone' => 'UTC',
-        //        'timeZone' => 'America/Manaus',
-        // ],
+         ],
+        */
 
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
@@ -101,14 +100,14 @@ $config = [
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'useFileTransport' => true,
-            // 'transport' => [
-            //     'class' => 'Swift_SmtpTransport',
-            //     'host' => '177.10.176.8',
-            //     'username' => 'gde@am.senac.br',
-            //     'password' => 'Fat@320',
-            //     'port' => 465,
-            //     'encryption' => 'ssl',
-            //     ],
+            'transport' => [
+                'class' => 'Swift_SmtpTransport',
+                'host' => 'smtp.office365.com',
+                'username' => 'gde@am.senac.br',
+                'password' => 'senac@2017',
+                'port' => 587,
+                'encryption' => 'tls',
+                ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -128,7 +127,10 @@ $config = [
 if (YII_ENV_DEV) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
-    $config['modules']['debug'] = 'yii\debug\Module';
+    $config['modules']['debug'] = [
+        'class' => 'yii\debug\Module',
+        'allowedIPs' => ['*'],
+    ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = 'yii\gii\Module';

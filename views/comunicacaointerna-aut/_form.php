@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
 use kartik\markdown\Markdown;
 use kartik\markdown\MarkdownEditor;

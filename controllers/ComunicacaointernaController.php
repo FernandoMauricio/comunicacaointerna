@@ -51,7 +51,7 @@ class ComunicacaointernaController extends Controller
         $session = Yii::$app->session;
         if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
         {
-           return $this->redirect('http://portalsenac.am.senac.br');
+           return $this->redirect('https://portalsenac.am.senac.br');
         }
 
         $searchModel = new ComunicacaointernaSearch();
@@ -74,7 +74,7 @@ class ComunicacaointernaController extends Controller
         $session = Yii::$app->session;
         if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
         {
-           return $this->redirect('http://portalsenac.am.senac.br');
+           return $this->redirect('https://portalsenac.am.senac.br');
         }
         
         $model = $this->findModel($id);
@@ -110,7 +110,7 @@ class ComunicacaointernaController extends Controller
         $session = Yii::$app->session;
         if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
         {
-           return $this->redirect('http://portalsenac.am.senac.br');
+           return $this->redirect('https://portalsenac.am.senac.br');
         }
 
         $model = new Comunicacaointerna();
@@ -159,7 +159,7 @@ class ComunicacaointernaController extends Controller
          
         if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
         {
-           return $this->redirect('http://portalsenac.am.senac.br');
+           return $this->redirect('https://portalsenac.am.senac.br');
         }
           
                 $model = $this->findModel($id);
@@ -282,7 +282,16 @@ if($Destinocomunicacao['dest_nomeunidadedestCopia'] > 0) {
 
                             }
 
-                                    //GRAVAR ANEXOS///////
+                         $characteres = array(
+                           'Š'=>'S', 'š'=>'s', 'Ð'=>'Dj','Ž'=>'Z', 'ž'=>'z', 'À'=>'A', 'Á'=>'A', 'Â'=>'A', 'Ã'=>'A', 'Ä'=>'A',
+                           'Å'=>'A', 'Æ'=>'A', 'Ç'=>'C', 'È'=>'E', 'É'=>'E', 'Ê'=>'E', 'Ë'=>'E', 'Ì'=>'I', 'Í'=>'I', 'Î'=>'I',
+                           'Ï'=>'I', 'Ñ'=>'N', 'Ò'=>'O', 'Ó'=>'O', 'Ô'=>'O', 'Õ'=>'O', 'Ö'=>'O', 'Ø'=>'O', 'Ù'=>'U', 'Ú'=>'U',
+                           'Û'=>'U', 'Ü'=>'U', 'Ý'=>'Y', 'Þ'=>'B', 'ß'=>'Ss','à'=>'a', 'á'=>'a', 'â'=>'a', 'ã'=>'a', 'ä'=>'a',
+                           'å'=>'a', 'æ'=>'a', 'ç'=>'c', 'è'=>'e', 'é'=>'e', 'ê'=>'e', 'ë'=>'e', 'ì'=>'i', 'í'=>'i', 'î'=>'i',
+                           'ï'=>'i', 'ð'=>'o', 'ñ'=>'n', 'ò'=>'o', 'ó'=>'o', 'ô'=>'o', 'õ'=>'o', 'ö'=>'o', 'ø'=>'o', 'ù'=>'u',
+                           'ú'=>'u', 'û'=>'u', 'ý'=>'y', 'ý'=>'y', 'þ'=>'b', 'ÿ'=>'y', 'ƒ'=>'f', ' '=> '_'
+                        );
+                                              //GRAVAR ANEXOS///////
                                 if (!empty($_POST)) {
 
                                 $model->file = UploadedFile::getInstances($model, 'file');
@@ -296,7 +305,7 @@ if($Destinocomunicacao['dest_nomeunidadedestCopia'] > 0) {
                                                         if ($model->file && $model->validate()) {
                                                             foreach ($model->file as $file)
                                                                  {
-                                                                     $file->saveAs($subdiretorio.'/'. utf8_decode($file->baseName) . '.' . $file->extension);
+                                                                     $file->saveAs($subdiretorio.'/'. strtr($file->baseName,$characteres) . '.' . $file->extension);
 
                                                                     $model->com_anexo = $subdiretorio.'/';
                                                                     $model->save();
@@ -322,7 +331,7 @@ if($Destinocomunicacao['dest_nomeunidadedestCopia'] > 0) {
       //                       ->setTo($email_gerente)
       //                       ->setSubject('CI Aguardando Autorização')
       //                       ->setTextBody('Existe uma CI de código: '.$id.' aguardando sua autorização')
-      //                       ->setHtmlBody('<h4>Prezado(a) Gerente, <br><br>Existe uma Comunicação Interna de <strong style="color: #337ab7"">código: '.$id.'</strong> aguardando sua autorização. <br> Por favor, não responda esse e-mail. Acesse http://portalsenac.am.senac.br para AUTORIZAR a CI. <br><br> Atenciosamente, <br> Sistema Gerenciador de Documentação Eletrônica.</h4>')
+      //                       ->setHtmlBody('<h4>Prezado(a) Gerente, <br><br>Existe uma Comunicação Interna de <strong style="color: #337ab7"">código: '.$id.'</strong> aguardando sua autorização. <br> Por favor, não responda esse e-mail. Acesse https://portalsenac.am.senac.br para AUTORIZAR a CI. <br><br> Atenciosamente, <br> Sistema Gerenciador de Documentação Eletrônica.</h4>')
       //                       ->send();
       //                   }        
                         }else{
@@ -409,7 +418,7 @@ if($Destinocomunicacao['dest_nomeunidadedestCopia'] > 0) {
          
         if (!isset($session['sess_codusuario']) && !isset($session['sess_codcolaborador']) && !isset($session['sess_codunidade']) && !isset($session['sess_nomeusuario']) && !isset($session['sess_coddepartamento']) && !isset($session['sess_codcargo']) && !isset($session['sess_cargo']) && !isset($session['sess_setor']) && !isset($session['sess_unidade']) && !isset($session['sess_responsavelsetor'])) 
         {
-           return $this->redirect('http://portalsenac.am.senac.br');
+           return $this->redirect('https://portalsenac.am.senac.br');
         }
 
 
@@ -464,7 +473,7 @@ if($Destinocomunicacao['dest_nomeunidadedestCopia'] > 0) {
 
           //                                       <p><strong>Data do Encerramento</strong>: <span style="color:#337AB7"><strong> '.date('d/m/Y H:i', strtotime($model->com_dataEncerramento)).'</strong></span></p>
 
-          //                                       <p><i><strong>Por favor, n&atilde;o responda esse e-mail. Acesse http://portalsenac.am.senac.br</strong></i></p>
+          //                                       <p><i><strong>Por favor, n&atilde;o responda esse e-mail. Acesse https://portalsenac.am.senac.br</strong></i></p>
 
           //                                       <p>Atenciosamente,&nbsp;</p>
 
@@ -525,6 +534,10 @@ return $this->redirect(['index']);
           
             $session = Yii::$app->session;
             $model = $this->findModel($id);
+            
+            //Corrigir bug do CentOS
+            // \yii::$app->response->format = \yii\web\Response::FORMAT_RAW;
+            // \yii::$app->response->headers->add('Content-Type', 'application/pdf');
 
             $pdf = new Pdf([
                 'mode' => Pdf::MODE_CORE, // leaner size using standard fonts

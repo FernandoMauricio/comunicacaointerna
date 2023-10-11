@@ -10,6 +10,8 @@ namespace app\assets;
 use yii\web\AssetBundle;
 
 /**
+ * Main application asset bundle.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @since 2.0
  */
@@ -21,22 +23,9 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
-        'js/main.js',
-        'js/bootbox.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap4\BootstrapAsset',
     ];
 }
-
-/*{
-    public $sourcePath = '@bower/';
-    public $css = ['admin-lte/css/AdminLTE.css'];
-    public $js = ['admin-lte/js/AdminLTE/app.js'];
-    public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
-        'yii\bootstrap\BootstrapPluginAsset',
-    ];
-}*/

@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\bootstrap4\DetailView;
 use app\models\Comunicacaointerna;
 use app\models\ComunicacaointernaAut;
 use app\models\Destinocomunicacao;
@@ -106,8 +106,8 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
         if($files=\yii\helpers\FileHelper::findFiles('uploads/' . $com_codcomunicacao,['recursive'=>FALSE])){
         if (isset($files[0])) {
             foreach ($files as $index => $file) {
-                $nameFicheiro = substr($file, strrpos($file, '/') + 6);
-                echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. '/' . mb_convert_encoding($nameFicheiro, "UTF-8", "Windows-1252"), ['target'=>'_blank']) . "<br/>" ;
+                $nameFicheiro = substr($file, strrpos($file, '/') + 1);
+                echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. '/' . mb_convert_encoding($nameFicheiro, "UTF-8"), ['target'=>'_blank']) . "<br/>" ;
           } 
         }
       }

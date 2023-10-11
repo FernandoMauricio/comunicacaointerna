@@ -16,7 +16,7 @@ class SiteController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'only' => ['logout'],
                 'rules' => [
                     [
@@ -27,7 +27,7 @@ class SiteController extends Controller
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'logout' => ['post'],
                 ],
@@ -50,11 +50,14 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        session_start();
+        if(!isset($_SESSION)) 
+        { 
+            session_start(); 
+        } 
 
         if (!isset($_SESSION['sess_codusuario']) && !isset($_SESSION['sess_codcolaborador']) && !isset($_SESSION['sess_codunidade']) && !isset($_SESSION['sess_nomeusuario']) && !isset($_SESSION['sess_coddepartamento']) && !isset($_SESSION['sess_codcargo']) && !isset($_SESSION['sess_cargo']) && !isset($_SESSION['sess_setor']) && !isset($_SESSION['sess_unidade']) && !isset($_SESSION['sess_responsavelsetor'])) 
         {
-           return $this->redirect('http://portalsenac.am.senac.br');
+           return $this->redirect('https://portalsenac.am.senac.br');
         }
 
              //BUSCA NO BANCO SE EXISTE CI PENDENTE
@@ -85,11 +88,14 @@ class SiteController extends Controller
 
     public function actionVersao()
     {
-        session_start();
+        if(!isset($_SESSION)) 
+        { 
+            session_start(); 
+        } 
 
         if (!isset($_SESSION['sess_codusuario']) && !isset($_SESSION['sess_codcolaborador']) && !isset($_SESSION['sess_codunidade']) && !isset($_SESSION['sess_nomeusuario']) && !isset($_SESSION['sess_coddepartamento']) && !isset($_SESSION['sess_codcargo']) && !isset($_SESSION['sess_cargo']) && !isset($_SESSION['sess_setor']) && !isset($_SESSION['sess_unidade']) && !isset($_SESSION['sess_responsavelsetor'])) 
         {
-           return $this->redirect('http://portalsenac.am.senac.br');
+           return $this->redirect('https://portalsenac.am.senac.br');
         }
 
         return $this->render('versao');

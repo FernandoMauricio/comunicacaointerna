@@ -1,5 +1,5 @@
 <?php
-use yii\widgets\ActiveForm;
+use yii\bootstrap4\ActiveForm;
 
 $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]);
 ?>

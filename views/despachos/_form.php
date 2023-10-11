@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-//use yii\widgets\ActiveForm;
+//use yii\bootstrap4\ActiveForm;
 use kartik\widgets\ActiveForm;
 use dosamigos\ckeditor\CKEditor;
 use kartik\widgets\FileInput;

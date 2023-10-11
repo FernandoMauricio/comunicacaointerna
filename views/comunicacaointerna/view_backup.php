@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\bootstrap4\DetailView;
 use app\models\Comunicacaointerna;
 use app\models\Cargos_car;
 use app\models\Colaborador;
