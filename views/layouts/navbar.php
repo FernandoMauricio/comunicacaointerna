@@ -5,6 +5,9 @@ use yii\bootstrap4\NavBar;
 
 ?>
 <header>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../web/css/senac.css" rel="stylesheet">
     <?php
     $session = Yii::$app->session;
 
@@ -13,7 +16,7 @@ use yii\bootstrap4\NavBar;
         'brandLabel' => 'Senac AM',
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
-            'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
+            'class' => 'navbar navbar-expand-lg navbar-dark bg-senac fixed-top',
         ],
     ]);
 
@@ -39,7 +42,7 @@ use yii\bootstrap4\NavBar;
                     'items' => [
                         ['label' => 'Alterar Senha', 'url' => ['usuario-usu/update', 'id' => $sess_codusuario]],
                         ['label' => 'Versões Anteriores', 'url' => ['/site/versao']],
-                        ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
+                        ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/web/index.php?r=site/modulos&unidade='.$session['sess_codunidade'].''],
 
                     ],
                 ],
@@ -57,7 +60,7 @@ use yii\bootstrap4\NavBar;
                     'items' => [
                         ['label' => 'Alterar Senha', 'url' => ['usuario-usu/update', 'id' => $sess_codusuario]],
                         ['label' => 'Versões Anteriores', 'url' => ['/site/versao']],
-                        ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/control_base_vermodulos/control_base_vermodulos.php'],
+                        ['label' => 'Sair', 'url' => 'https://portalsenac.am.senac.br/portal_senac/web/index.php?r=site/modulos&unidade='.$session['sess_codunidade'].''],
 
                     ],
                 ],

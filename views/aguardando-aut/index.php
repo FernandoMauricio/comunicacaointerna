@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comunicacaointerna-com-index">
 
-    <h1><?= Html::encode($this->title).'<small>'.$unidade.'</small>' ?></h1>
+    <h3><?= Html::encode($this->title).'<small>'.$unidade.'</small>' ?></h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 <br>
     <?= GridView::widget([
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
 
         'panel' => [
-        'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem das Comunicações Internas</h3>',
+        'heading'=> '<h5 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem das Comunicações Internas</h5>',
         'type'=>'primary',
     ],
 

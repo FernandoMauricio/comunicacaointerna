@@ -249,7 +249,7 @@ th{ text-align: center;} .assinatura{font-size: 10px;} p{ margin: 0px 10px 10px;
   {
     echo '***************** Arquivos Confidenciais';
   }else{
-          echo Html::a(utf8_encode($nameFicheiro), Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . rawurlencode($nameFicheiro), ["target"=>"_blank", 'data-pjax'=>"0"]) . "<br/>";
+          echo Html::a($nameFicheiro, Url::base().'/uploads/'. $com_codcomunicacao. "/" . $deco_coddespacho . "/" . rawurlencode($nameFicheiro), ["target"=>"_blank", 'data-pjax'=>"0"]) . "<br/>";
           }
         }
        }

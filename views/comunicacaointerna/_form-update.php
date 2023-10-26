@@ -64,6 +64,7 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
                     $data_unidades = ArrayHelper::map($rows, 'uni_nomecompleto', 'uni_nomecompleto');
                     echo $form->field($destinocomunicacao, 'dest_nomeunidadedest')->widget(Select2::classname(), [
                         'data' => $data_unidades,
+                        'theme' => Select2::THEME_KRAJEE,
                         'options' => ['placeholder' => 'Selecione as Unidades...', 'multiple'=>true],
                         'pluginOptions' => [
                             'allowClear' => true
@@ -78,6 +79,7 @@ foreach (Yii::$app->session->getAllFlashes() as $message):; ?>
                     $data_unidades = ArrayHelper::map($rowsUnidadesCopias, 'uni_nomecompleto', 'uni_nomecompleto');
                     echo $form->field($destinocomunicacao, 'dest_nomeunidadedestCopia')->widget(Select2::classname(), [
                         'data' => $data_unidades,
+                        'theme' => Select2::THEME_KRAJEE,
                         'options' => ['placeholder' => 'Selecione as Unidades...', 'multiple'=>true],
                         'pluginOptions' => [
                             'allowClear' => true

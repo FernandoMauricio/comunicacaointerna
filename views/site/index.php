@@ -26,7 +26,7 @@ $checar_autorizacao = Comunicacaointerna::find()
 <main role="main">
     <div class="jumbotron">
         <div class="col-sm-8 mx-auto">
-        <h1 class="text-center">Documentação Eletrônica</h1>
+        <h1 class="text-center">Documentação Eletrônica</h3>
             <p><?php if ($_SESSION['sess_responsavelsetor'] == 1 and $checar_ci > 0) : ?>
             <div class="alert alert-danger" role="alert"><b>
                     <?php echo $nome_user = ucwords(strtolower($nome_user)) . ",</b>"

@@ -24,7 +24,7 @@ $this->title = 'Documentação Eletrônica';
 ?>
 
 <div class="site-index">
-        <h1 class="text-center"> Histórico de Versões</h1>
+        <h1 class="text-center"> Histórico de Versões</h3>
             <div class="body-content">
                 <div class="container">
 

@@ -25,7 +25,7 @@ echo '<div class="alert alert-'.$key.'">'.$message.'</div>';
 
 ?>
 
-    <h1><?= Html::encode($this->title).'<small>'.$unidade.'</small>' ?></h1>
+    <h3><?= Html::encode($this->title).'<small>'.$unidade.'</small>' ?></h3>
 
 <br>
     
@@ -116,7 +116,7 @@ echo GridView::widget([
 
         'panel' => [
         'type'=>GridView::TYPE_PRIMARY,
-        'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem das Autorizações Pendentes</h3>',
+        'heading'=> '<h5 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem das Autorizações Pendentes</h5>',
     ],
 ]);
 

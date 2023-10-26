@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = 'Atualizar';
 
 <div class="comunicacao-interna-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
 
     <?= $this->render('_form-update', [
         'model' => $model,

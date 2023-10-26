@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = 'Área de Despacho';
 ?>
 <div class="destinocomunicacao-update">
 
-    <h1><?= Html::encode($this->title) . '<small> Comunicação Interna: ' . $despachos->deco_codcomunicacao .'</small>' ?></h1>
+    <h3><?= Html::encode($this->title) . '<small> Comunicação Interna: ' . $despachos->deco_codcomunicacao .'</small>' ?></h3>
 
 
     <?= $this->render('_form', [

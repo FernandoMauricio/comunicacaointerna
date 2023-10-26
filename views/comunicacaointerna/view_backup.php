@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="comunicacao-interna-com-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h3><?= Html::encode($this->title) ?></h3>
         <?php //Mensagem confirmação de alteração de CI
             foreach (Yii::$app->session->getAllFlashes() as $key => $message) {
             echo '<div class="alert alert-' . $key . '">' . $message . '</div>';

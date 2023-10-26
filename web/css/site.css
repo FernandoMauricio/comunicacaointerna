@@ -1,34 +1,16 @@
-html,
-body {
-    height: 100%;
-}
-
-.wrap {
-    min-height: 100%;
-    height: auto;
-    margin: 0 auto -60px;
-    padding: 0 0 60px;
-}
-
-.wrap > .container {
+main>.container {
     padding: 70px 15px 20px;
 }
 
 .footer {
-    height: 60px;
     background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
+    font-size: .9em;
+    height: 60px;
 }
 
-.jumbotron {
-    text-align: center;
-    background-color: transparent;
-}
-
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+.footer>.container {
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 .not-set {
@@ -37,39 +19,26 @@ body {
 }
 
 /* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
-    position: relative;
-    top: 1px;
+a.asc:after,
+a.desc:after {
+    content: '';
+    left: 3px;
     display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: normal;
-    line-height: 1;
-    padding-left: 5px;
+    width: 0;
+    height: 0;
+    border: solid 5px transparent;
+    margin: 4px 4px 2px 4px;
+    background: transparent;
 }
 
 a.asc:after {
-    content: /*"\e113"*/ "\e151";
+    border-bottom: solid 7px #212529;
+    border-top-width: 0;
 }
 
 a.desc:after {
-    content: /*"\e114"*/ "\e152";
-}
-
-.sort-numerical a.asc:after {
-    content: "\e153";
-}
-
-.sort-numerical a.desc:after {
-    content: "\e154";
-}
-
-.sort-ordinal a.asc:after {
-    content: "\e155";
-}
-
-.sort-ordinal a.desc:after {
-    content: "\e156";
+    border-top: solid 7px #212529;
+    border-bottom-width: 0;
 }
 
 .grid-view th {
@@ -88,4 +57,61 @@ a.desc:after {
     border-left: 3px solid #eed3d7;
     padding: 10px 20px;
     margin: 0 0 15px 0;
+}
+
+/* align the logout "link" (button in form) of the navbar */
+.nav li>form>button.logout {
+    padding-top: 7px;
+    color: rgba(255, 255, 255, 80%);
+
+}
+
+@media(max-width:767px) {
+    .nav li>form>button.logout {
+        display: block;
+        text-align: left;
+        width: 100%;
+        padding: 10px 0;
+    }
+}
+
+.nav>li>form>button.logout:focus,
+.nav>li>form>button.logout:hover {
+    text-decoration: none;
+    color: rgb(197 186 186 / 75%);
+}
+
+.nav>li>form>button.logout:focus {
+    outline: none;
+}
+
+.bg-senac {
+    background-color: #337AB7 !important;
+}
+
+.list-group {
+    gap: 0.5rem;
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+}
+
+.list-group-item:first-child,
+.list-group-item {
+    border-radius: 0.5rem;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+
+}
+
+.opacity-50 {
+    opacity: 0.5 !important;
+}
+
+.list-group>.list-group-item-action:hover,
+.list-group-item-action:focus {
+    background-color: #3086db6b;
+}
+
+.list-group-item+.list-group-item {
+    border-top-width: thin;
 }

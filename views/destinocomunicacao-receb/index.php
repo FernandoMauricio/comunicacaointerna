@@ -21,7 +21,7 @@ $unidade = $session['sess_unidade'];
 ?>
 <div class="destinocomunicacao-index">
 
-    <h1><?= Html::encode($this->title). '<small>Recebidas pelo Setor</small>' ?></h1>
+    <h3><?= Html::encode($this->title). '<small>Recebidas pelo Setor</small>' ?></h3>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?php Pjax::begin(['id' => 'w0-pjax']); ?>
@@ -150,7 +150,7 @@ $gridColumns = [
 
         'panel' => [
         'type'=>GridView::TYPE_PRIMARY,
-        'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem - '.utf8_encode($unidade).'</h3>',
+        'heading'=> '<h5 class="panel-title"><i class="glyphicon glyphicon-book"></i> Listagem - '.$unidade.'</h5>',
     ],
 ]);
     ?>

@@ -22,7 +22,7 @@ use yii\widgets\Pjax;
         'dataProvider' => $dataProvider,
         'hover' => true,
         'panel' => [
-        'heading'=> '<h3 class="panel-title"><i class="glyphicon glyphicon-list"></i> Restam a Despachar</h3>',
+        'heading'=> '<h5 class="panel-title"><i class="glyphicon glyphicon-list"></i> Restam a Despachar</h5>',
         'before' => '<em>Listagem de Unidades/Setores que ainda não despacharam</em>',
         'type'=>'danger',
     ],
